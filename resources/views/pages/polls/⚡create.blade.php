@@ -88,80 +88,142 @@ new class extends Component
 ?>
 
 <div>
-    <h1>Create Poll</h1>
+    <flux:heading size="2xl">Create Poll</flux:heading>
+    <flux:text class="mt-2">Create a new poll for your organization</flux:text>
     
-    <form wire:submit="createPoll">
+    <form wire:submit="createPoll" class="mt-8 space-y-8">
         <!-- Question -->
-        <div>
-            <label for="question">Question</label>
-            <input type="text" id="question" wire:model="question">
-            @error('question') <span>{{ $message }}</span> @enderror
-        </div>
+        <flux:input 
+            wire:model="question" 
+            label="Question" 
+            type="text" 
+            required 
+            placeholder="What would you like to ask?"
+            description="The main question for your poll"
+        />
+        <flux:error name="question" />
 
-        <!-- Answers -->
+        <!-- Answer Options -->
         <div>
-            <label>Answer Options</label>
-            @foreach($answers as $index => $answer)
-                <div>
-                    <input type="text" wire:model="answers.{{ $index }}.text" placeholder="Answer text">
-                    <input type="text" wire:model="answers.{{ $index }}.emoji" placeholder="Emoji">
-                    <button type="button" wire:click="removeAnswer({{ $index }})">Remove</button>
-                </div>
-            @endforeach
+            <flux:heading size="lg" class="mb-4">Answer Options</flux:heading>
+            
+            <div class="space-y-4">
+                @foreach($answers as $index => $answer)
+                    <flux:card class="p-4">
+                        <div class="flex gap-4 items-start">
+                            <div class="flex-1 space-y-4">
+                                <flux:input 
+                                    wire:model="answers.{{ $index }}.text" 
+                                    label="Answer Text" 
+                                    placeholder="Enter answer text"
+                                />
+                                
+                                <flux:input 
+                                    wire:model="answers.{{ $index }}.emoji" 
+                                    label="Emoji (optional)" 
+                                    placeholder="🎉"
+                                    description="Add an emoji to make answers more engaging"
+                                />
+                                
+                                <flux:input 
+                                    wire:model="answers.{{ $index }}.redirect_url" 
+                                    label="Redirect URL (optional)" 
+                                    type="url"
+                                    placeholder="https://example.com"
+                                    description="URL to redirect to when this answer is selected"
+                                />
+                                
+                                <flux:switch 
+                                    wire:model="answers.{{ $index }}.collect_feedback"
+                                    label="Collect feedback for this answer"
+                                    description="Show a feedback text area when this answer is selected"
+                                />
+                            </div>
+                            
+                            @if(count($answers) > 2)
+                                <flux:button 
+                                    type="button" 
+                                    wire:click="removeAnswer({{ $index }})" 
+                                    variant="outline"
+                                    size="sm"
+                                    class="mt-6"
+                                >
+                                    Remove
+                                </flux:button>
+                            @endif
+                        </div>
+                    </flux:card>
+                @endforeach
+            </div>
             
             @if(count($answers) < 10)
-                <button type="button" wire:click="addAnswer">Add Answer</button>
+                <flux:button 
+                    type="button" 
+                    wire:click="addAnswer" 
+                    variant="outline" 
+                    class="mt-4 w-full"
+                >
+                    Add Answer Option
+                </flux:button>
             @endif
         </div>
 
         <!-- Layout -->
-        <div>
-            <label>Layout</label>
-            <select wire:model="layout">
-                <option value="vertical">Vertical</option>
-                <option value="horizontal">Horizontal</option>
-            </select>
-        </div>
+        <flux:radio.group wire:model="layout" label="Layout">
+            <flux:radio value="vertical" label="Vertical" description="Answers displayed in a vertical list" />
+            <flux:radio value="horizontal" label="Horizontal" description="Answers displayed in a horizontal row" />
+        </flux:radio.group>
 
-        <!-- Auto Submit -->
+        <!-- Settings -->
         <div>
-            <label>
-                <input type="checkbox" wire:model="autoSubmit">
-                Auto-submit responses
-            </label>
-        </div>
-
-        <!-- Require Email -->
-        <div>
-            <label>
-                <input type="checkbox" wire:model="requireEmail">
-                Require email address
-            </label>
-        </div>
-
-        <!-- Collect Feedback -->
-        <div>
-            <label>
-                <input type="checkbox" wire:model="collectFeedback">
-                Collect feedback
-            </label>
+            <flux:heading size="lg" class="mb-4">Poll Settings</flux:heading>
+            
+            <div class="space-y-4">
+                <flux:switch 
+                    wire:model="autoSubmit"
+                    label="Auto-submit responses"
+                    description="Record response immediately when user clicks an answer"
+                />
+                
+                <flux:switch 
+                    wire:model="requireEmail"
+                    label="Require email address"
+                    description="Ask users for their email before submitting"
+                />
+                
+                <flux:switch 
+                    wire:model="collectFeedback"
+                    label="Collect feedback"
+                    description="Allow users to provide additional feedback"
+                />
+                
+                <flux:switch 
+                    wire:model="hideBranding"
+                    label="Hide branding"
+                    description="Remove Antipoll branding from the poll"
+                />
+            </div>
         </div>
 
         <!-- Thank You Message -->
-        <div>
-            <label for="thankYouMessage">Thank You Message</label>
-            <textarea id="thankYouMessage" wire:model="thankYouMessage"></textarea>
-            @error('thankYouMessage') <span>{{ $message }}</span> @enderror
-        </div>
+        <flux:textarea 
+            wire:model="thankYouMessage" 
+            label="Thank You Message (optional)"
+            placeholder="Thank you for your feedback!"
+            description="Custom message shown after poll submission. Supports Markdown."
+            rows="4"
+        />
+        <flux:error name="thankYouMessage" />
 
-        <!-- Hide Branding -->
-        <div>
-            <label>
-                <input type="checkbox" wire:model="hideBranding">
-                Hide branding
-            </label>
+        <!-- Submit Button -->
+        <div class="flex items-center gap-4">
+            <flux:button variant="primary" type="submit" wire:loading.attr="disabled">
+                Create Poll
+            </flux:button>
+            
+            <flux:link :href="route('polls.index')" wire:navigate>
+                Cancel
+            </flux:link>
         </div>
-
-        <button type="submit">Create Poll</button>
     </form>
 </div>
