@@ -7,103 +7,90 @@ This application uses Pest PHP as its primary testing framework with comprehensi
 
 ### Pest PHP
 - **Primary Framework**: Pest PHP for all test files
-- **Syntax**: Uses `it()` and `test()` functions for test cases
+- **Syntax**: Uses `it()` functions exclusively for test cases (standardized from mixed `it()`/`test()`)
 - **Assertions**: Laravel's built-in assertion methods
 - **Database**: Uses `RefreshDatabase` trait for database isolation
 
 ### Test Structure
-- **Feature Tests**: `/tests/Feature/` - HTTP endpoint and workflow testing
+- **Feature Tests**: `/tests/Feature/Specs/` - Consolidated HTTP endpoint and workflow testing
 - **Unit Tests**: `/tests/Unit/` - Isolated unit testing
-- **Component Tests**: Co-located with Livewire components
+- **Spec References**: Each test file includes comment referencing corresponding specification document
 
 ## Test Categories
 
 ### Authentication Tests
-**Location**: `/tests/Feature/Auth/EmailVerificationTest.php`
+**Location**: `/tests/Feature/Specs/AuthenticationTest.php` & `/tests/Feature/Specs/AuthenticationAndDashboardTest.php`
 
 #### Test Cases
 - OTP login for unverified users
 - Email verification independence from OTP system
 - Backward compatibility with existing users
+- Login screen rendering and OTP flows
+- Registration with personal organization creation
+- Email enumeration protection
+- Logout functionality
 
 ### Billing Tests
-**Location**: `/tests/Feature/Billing/EnsureUserIsSubscribedTest.php`
+**Location**: `/tests/Feature/Specs/BillingPortalTest.php` & `/tests/Feature/Specs/EnsureUserIsSubscribedTest.php`
 
 #### Test Cases
 - Middleware protection for unsubscribed users
 - Redirect behavior to subscription-required page
 - Subscription status validation
+- Billing portal access control
+- Organization switching with subscription awareness
 
 ### Dashboard Tests
-**Location**: `/tests/Feature/DashboardTest.php`
+**Location**: `/tests/Feature/Specs/DashboardTest.php` & `/tests/Feature/Specs/AuthenticationAndDashboardTest.php`
 
 #### Test Cases
 - Guest redirect to login
 - Authenticated user access
 - Proper HTTP status codes
+- Home page access
 
-### Organization Invitation Tests
-**Location**: `/tests/Feature/OrganizationInvitationAcceptTest.php`
+### Organization Tests
+**Location**: `/tests/Feature/Specs/OrganizationCreateTest.php`, `/tests/Feature/Specs/OrganizationGeneralSettingsTest.php`, `/tests/Feature/Specs/OrganizationMembersSettingsTest.php`, `/tests/Feature/Specs/OrganizationInvitationAcceptTest.php`
 
 #### Test Cases
+- Organization creation and validation
+- Organization switching and dropdown functionality
+- Organization settings and authorization
+- Member management and invitations
 - Invitation acceptance workflow
-- Organization membership assignment
-- Current organization switching
-- Invitation cleanup after acceptance
+- Current organization management
+- Access control for owners vs members
 
-### Livewire Component Tests
+### Consolidated Test Structure
 
-#### Organization Creation
-**Location**: `/resources/views/livewire/organizations/⚡create.test.php`
+All Livewire component tests have been consolidated into the `/tests/Feature/Specs/` directory:
 
-- Valid organization creation
-- Validation error handling
-- Guest access prevention
-
-#### Organization Dropdown
-**Location**: `/resources/views/livewire/⚡organizations-dropdown.test.php`
-
-- Organization switching
-- Member organization access
-- Unauthorized access prevention
-
-#### Authentication Pages
-**Login**: `/resources/views/pages/auth/⚡login.test.php`
+#### Authentication Components
+**Consolidated from**: `/resources/views/pages/auth/⚡login.test.php` & `/resources/views/pages/auth/⚡register.test.php`
+**Now in**: `/tests/Feature/Specs/AuthenticationTest.php`
 - Login screen rendering
 - OTP sending and validation
-- Authentication success/failure
-- Security features (email enumeration protection)
+- Registration with personal organization creation
+- Email validation and security features
 
-**Register**: `/resources/views/pages/auth/⚡register.test.php`
-- Registration screen rendering
-- User creation and OTP sending
-- Registration completion with OTP
-- Personal organization creation
-- Email validation
+#### Organization Components
+**Consolidated from**: `/resources/views/livewire/organizations/⚡create.test.php`, `/resources/views/livewire/⚡organizations-dropdown.test.php`, `/resources/views/pages/organizations/settings/⚡general.test.php`, `/resources/views/pages/organizations/settings/⚡members.test.php`
+**Now in**: `/tests/Feature/Specs/OrganizationCreateTest.php`, `/tests/Feature/Specs/OrganizationGeneralSettingsTest.php`, `/tests/Feature/Specs/OrganizationMembersSettingsTest.php`
+- Organization creation and validation
+- Organization switching functionality
+- Organization settings and authorization
+- Member management and invitation systems
 
-#### Billing Pages
-**Billing Portal**: `/resources/views/pages/billing/⚡billing-portal.test.php`
-- Access control for unsubscribed users
-- Redirect behavior
+#### Billing Components
+**Consolidated from**: `/resources/views/pages/billing/⚡billing-portal.test.php`, `/resources/views/pages/billing/⚡subscription-required.test.php`
+**Now in**: `/tests/Feature/Specs/BillingPortalTest.php`
+- Billing portal access control
+- Subscription-aware organization switching
+- Middleware protection testing
 
-**Subscription Required**: `/resources/views/pages/billing/⚡subscription-required.test.php`
-- Organization switching with subscription awareness
-- Authorization checks
-
-#### Organization Settings
-**General Settings**: `/resources/views/pages/organizations/settings/⚡general.test.php`
-- Organization name editing
-- Authorization for owners only
-- Validation requirements
-
-**Members Management**: `/resources/views/pages/organizations/settings/⚡members.test.php`
-- Member addition and removal
-- Invitation system
-- Authorization and security
-- Current organization management
-
-#### User Settings
-**Profile**: `/resources/views/pages/settings/⚡profile.test.php`
+#### User Settings Components
+**Consolidated from**: `/resources/views/pages/settings/⚡profile.test.php`
+**Now in**: `/tests/Feature/Specs/ProfileSettingsTest.php`
 - Profile information updates
 - Email verification handling
 - Access control
@@ -162,10 +149,12 @@ Notification::assertSentTo($user, NotificationClass::class);
 ## Test Coverage Analysis
 
 ### Well-Covered Areas
-- Authentication flows (login, registration, OTP)
-- Organization management (CRUD, membership, invitations)
+- Authentication flows (login, registration, OTP, email verification)
+- Organization management (CRUD, membership, invitations, settings)
 - Billing middleware and subscription checks
 - User profile management
+- Dashboard access and navigation
+- Security authorization across all components
 
 ### Areas for Expansion
 - Error handling and edge cases
@@ -175,18 +164,22 @@ Notification::assertSentTo($user, NotificationClass::class);
 - Accessibility testing
 
 ### Missing Tests
-- Appearance settings (referenced but not implemented)
-- Advanced billing scenarios (webhooks, failures)
-- Email template testing
+- Appearance settings (referenced but not implemented/tested)
+- Advanced billing scenarios (webhooks, failures, payment processing)
+- Email template testing and delivery verification
 - File upload handling (if applicable)
+- Performance and load testing
+- Accessibility testing
+- Advanced security testing (XSS, SQL injection, CSRF)
 
 ## Testing Best Practices
 
 ### Test Organization
-- Co-located tests with Livewire components
-- Clear, descriptive test names
-- Proper setup and teardown
-- Isolated test execution
+- **Consolidated Structure**: All feature tests in `/tests/Feature/Specs/` directory
+- **Spec References**: Each test file includes comment referencing corresponding specification
+- **Clear, descriptive test names**: Using `it()` syntax consistently
+- **Proper setup and teardown**: Using `RefreshDatabase` trait and factory patterns
+- **Isolated test execution**: Each test runs independently with clean database state
 
 ### Data Management
 - Factory usage over manual creation
