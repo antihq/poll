@@ -10,6 +10,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+
+    Route::livewire('/polls/create', 'pages::polls.create')->name('polls.create');
+    Route::livewire('/polls', 'pages::polls.index')->name('polls.index');
 });
 
 Route::middleware(['auth'])->group(function () {

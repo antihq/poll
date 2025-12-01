@@ -128,7 +128,7 @@ it('allows adding answer options dynamically', function () {
     $component->call('addAnswer');
 
     expect($component->get('answers'))->toHaveCount(2);
-    expect($component->get('answers')[1])->toBe(['text' => '', 'emoji' => '']);
+    expect($component->get('answers')[1])->toBe(['text' => '', 'emoji' => '', 'redirect_url' => null, 'collect_feedback' => false]);
 });
 
 it('allows removing answer options dynamically', function () {

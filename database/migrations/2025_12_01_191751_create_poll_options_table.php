@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('poll_options', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('poll_id')->constrained()->onDelete('cascade');
+            $table->string('answer_text')->nullable();
+            $table->string('answer_emoji')->nullable();
+            $table->text('redirect_url')->nullable();
+            $table->boolean('collect_feedback')->default(false);
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }
