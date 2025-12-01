@@ -4,8 +4,6 @@ use App\Models\Organization;
 use App\Models\OrganizationInvitation;
 use App\Models\User;
 
-use function Pest\Laravel\actingAs;
-
 it('allows a user to accept an organization invitation and join', function () {
     $organization = Organization::factory()->create();
     $invitedUser = User::factory()->create();
@@ -16,7 +14,7 @@ it('allows a user to accept an organization invitation and join', function () {
         ]);
 
     $signedUrl = url()->signedRoute('organizations.invitations.accept', $invitation);
-    $response = actingAs($invitedUser)->get($signedUrl);
+    $response = $this->actingAs($invitedUser)->get($signedUrl);
 
     expect($organization->members()->where('user_id', $invitedUser->id)->exists())->toBeTrue();
     expect($invitedUser->refresh()->currentOrganization->is($organization))->toBeTrue();

@@ -7,10 +7,16 @@ it('redirects guests to the login page', function () {
     $response->assertRedirect('/login');
 });
 
-test('authenticated users can visit the dashboard', function () {
+it('authenticated users can visit the dashboard', function () {
     $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
+    $response->assertStatus(200);
+});
+
+it('returns a successful response from the home page', function () {
+    $response = $this->get('/');
+
     $response->assertStatus(200);
 });
