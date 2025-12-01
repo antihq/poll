@@ -1,7 +1,7 @@
 # Billing and Subscription Specification
 
 ## Overview
-The application implements a subscription-based billing system with middleware protection and organization-level subscription management.
+The application implements a subscription-based billing system with middleware protection and organization-level subscription management. Organizations are the billable entity, not individual users.
 
 ## Subscription Middleware (`EnsureUserIsSubscribed`)
 

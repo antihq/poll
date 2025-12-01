@@ -6,7 +6,7 @@ This specification covers the analytics dashboard, response visualization, and d
 ## Dashboard Overview
 
 ### Main Dashboard Layout
-- **Poll Summary Cards**: Overview of all user polls with key metrics
+- **Poll Summary Cards**: Overview of all organization polls with key metrics
 - **Quick Actions**: Create new poll, view recent activity
 - **Response Analytics**: Real-time response tracking and visualization
 - **Navigation**: Easy access to detailed poll management
@@ -277,6 +277,15 @@ class Dashboard extends Component
         $this->loadAnalytics();
     }
     
+    public function loadPolls()
+    {
+        // Load polls for current organization
+        $this->polls = Poll::where('organization_id', auth()->user()->currentOrganization->id)
+            ->withCount('responses')
+            ->latest()
+            ->get();
+    }
+    
     public function render()
     {
         return view('livewire.pages.dashboard')
@@ -340,10 +349,10 @@ Route::livewire('/polls/{poll}/export', 'pages::polls.export')->name('polls.expo
 ```
 
 ### Database Optimization
-- **Indexed Queries**: Optimized response retrieval
-- **Caching Strategy**: Redis caching for frequently accessed data
-- **Pagination**: Efficient handling of large response sets
-- **Aggregation Queries**: Pre-computed analytics for performance
+- **Indexed Queries**: Optimized response retrieval with organization scoping
+- **Caching Strategy**: Redis caching for frequently accessed organization data
+- **Pagination**: Efficient handling of large response sets per organization
+- **Aggregation Queries**: Pre-computed analytics for performance by organization
 
 ## Performance Considerations
 

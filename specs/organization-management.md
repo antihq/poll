@@ -121,7 +121,8 @@ The system supports multi-tenant organizations with role-based access control, i
 - `name`: Organization name (required)
 - `user_id`: Owner reference
 - `personal`: Boolean flag for personal organizations
-- Subscription relationship for billing
+- Billable model with Cashier subscription integration
+- Poll relationships for organization-scoped polling
 
 ### Organization Membership
 - Many-to-many relationship between users and organizations

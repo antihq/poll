@@ -37,19 +37,20 @@ Antipoll is a poll and survey creation platform designed specifically for email 
 
 ## User Experience Flow
 
-### 1. User Onboarding with Cashier
-1. User signs up for 14-day free trial
-2. Cashier automatically sets up trial period
+### 1. Organization Onboarding with Cashier
+1. User creates personal organization with 14-day free trial
+2. Cashier automatically sets up trial period for organization
 3. Full access to all features during trial period
 4. Onboarded with tutorial and guided poll creation
-5. Cashier handles trial expiration and conversion
+5. Cashier handles organization trial expiration and conversion
 
 ### 2. Poll Creation
 1. User navigates to `/polls/create` page component (`pages::polls.create`)
-2. Enters poll question and up to 10 answer options using Flux UI forms
-3. Configures advanced options (redirects, feedback, etc.) in organized sections
-4. Chooses layout and styling preferences with Flux UI components
-5. Generates HTML poll code with Livewire form submission
+2. Poll is created for the current organization context
+3. Enters poll question and up to 10 answer options using Flux UI forms
+4. Configures advanced options (redirects, feedback, etc.) in organized sections
+5. Chooses layout and styling preferences with Flux UI components
+6. Generates HTML poll code with Livewire form submission
 
 ### 2. Email Integration
 1. User copies generated HTML code
@@ -65,12 +66,12 @@ Antipoll is a poll and survey creation platform designed specifically for email 
 
 ### 4. Analytics & Management
 1. User navigates to `/polls/{poll}/analytics` page component (`pages::polls.analytics`)
-2. Views real-time response data with Flux UI charts
+2. Views real-time response data with Flux UI charts for organization polls
 3. Analyzes response patterns and metrics using interactive filters
 4. Exports data for further analysis from dedicated export page
 5. Manages poll settings (close polls, edit options) from management page components
-6. Organization-based analytics for shared polls
-7. Role-based access to analytics within organizations
+6. Organization-based analytics for all organization polls
+7. Role-based access to analytics within organizations (owners vs members)
 6. Organization-based analytics for shared polls
 7. Role-based access to analytics within organizations
 6. Organization-based analytics for shared polls
@@ -92,11 +93,11 @@ Antipoll is a poll and survey creation platform designed specifically for email 
 
 ### Backend Requirements
 - Livewire 4 page component-based architecture
-- Response tracking and storage
+- Response tracking and storage with organization scoping
 - Email platform integration endpoints
-- Analytics and reporting engine
-- User authentication and authorization
-- Laravel Cashier subscription management and Stripe billing
+- Analytics and reporting engine with organization-based access control
+- User authentication and organization-based authorization
+- Laravel Cashier organization subscription management and Stripe billing
 
 ### Page Component Structure
 ```
@@ -123,16 +124,16 @@ resources/views/pages/
 Each `.blade.php` file contains both PHP class logic and HTML template in a single file using Livewire 4's single-file component format.
 
 ### Database Schema
-- Users table (authentication, subscription status)
-- Organizations table (organization billing and management)
-- Organization Users table (many-to-many relationship)
-- Subscriptions table (Stripe subscription data)
+- Users table (authentication only)
+- Organizations table (organization billing, management, and subscription status)
+- Organization Users table (many-to-many relationship with roles)
+- Subscriptions table (Stripe subscription data linked to organizations)
 - Polls table (questions, settings, metadata, organization_id)
 - Poll Options table (answer choices, ordering)
 - Responses table (individual responses, timestamps)
 - Feedback table (free-form text responses)
 - Integrations table (platform-specific data)
-- Usage Metrics table (subscription limits tracking)
+- Usage Metrics table (organization subscription limits tracking)
 
 ### Email Integration
 - HTML generation for cross-platform compatibility
@@ -143,10 +144,10 @@ Each `.blade.php` file contains both PHP class logic and HTML template in a sing
 ## Business Model
 
 ### Pricing Structure
-- **14-day Free Trial**: Full access to all features
-- **Starter Plan**: $29/month - Up to 10 active polls
-- **Professional Plan**: $79/month - Up to 50 active polls
-- **Business Plan**: $199/month - Unlimited active polls
+- **14-day Free Trial**: Full access to all features per organization
+- **Starter Plan**: $29/month - Up to 10 active polls per organization
+- **Professional Plan**: $79/month - Up to 50 active polls per organization
+- **Business Plan**: $199/month - Unlimited active polls per organization
 - **Enterprise Plan**: Custom pricing - Advanced features & support
 
 ### Revenue Streams

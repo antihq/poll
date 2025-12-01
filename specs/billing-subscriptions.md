@@ -66,7 +66,7 @@ This specification covers SaaS subscription billing system, 14-day free trial ma
 ### Subscription Tracking
 ```sql
 subscriptions:
-- id, user_id, stripe_subscription_id
+- id, organization_id, stripe_subscription_id
 - plan_type, status, trial_ends_at
 - current_period_start, current_period_end
 - created_at, updated_at, canceled_at
@@ -77,7 +77,7 @@ subscription_items:
 - quantity, created_at, updated_at
 
 usage_metrics:
-- id, user_id, metric_date
+- id, organization_id, metric_date
 - active_polls_count, responses_count
 - plan_limit, created_at
 ```
@@ -117,49 +117,49 @@ usage_metrics:
 
 ### Cashier Trial Conversion Flow
 1. Trial user clicks "Choose Plan"
-2. Cashier creates checkout with trialDays(0)
+2. Cashier creates checkout with trialDays(0) for organization
 3. Redirects to Stripe-hosted payment page
-4. Payment processed and subscription activated
+4. Payment processed and subscription activated for organization
 5. Trial period ends immediately
-6. New subscription period begins
-7. User retains all existing polls and data
+6. New subscription period begins for organization
+7. Organization retains all existing polls and data
 
 ### Cashier Payment Method Management
 ```php
 // Update payment method using Cashier
-$user->updateDefaultPaymentMethod($paymentMethodId);
+$organization->updateDefaultPaymentMethod($paymentMethodId);
 
 // Add new payment method
-$user->addPaymentMethod($paymentMethodId);
+$organization->addPaymentMethod($paymentMethodId);
 
 // Delete payment method
-$user->deletePaymentMethod($paymentMethodId);
+$organization->deletePaymentMethod($paymentMethodId);
 
 // Get all payment methods
-$paymentMethods = $user->paymentMethods();
+$paymentMethods = $organization->paymentMethods();
 ```
 
 ### Cashier Invoice Management
 ```php
 // Download invoice using Cashier
-$invoice = $user->findInvoice($invoiceId);
-return $user->downloadInvoice($invoiceId);
+$invoice = $organization->findInvoice($invoiceId);
+return $organization->downloadInvoice($invoiceId);
 
 // List all invoices
-$invoices = $user->invoices();
+$invoices = $organization->invoices();
 
 // Get upcoming invoice
-$upcomingInvoice = $user->upcomingInvoice();
+$upcomingInvoice = $organization->upcomingInvoice();
 ```
 
 ## User Billing Dashboard
 
 ### Subscription Overview
-- **Current Plan**: Active subscription plan and status
-- **Trial Status**: Days remaining in free trial
-- **Usage Metrics**: Active polls vs plan limits
-- **Billing Cycle**: Current period dates and next charge
-- **Payment Method**: Saved payment methods and billing info
+- **Current Plan**: Active organization subscription plan and status
+- **Trial Status**: Days remaining in organization free trial
+- **Usage Metrics**: Organization active polls vs plan limits
+- **Billing Cycle**: Current period dates and next charge for organization
+- **Payment Method**: Saved payment methods and billing info for organization
 
 ### Subscription Management Features
 - **Plan Management**: Upgrade, downgrade, or cancel subscription
@@ -172,12 +172,12 @@ $upcomingInvoice = $user->upcomingInvoice();
 ```php
 <?php
 
-use App\Models\User;
+use App\Models\Organization;
 use App\Models\Subscription;
 use Livewire\Component;
 
 new class extends Component {
-    public User $user;
+    public Organization $organization;
     public $subscription;
     public $usageMetrics;
     public $billingHistory;
@@ -192,24 +192,24 @@ new class extends Component {
     public function upgradePlan($planId)
     {
         // Create Stripe Checkout Session for plan upgrade
-        $checkoutSession = $this->user->createPlanUpgradeCheckout($planId);
+        $checkoutSession = $this->organization->createPlanUpgradeCheckout($planId);
         return redirect($checkoutSession->url);
     }
     
     public function cancelSubscription()
     {
         // Cancel subscription with access until period end
-        $this->user->subscription->cancel();
+        $this->organization->subscription->cancel();
         $this->refreshData();
     }
     
     public function refreshData()
     {
-        $this->subscription = $this->user->activeSubscription();
-        $this->usageMetrics = $this->user->getCurrentUsageMetrics();
-        $this->billingHistory = $this->user->billingHistory()->get();
+        $this->subscription = $this->organization->activeSubscription();
+        $this->usageMetrics = $this->organization->getCurrentUsageMetrics();
+        $this->billingHistory = $this->organization->billingHistory()->get();
         $this->availablePlans = $this->getAvailablePlans();
-        $this->trialDaysRemaining = $this->user->getTrialDaysRemaining();
+        $this->trialDaysRemaining = $this->organization->getTrialDaysRemaining();
     }
 };
 ?>

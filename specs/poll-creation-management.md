@@ -163,7 +163,7 @@ Route::livewire('/polls/{poll}/analytics', 'pages::polls.analytics')->name('poll
 ### Database Schema
 ```sql
 polls:
-- id, user_id, question
+- id, organization_id, question
 - layout_type, auto_submit
 - require_email, collect_feedback
 - thank_you_message, hide_branding
@@ -180,13 +180,14 @@ poll_options:
 
 ### Creation Process with Page Components
 1. User navigates to `/polls/create` (pages::polls.create page component)
-2. Enters poll question using Flux UI inputs
-3. Adds answer options (text/emoji) with dynamic form fields
-4. Configures layout preference using Flux UI radio buttons
-5. Sets up advanced options (redirects, feedback) in collapsible sections
-6. Customizes thank you message using Flux UI textarea
-7. Chooses branding options using Flux UI toggle
-8. Saves and generates HTML code with Livewire form submission
+2. Poll is created for the current organization context
+3. Enters poll question using Flux UI inputs
+4. Adds answer options (text/emoji) with dynamic form fields
+5. Configures layout preference using Flux UI radio buttons
+6. Sets up advanced options (redirects, feedback) in collapsible sections
+7. Customizes thank you message using Flux UI textarea
+8. Chooses branding options using Flux UI toggle
+9. Saves and generates HTML code with Livewire form submission
 
 ### Editing Process with Page Components
 1. User navigates to `/polls/{poll}/edit` (pages::polls.edit page component)

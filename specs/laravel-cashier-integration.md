@@ -34,7 +34,7 @@ CASHIER_LOGGER=stripe
 ```php
 // config/cashier.php
 return [
-    'model' => App\Models\User::class,
+    'model' => App\Models\Organization::class,
     'currency' => 'usd',
     'locale' => 'en',
     'key' => env('STRIPE_KEY'),
@@ -50,7 +50,7 @@ return [
 ];
 ```
 
-## User Model with Cashier
+## Organization Model with Cashier
 
 ### Billable Trait Integration
 ```php
@@ -58,27 +58,39 @@ return [
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
 
-class User extends Authenticatable
+class Organization extends Model
 {
     use Billable;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'user_id', 'personal',
         'stripe_id', 'trial_ends_at', 'pm_type',
         'card_brand', 'card_last_four',
     ];
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
     protected $casts = [
         'trial_ends_at' => 'datetime',
-        'email_verified_at' => 'datetime',
+        'personal' => 'boolean',
     ];
+
+    // Relationships
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('role');
+    }
+
+    public function polls()
+    {
+        return $this->hasMany(Poll::class);
+    }
 
     // Cashier methods
     public function subscriptions()
@@ -103,7 +115,7 @@ class User extends Authenticatable
             'trial_ends_at' => now()->addDays(config('cashier.trial.days')),
         ]);
 
-        $this->notify(new TrialStartedNotification());
+        $this->owner->notify(new TrialStartedNotification());
     }
 
     public function getTrialDaysRemainingAttribute()
@@ -151,30 +163,30 @@ class User extends Authenticatable
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Models\Organization;
 use Laravel\Cashier\Cashier;
 
 class SubscriptionService
 {
-    public function createSubscription(User $user, string $plan)
+    public function createSubscription(Organization $organization, string $plan)
     {
         // Create or retrieve Stripe customer
-        if (!$user->stripe_id) {
-            $user->createAsStripeCustomer();
+        if (!$organization->stripe_id) {
+            $organization->createAsStripeCustomer();
         }
 
         // Create subscription with 14-day trial using Cashier
-        $subscription = $user->newSubscription($plan)
+        $subscription = $organization->newSubscription($plan)
             ->trialDays(config('cashier.trial.days'))
             ->create();
 
         return $subscription;
     }
 
-    public function createTrialCheckout(User $user, string $plan)
+    public function createTrialCheckout(Organization $organization, string $plan)
     {
         // Create Stripe Checkout Session using Cashier
-        return $user->newSubscription($plan)
+        return $organization->newSubscription($plan)
             ->trialDays(config('cashier.trial.days'))
             ->checkout([
                 'success_url' => route('billing.success'),
@@ -189,27 +201,27 @@ class SubscriptionService
                     'enabled' => true,
                 ],
                 'metadata' => [
-                    'user_id' => $user->id,
+                    'organization_id' => $organization->id,
                     'plan_type' => $plan,
                 ],
             ]);
     }
 
-    public function upgradeSubscription(User $user, string $newPlan)
+    public function upgradeSubscription(Organization $organization, string $newPlan)
     {
-        $subscription = $user->subscription();
+        $subscription = $organization->subscription();
         
         if (!$subscription) {
-            return $this->createSubscription($user, $newPlan);
+            return $this->createSubscription($organization, $newPlan);
         }
 
         // Swap to new plan with proration using Cashier
         return $subscription->swap($newPlan);
     }
 
-    public function downgradeSubscription(User $user, string $newPlan)
+    public function downgradeSubscription(Organization $organization, string $newPlan)
     {
-        $subscription = $user->subscription();
+        $subscription = $organization->subscription();
         
         if (!$subscription) {
             throw new Exception('No active subscription found');
@@ -219,9 +231,9 @@ class SubscriptionService
         return $subscription->swap($newPlan);
     }
 
-    public function cancelSubscription(User $user, $immediate = false)
+    public function cancelSubscription(Organization $organization, $immediate = false)
     {
-        $subscription = $user->subscription();
+        $subscription = $organization->subscription();
         
         if (!$subscription) {
             return false;
@@ -234,9 +246,9 @@ class SubscriptionService
         return $subscription->cancel();
     }
 
-    public function cancelSubscriptionAtPeriodEnd(User $user)
+    public function cancelSubscriptionAtPeriodEnd(Organization $organization)
     {
-        $subscription = $user->subscription();
+        $subscription = $organization->subscription();
         
         if (!$subscription) {
             return false;
@@ -245,9 +257,9 @@ class SubscriptionService
         return $subscription->cancelAtPeriodEnd();
     }
 
-    public function resumeSubscription(User $user)
+    public function resumeSubscription(Organization $organization)
     {
-        $subscription = $user->subscription();
+        $subscription = $organization->subscription();
         
         if (!$subscription) {
             return false;
@@ -285,12 +297,12 @@ class StripeWebhookController extends CashierWebhookController
      */
     public function handleCustomerSubscriptionCreated($payload)
     {
-        $user = User::where('stripe_id', $payload->data->object->customer)->first();
+        $organization = Organization::where('stripe_id', $payload->data->object->customer)->first();
         
-        if ($user) {
+        if ($organization) {
             // Cashier automatically creates subscription record
             // Add custom logic here if needed
-            $user->notify(new SubscriptionStartedNotification());
+            $organization->owner->notify(new SubscriptionStartedNotification());
         }
     }
 
@@ -310,7 +322,7 @@ class StripeWebhookController extends CashierWebhookController
             ]);
 
             // Send payment confirmation
-            $subscription->user->notify(new PaymentSuccessfulNotification());
+            $subscription->organization->owner->notify(new PaymentSuccessfulNotification());
         }
     }
 
@@ -324,7 +336,7 @@ class StripeWebhookController extends CashierWebhookController
         
         if ($subscription) {
             // Cashier automatically handles subscription cancellation
-            $subscription->user->notify(new SubscriptionCanceledNotification());
+            $subscription->organization->owner->notify(new SubscriptionCanceledNotification());
         }
     }
 
@@ -344,7 +356,7 @@ class StripeWebhookController extends CashierWebhookController
             ]);
 
             // Send payment failure notification
-            $subscription->user->notify(new PaymentFailedNotification());
+            $subscription->organization->owner->notify(new PaymentFailedNotification());
         }
     }
 }
@@ -356,11 +368,11 @@ class StripeWebhookController extends CashierWebhookController
 ```php
 <?php
 
-use App\Models\User;
+use App\Models\Organization;
 use Livewire\Component;
 
 new class extends Component {
-    public User $user;
+    public Organization $organization;
     public $subscription;
     public $usageMetrics;
     public $trialDaysRemaining;
@@ -368,14 +380,14 @@ new class extends Component {
     
     public function mount()
     {
-        $this->user = auth()->user();
+        $this->organization = auth()->user()->currentOrganization;
         $this->refreshData();
     }
     
     public function upgradePlan($planId)
     {
         $subscriptionService = new \App\Services\SubscriptionService();
-        $checkoutUrl = $subscriptionService->createTrialCheckout($this->user, $planId);
+        $checkoutUrl = $subscriptionService->createTrialCheckout($this->organization, $planId);
         
         return redirect($checkoutUrl);
     }
@@ -383,28 +395,28 @@ new class extends Component {
     public function cancelSubscription()
     {
         $subscriptionService = new \App\Services\SubscriptionService();
-        $subscriptionService->cancelSubscription($this->user);
+        $subscriptionService->cancelSubscription($this->organization);
         $this->refreshData();
     }
     
     public function updatePaymentMethod()
     {
         // Redirect to Cashier payment method update
-        return redirect($this->user->updatePaymentMethod());
+        return redirect($this->organization->updatePaymentMethod());
     }
     
     public function downloadInvoice($invoiceId)
     {
         // Use Cashier for invoice download
-        return $this->user->downloadInvoice($invoiceId);
+        return $this->organization->downloadInvoice($invoiceId);
     }
     
     public function refreshData()
     {
-        $this->subscription = $this->user->activeSubscription();
-        $this->usageMetrics = $this->user->getCurrentUsageMetrics();
-        $this->upcomingInvoice = $this->user->upcomingInvoice();
-        $this->trialDaysRemaining = $this->user->trial_days_remaining ?? 0;
+        $this->subscription = $this->organization->activeSubscription();
+        $this->usageMetrics = $this->organization->getCurrentUsageMetrics();
+        $this->upcomingInvoice = $this->organization->upcomingInvoice();
+        $this->trialDaysRemaining = $this->organization->trial_days_remaining ?? 0;
     }
 };
 ?>
@@ -439,12 +451,12 @@ new class extends Component {
                 <flux:card>
                     <flux:card.header>Usage</flux:card.header>
                     <flux:card.content>
-                        <div class="text-3xl font-bold">{{ $usageMetrics->active_polls_count }} / {{ $user->plan_limit }}</div>
+                        <div class="text-3xl font-bold">{{ $usageMetrics->active_polls_count }} / {{ $organization->plan_limit }}</div>
                         <div class="text-sm text-gray-600">
                             Active polls this month
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-                            <div class="bg-blue-600 h-2 rounded-full" style="width: {{ ($usageMetrics->active_polls_count / $user->plan_limit) * 100 }}%"></div>
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: {{ ($usageMetrics->active_polls_count / $organization->plan_limit) * 100 }}%"></div>
                         </div>
                     </flux:card.content>
                 </flux:card>
@@ -494,7 +506,7 @@ new class extends Component {
 -- Additional tables for Antipoll
 CREATE TABLE usage_metrics (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT UNSIGNED NOT NULL,
+    organization_id BIGINT UNSIGNED NOT NULL,
     metric_date DATE NOT NULL,
     active_polls_count INT DEFAULT 0,
     responses_count INT DEFAULT 0,
@@ -502,24 +514,24 @@ CREATE TABLE usage_metrics (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_user_date (user_id, metric_date),
+    FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_organization_date (organization_id, metric_date),
     INDEX idx_metric_date (metric_date)
 );
 ```
 
-### Users Table Extensions
+### Organizations Table Extensions
 ```sql
--- Add Cashier columns to users table
-ALTER TABLE users ADD COLUMN stripe_id VARCHAR(255) NULL AFTER email;
-ALTER TABLE users ADD COLUMN trial_ends_at TIMESTAMP NULL AFTER stripe_id;
-ALTER TABLE users ADD COLUMN pm_type VARCHAR(255) NULL AFTER trial_ends_at;
-ALTER TABLE users ADD COLUMN card_brand VARCHAR(255) NULL AFTER pm_type;
-ALTER TABLE users ADD COLUMN card_last_four VARCHAR(4) NULL AFTER card_brand;
+-- Add Cashier columns to organizations table
+ALTER TABLE organizations ADD COLUMN stripe_id VARCHAR(255) NULL AFTER name;
+ALTER TABLE organizations ADD COLUMN trial_ends_at TIMESTAMP NULL AFTER stripe_id;
+ALTER TABLE organizations ADD COLUMN pm_type VARCHAR(255) NULL AFTER trial_ends_at;
+ALTER TABLE organizations ADD COLUMN card_brand VARCHAR(255) NULL AFTER pm_type;
+ALTER TABLE organizations ADD COLUMN card_last_four VARCHAR(4) NULL AFTER card_brand;
 
 -- Add indexes for Cashier columns
-ALTER TABLE users ADD INDEX idx_stripe_id (stripe_id);
-ALTER TABLE users ADD INDEX idx_trial_ends_at (trial_ends_at);
+ALTER TABLE organizations ADD INDEX idx_stripe_id (stripe_id);
+ALTER TABLE organizations ADD INDEX idx_trial_ends_at (trial_ends_at);
 ```
 
 ## Routes with Cashier
@@ -535,11 +547,11 @@ Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']
 
 // Cashier payment method routes
 Route::get('/payment-methods/update', function () {
-    return auth()->user()->updatePaymentMethod();
+    return auth()->user()->currentOrganization->updatePaymentMethod();
 })->middleware('auth')->name('payment-methods.update');
 
 Route::get('/invoices/{invoiceId}/download', function ($invoiceId) {
-    return auth()->user()->downloadInvoice($invoiceId);
+    return auth()->user()->currentOrganization->downloadInvoice($invoiceId);
 })->middleware('auth')->name('invoices.download');
 ```
 
@@ -549,7 +561,7 @@ Route::get('/invoices/{invoiceId}/download', function ($invoiceId) {
 ```php
 // config/cashier.php (testing environment)
 return [
-    'model' => App\Models\User::class,
+    'model' => App\Models\Organization::class,
     'currency' => 'usd',
     'key' => env('STRIPE_KEY'), // pk_test_...
     'secret' => env('STRIPE_SECRET'), // sk_test_...
@@ -569,9 +581,9 @@ class SubscriptionTest extends TestCase
 {
     public function test_trial_subscription_creation()
     {
-        $user = User::factory()->create();
+        $organization = Organization::factory()->create();
         
-        $subscription = $user->newSubscription('starter')
+        $subscription = $organization->newSubscription('starter')
             ->trialDays(14)
             ->create();
             
@@ -582,8 +594,8 @@ class SubscriptionTest extends TestCase
 
     public function test_subscription_upgrade()
     {
-        $user = User::factory()->create();
-        $subscription = $user->newSubscription('starter')->create();
+        $organization = Organization::factory()->create();
+        $subscription = $organization->newSubscription('starter')->create();
         
         $upgradedSubscription = $subscription->swap('professional');
         
@@ -592,8 +604,8 @@ class SubscriptionTest extends TestCase
 
     public function test_subscription_cancellation()
     {
-        $user = User::factory()->create();
-        $subscription = $user->newSubscription('starter')->create();
+        $organization = Organization::factory()->create();
+        $subscription = $organization->newSubscription('starter')->create();
         
         $canceledSubscription = $subscription->cancelNow();
         
@@ -617,16 +629,16 @@ class SubscriptionTest extends TestCase
 - **Error Handling**: Graceful handling of payment failures
 
 ### Access Control
-- **Subscription Authorization**: Ensure users can only manage their own subscriptions
-- **Plan Limits**: Enforce plan limits at application level
+- **Subscription Authorization**: Ensure users can only manage their organization's subscriptions
+- **Plan Limits**: Enforce plan limits at organization level
 - **Audit Logging**: Log all subscription management actions
 - **Rate Limiting**: Prevent abuse of subscription management
 
 ## Performance Optimization
 
 ### Caching Strategies
-- **Subscription Cache**: Cache active subscription data
-- **Usage Metrics Cache**: Cache usage calculations
+- **Subscription Cache**: Cache active organization subscription data
+- **Usage Metrics Cache**: Cache organization usage calculations
 - **Plan Configuration Cache**: Cache plan details
 - **Webhook Processing**: Queue webhook handlers for performance
 
