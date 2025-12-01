@@ -87,7 +87,7 @@ new class extends Component
 };
 ?>
 
-<div>
+<div class="mx-auto max-w-3xl">
     <flux:heading size="2xl">Create Poll</flux:heading>
     <flux:text class="mt-2">Create a new poll for your organization</flux:text>
     
@@ -101,7 +101,6 @@ new class extends Component
             placeholder="What would you like to ask?"
             description="The main question for your poll"
         />
-        <flux:error name="question" />
 
         <!-- Answer Options -->
         <div>
@@ -213,7 +212,6 @@ new class extends Component
             description="Custom message shown after poll submission. Supports Markdown."
             rows="4"
         />
-        <flux:error name="thankYouMessage" />
 
         <!-- Submit Button -->
         <div class="flex items-center gap-4">
@@ -221,9 +219,9 @@ new class extends Component
                 Create Poll
             </flux:button>
             
-            <flux:link :href="route('polls.index')" wire:navigate>
+            <flux:button :href="route('polls.index')" wire:navigate>
                 Cancel
-            </flux:link>
+            </flux:button>
         </div>
     </form>
 </div>
