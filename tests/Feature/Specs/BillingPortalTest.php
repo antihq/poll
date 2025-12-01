@@ -1,5 +1,7 @@
 <?php
 
+// specs/billing-system.md - Billing Portal & Subscription Management
+
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;

@@ -1,5 +1,7 @@
 <?php
 
+// specs/authentication-system.md - Login & Registration System
+
 use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;

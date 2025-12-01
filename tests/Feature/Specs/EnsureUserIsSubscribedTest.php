@@ -1,5 +1,7 @@
 <?php
 
+// specs/billing-system.md - Subscription Middleware Protection
+
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

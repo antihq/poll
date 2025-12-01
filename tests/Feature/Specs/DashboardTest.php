@@ -1,5 +1,7 @@
 <?php
 
+// specs/authentication-system.md - Dashboard Access & Navigation
+
 use App\Models\User;
 
 it('redirects guests to the login page', function () {

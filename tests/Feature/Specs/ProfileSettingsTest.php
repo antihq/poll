@@ -1,5 +1,7 @@
 <?php
 
+// specs/user-profile-settings.md - User Profile Management
+
 use App\Models\User;
 use Livewire\Livewire;
 

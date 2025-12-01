@@ -1,5 +1,7 @@
 <?php
 
+// specs/organization-management.md - Organization Settings & Authorization
+
 use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;

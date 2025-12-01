@@ -1,5 +1,7 @@
 <?php
 
+// specs/organization-management.md - Organization Invitation System
+
 use App\Models\Organization;
 use App\Models\OrganizationInvitation;
 use App\Models\User;
