@@ -61,40 +61,6 @@ This application uses Pest PHP as its primary testing framework with comprehensi
 - Current organization management
 - Access control for owners vs members
 
-### Consolidated Test Structure
-
-All Livewire component tests have been consolidated into the `/tests/Feature/Specs/` directory:
-
-#### Authentication Components
-**Consolidated from**: `/resources/views/pages/auth/⚡login.test.php` & `/resources/views/pages/auth/⚡register.test.php`
-**Now in**: `/tests/Feature/Specs/AuthenticationTest.php`
-- Login screen rendering
-- OTP sending and validation
-- Registration with personal organization creation
-- Email validation and security features
-
-#### Organization Components
-**Consolidated from**: `/resources/views/livewire/organizations/⚡create.test.php`, `/resources/views/livewire/⚡organizations-dropdown.test.php`, `/resources/views/pages/organizations/settings/⚡general.test.php`, `/resources/views/pages/organizations/settings/⚡members.test.php`
-**Now in**: `/tests/Feature/Specs/OrganizationCreateTest.php`, `/tests/Feature/Specs/OrganizationGeneralSettingsTest.php`, `/tests/Feature/Specs/OrganizationMembersSettingsTest.php`
-- Organization creation and validation
-- Organization switching functionality
-- Organization settings and authorization
-- Member management and invitation systems
-
-#### Billing Components
-**Consolidated from**: `/resources/views/pages/billing/⚡billing-portal.test.php`, `/resources/views/pages/billing/⚡subscription-required.test.php`
-**Now in**: `/tests/Feature/Specs/BillingPortalTest.php`
-- Billing portal access control
-- Subscription-aware organization switching
-- Middleware protection testing
-
-#### User Settings Components
-**Consolidated from**: `/resources/views/pages/settings/⚡profile.test.php`
-**Now in**: `/tests/Feature/Specs/ProfileSettingsTest.php`
-- Profile information updates
-- Email verification handling
-- Access control
-
 ## Testing Patterns
 
 ### Authentication Patterns
@@ -115,6 +81,20 @@ Livewire::test('component-name')
     ->set('property', 'value')
     ->call('method')
     ->assertHasNoErrors();
+
+// Page component testing with authentication
+Livewire::actingAs($user)
+    ->test('pages::component-name')
+    ->set('property', 'value')
+    ->call('method')
+    ->assertRedirect()
+    ->assertSessionHas('success');
+
+// Real-time validation testing
+Livewire::actingAs($user)
+    ->test('pages::polls.create')
+    ->set('question', '')
+    ->assertHasErrors(['question']);
 ```
 
 ### Database Testing
@@ -124,6 +104,15 @@ uses(RefreshDatabase::class);
 
 // Factory usage
 $user = User::factory()->withPersonalOrganization()->create();
+
+// Model assertions (preferred over assertDatabaseHas)
+$poll = Poll::first();
+expect($poll)->not->toBeNull();
+expect($poll->status)->toBe('draft');
+
+// Relationship testing
+$options = $poll->options()->orderBy('sort_order')->get();
+expect($options)->toHaveCount(3);
 ```
 
 ### Notification Testing
@@ -139,38 +128,14 @@ Notification::assertSentTo($user, NotificationClass::class);
 - **User Factory**: With/without organizations and subscriptions
 - **Organization Factory**: With subscription support
 - **Organization Invitation Factory**: For testing invitations
+- **Poll Factory**: For creating poll test data with various configurations
+- **Poll Option Factory**: For creating poll answer options with different settings
 
 ### Factory Methods
 - `withPersonalOrganization()` - Creates user with personal org
 - `withPersonalOrganizationAndSubscription()` - Creates subscribed user
 - `withSubscription()` - Adds subscription to organization
 - `unverified()` - Creates unverified user
-
-## Test Coverage Analysis
-
-### Well-Covered Areas
-- Authentication flows (login, registration, OTP, email verification)
-- Organization management (CRUD, membership, invitations, settings)
-- Billing middleware and subscription checks
-- User profile management
-- Dashboard access and navigation
-- Security authorization across all components
-
-### Areas for Expansion
-- Error handling and edge cases
-- Performance testing
-- Integration testing with external services
-- Security testing beyond basic authorization
-- Accessibility testing
-
-### Missing Tests
-- Appearance settings (referenced but not implemented/tested)
-- Advanced billing scenarios (webhooks, failures, payment processing)
-- Email template testing and delivery verification
-- File upload handling (if applicable)
-- Performance and load testing
-- Accessibility testing
-- Advanced security testing (XSS, SQL injection, CSRF)
 
 ## Testing Best Practices
 
@@ -190,7 +155,9 @@ Notification::assertSentTo($user, NotificationClass::class);
 - Specific assertions over generic ones
 - Both positive and negative test cases
 - Proper HTTP status code validation
-- Database state verification
+- Database state verification using model assertions (preferred over assertDatabaseHas)
+- Real-time validation testing with Livewire components
+- Component state and interaction testing
 
 ## Security Testing
 
@@ -239,9 +206,12 @@ Notification::assertSentTo($user, NotificationClass::class);
 - Laravel's testing utilities
 - Faker for test data generation
 - RefreshDatabase trait
+- Livewire testing utilities
 
 ### Additional Tools
 - Notification faking
 - File system mocking
 - HTTP client mocking
 - Time manipulation (if needed)
+- Model assertions with expect() syntax
+- Real-time validation testing for Livewire components
