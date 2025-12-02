@@ -4,6 +4,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
 use App\Models\Answer;
+use Illuminate\Support\Str;
 
 new class extends Component {
     public string $name = '';
@@ -35,6 +36,7 @@ new class extends Component {
 
         $user = Auth::user();
         $poll = Poll::create([
+            'ulid' => Str::ulid(),
             'name' => $this->name,
             'question' => $this->question,
             'organization_id' => $user->currentOrganization->id,
@@ -48,11 +50,11 @@ new class extends Component {
             ]);
         }
 
-        $this->redirect("polls/{$poll->id}/edit");
+        $this->redirect("polls/{$poll->id}/edit", navigate: true);
     }
 }; ?>
 
-<div>
+<div class="mx-auto max-w-3xl">
     <flux:heading size="lg">Create Poll</flux:heading>
     <flux:text class="mt-2">Create a new poll for your organization.</flux:text>
 
