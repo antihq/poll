@@ -49,27 +49,33 @@ new class extends Component {
         {{ $this->totalResponses }} {{ Str::plural('response', $this->totalResponses) }}
     </flux:subheading>
 
-    <div class="mt-6 space-y-4">
-        @foreach ($poll->answers as $answer)
-            <div class="border rounded-lg p-4">
-                <div class="flex justify-between items-center mb-2">
-                    <flux:text class="font-medium">{{ $answer->text }}</flux:text>
-                    <flux:text class="text-sm">{{ $this->responseCounts[$answer->id]['percentage'] }}%</flux:text>
-                </div>
-                
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                        class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                        style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%;"
-                    ></div>
-                </div>
-                
-                <flux:text class="text-sm text-gray-600 mt-2">
-                    {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}
-                </flux:text>
-            </div>
-        @endforeach
-    </div>
+    <flux:table class="mt-6">
+        <flux:table.columns>
+            <flux:table.column>Answer</flux:table.column>
+            <flux:table.column>Responses</flux:table.column>
+            <flux:table.column>Percentage</flux:table.column>
+            <flux:table.column>Progress</flux:table.column>
+        </flux:table.columns>
+        <flux:table.rows>
+            @foreach ($poll->answers as $answer)
+                <flux:table.row :key="$answer->id">
+                    <flux:table.cell variant="strong">{{ $answer->text }}</flux:table.cell>
+                    <flux:table.cell>
+                        {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}
+                    </flux:table.cell>
+                    <flux:table.cell>{{ $this->responseCounts[$answer->id]['percentage'] }}%</flux:table.cell>
+                    <flux:table.cell>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div 
+                                class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%;"
+                            ></div>
+                        </div>
+                    </flux:table.cell>
+                </flux:table.row>
+            @endforeach
+        </flux:table.rows>
+    </flux:table>
     
     @if ($poll->answers->isEmpty())
         <flux:callout class="mt-6" variant="subtle">
