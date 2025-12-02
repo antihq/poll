@@ -53,7 +53,6 @@ new class extends Component {
         <flux:table.columns>
             <flux:table.column>Answer</flux:table.column>
             <flux:table.column>Responses</flux:table.column>
-            <flux:table.column>Percentage</flux:table.column>
             <flux:table.column>Progress</flux:table.column>
         </flux:table.columns>
         <flux:table.rows>
@@ -61,9 +60,8 @@ new class extends Component {
                 <flux:table.row :key="$answer->id">
                     <flux:table.cell variant="strong">{{ $answer->text }}</flux:table.cell>
                     <flux:table.cell>
-                        {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}
+                        {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }} ({{ $this->responseCounts[$answer->id]['percentage'] }}%)
                     </flux:table.cell>
-                    <flux:table.cell>{{ $this->responseCounts[$answer->id]['percentage'] }}%</flux:table.cell>
                     <flux:table.cell>
                         <div class="w-full bg-gray-200 rounded-full h-2">
                             <div 
