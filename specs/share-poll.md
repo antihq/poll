@@ -1,0 +1,3 @@
+- `/polls/1/share`
+- Users can share a poll by selecting a platform (universal or kit) and copying it for pasting into their chosen provider
+- The copied poll must include the question and possible answers. Each answer should be a link that preselects the response when clicked

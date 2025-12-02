@@ -1,4 +1,5 @@
-- Users can create a poll for their organization by providing an internal name, a question, and answers.
+- `/polls/create`
+- Users can create a poll for their organization by providing a name, a question, and answers.
 - At least two answers are required.
-- After creation, the user is redirected to the edit page.
 - Users can add new answers or delete
+- After creation, the user is redirected to the edit page `/polls/1/edit`.
