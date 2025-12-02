@@ -22,4 +22,9 @@ class Poll extends Model
     {
         return $this->hasMany(Answer::class)->orderBy('sort_order');
     }
+
+    public function pollResponses(): HasMany
+    {
+        return $this->hasMany(PollResponse::class);
+    }
 }

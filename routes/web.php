@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('organizations.show');
 
     Route::livewire('polls/create', 'pages::polls.create');
+    Route::livewire('poll/{poll}', 'pages::poll.view')->name('poll.view');
 
     Route::get('organizations/invitations/{invitation}/accept', OrganizationInvitationAcceptController::class)
         ->middleware('signed')
