@@ -24,20 +24,19 @@ new class extends Component {
     #[Computed]
     public function responseCounts(): array
     {
-        $counts = [];
         $totalResponses = $this->totalResponses;
 
-        foreach ($this->poll->answers as $answer) {
+        return $this->poll->answers->mapWithKeys(function ($answer) use ($totalResponses) {
             $responseCount = $answer->pollResponses()->count();
-            $percentage = $this->totalResponses > 0 ? round(($responseCount / $this->totalResponses) * 100) : 0;
+            $percentage = $totalResponses > 0 ? round(($responseCount / $totalResponses) * 100) : 0;
             
-            $counts[$answer->id] = [
-                'count' => $responseCount,
-                'percentage' => $percentage,
+            return [
+                $answer->id => [
+                    'count' => $responseCount,
+                    'percentage' => $percentage,
+                ]
             ];
-        }
-
-        return $counts;
+        })->all();
     }
 }; ?>
 
