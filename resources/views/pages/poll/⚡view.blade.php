@@ -45,7 +45,7 @@ new class extends Component {
     <flux:text class="mt-2">{{ $poll->question }}</flux:text>
     
     <div class="mt-4">
-        <flux:button variant="ghost" href="/p/{{ $poll->ulid }}">
+        <flux:button variant="ghost" href="/p/{{ $poll->ulid }}" target="_blank">
             Share Poll
         </flux:button>
     </div>
