@@ -3,13 +3,14 @@
 use Livewire\Component;
 use App\Models\Poll;
 use Livewire\Attributes\Computed;
-use Illuminate\Support\Str;
 
 new class extends Component {
     public Poll $poll;
 
     public function mount(Poll $poll): void
     {
+        $this->authorize('view', $this->poll);
+
         $this->poll = $poll->load(['answers' => function ($query) {
             $query->orderBy('sort_order');
         }]);
@@ -68,7 +69,7 @@ new class extends Component {
                         {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }} ({{ $this->responseCounts[$answer->id]['percentage'] }}%)
                     </flux:table.cell>
                     <flux:table.cell>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="w-full bg-zinc-200 rounded-full h-2">
                             <div 
                                 class="bg-blue-600 h-2 rounded-full transition-all duration-300"
                                 style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%;"
