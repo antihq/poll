@@ -44,6 +44,12 @@ new class extends Component {
     <flux:heading size="lg">{{ $poll->name }}</flux:heading>
     <flux:text class="mt-2">{{ $poll->question }}</flux:text>
     
+    <div class="mt-4">
+        <flux:button variant="ghost" href="/p/{{ $poll->ulid }}">
+            Share Poll
+        </flux:button>
+    </div>
+    
     <flux:subheading class="mt-6">
         {{ $this->totalResponses }} {{ Str::plural('response', $this->totalResponses) }}
     </flux:subheading>
