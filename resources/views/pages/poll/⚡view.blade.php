@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use App\Models\Poll;
+use Livewire\Attributes\Computed;
 use Illuminate\Support\Str;
 
 new class extends Component {
@@ -14,12 +15,14 @@ new class extends Component {
         }]);
     }
 
-    public function getTotalResponsesProperty(): int
+    #[Computed]
+    public function totalResponses(): int
     {
         return $this->poll->pollResponses()->count();
     }
 
-    public function getResponseCountsProperty(): array
+    #[Computed]
+    public function responseCounts(): array
     {
         $counts = [];
         $totalResponses = $this->totalResponses;
