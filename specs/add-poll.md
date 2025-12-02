@@ -1,0 +1,4 @@
+- Users can create a poll for their organization by providing an internal name, a question, and answers.
+- At least two answers are required.
+- After creation, the user is redirected to the edit page.
+- Users can add new answers or delete

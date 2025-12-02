@@ -57,6 +57,11 @@ class Organization extends Model
         ]);
     }
 
+    public function polls()
+    {
+        return $this->hasMany(Poll::class);
+    }
+
     protected function casts(): array
     {
         return [

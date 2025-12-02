@@ -1,0 +1,3 @@
+- guests can view polls using /p/ulid
+- guests select their poll response and submit it
+- display a thank you message after they submit their response
