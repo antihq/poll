@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
             $table->ulid();
-            $table->foreignId('organization_id');
+            $table->foreignId('team_id');
             $table->string('name');
             $table->text('question');
             $table->timestamps();

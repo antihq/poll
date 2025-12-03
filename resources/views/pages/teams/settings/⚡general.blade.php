@@ -2,47 +2,47 @@
 
 use Livewire\Component;
 
-use App\Models\Organization;
+use App\Models\Team;
 use Flux\Flux;
 
 new class extends Component {
-    public Organization $organization;
+    public Team $team;
 
     public string $name;
 
     public function mount()
     {
-        $this->authorize('update', $this->organization);
+        $this->authorize('update', $this->team);
 
-        $this->name = $this->organization->name;
+        $this->name = $this->team->name;
     }
 
     public function edit()
     {
-        $this->authorize('update', $this->organization);
+        $this->authorize('update', $this->team);
 
         $this->validate([
             'name' => ['required'],
         ]);
 
-        $this->organization->update(['name' => $this->name]);
+        $this->team->update(['name' => $this->name]);
 
         Flux::toast(
             heading: __('Saved'),
-            text: __('Organization updated successfully.'),
+            text: __('Team updated successfully.'),
             variant: 'success'
         );
     }
 }; ?>
 
 <x-slot:breadcrumbs>
-    @include('partials.organization-settings-breadcrumbs', ['organization' => $organization, 'current' => __('General')])
-</x-slot:breadcrumbs>
+    @include('partials.team-settings-breadcrumbs', ['team' => $team, 'current' => __('General')])
+</x-slot>
 
 <div>
-    @include('partials.organization-settings-heading')
+    @include('partials.team-settings-heading')
     <div class="flex items-start max-md:flex-col">
-        @include('partials.organization-settings-sidebar', ['organization' => $organization])
+        @include('partials.team-settings-sidebar', ['team' => $team])
         <flux:separator class="md:hidden" />
         <div class="flex-1 self-stretch max-md:pt-6">
             <header>
@@ -50,10 +50,10 @@ new class extends Component {
                     {{ __('General Settings') }}
                 </flux:heading>
                 <flux:text class="mt-2">
-                    {{ __('Update your organization name below to keep your workspace up to date.') }}
+                    {{ __('Update your team name below to keep your workspace up to date.') }}
                 </flux:text>
             </header>
-            <form wire:submit="edit" class="max-w-lg space-y-6 mt-6">
+            <form wire:submit="edit" class="mt-6 max-w-lg space-y-6">
                 <flux:input wire:model="name" :label="__('Name')" />
                 <flux:button type="submit" variant="primary">
                     {{ __('Save') }}

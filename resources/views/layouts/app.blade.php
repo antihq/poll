@@ -1,10 +1,10 @@
 <x-layouts.app.header :title="$title ?? null">
-    <flux:main class="lg:bg-white dark:lg:bg-zinc-900 lg:p-10">
+    <flux:main class="lg:bg-white lg:p-10 dark:lg:bg-zinc-900">
         {{ $slot }}
     </flux:main>
 
     @auth
-        <livewire:organizations.create />
+        <livewire:teams.create />
     @endauth
 
     <flux:toast />

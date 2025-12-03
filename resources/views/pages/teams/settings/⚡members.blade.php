@@ -1,17 +1,17 @@
 <?php
 
-use Livewire\Component;
-use App\Models\Organization;
+use App\Models\Team;
+use App\Models\TeamInvitation;
 use App\Models\User;
-use App\Models\OrganizationInvitation;
+use App\Notifications\TeamInvitation as TeamInvitationNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\OrganizationInvitation as OrganizationInvitationNotification;
+use Livewire\Component;
 use Flux\Flux;
 use Illuminate\Validation\Rule;
 
 new class extends Component {
-    public Organization $organization;
+    public Team $team;
     public Collection $invitations;
     public Collection $members;
 
@@ -19,7 +19,7 @@ new class extends Component {
 
     public function mount()
     {
-        $this->authorize('manageMembers', $this->organization);
+        $this->authorize('manageMembers', $this->team);
 
         $this->invitations = $this->getInvitations();
         $this->members = $this->getMembers();
@@ -31,8 +31,8 @@ new class extends Component {
             'email' => [
                 'required',
                 'email',
-                Rule::unique('organization_invitations', 'email')->where(
-                    fn ($query) => $query->where('organization_id', $this->organization->id)
+                Rule::unique('team_invitations', 'email')->where(
+                    fn ($query) => $query->where('team_id', $this->team->id)
                 ),
             ],
         ];
@@ -42,10 +42,10 @@ new class extends Component {
     {
         $this->validate();
 
-        $invitation = $this->organization->inviteMember($this->email);
+        $invitation = $this->team->inviteMember($this->email);
 
         Notification::route('mail', $this->email)
-            ->notify(new OrganizationInvitationNotification($invitation));
+            ->notify(new TeamInvitationNotification($invitation));
 
         Flux::toast(
             heading: __('Invitation sent'),
@@ -60,18 +60,18 @@ new class extends Component {
 
     private function getInvitations(): Collection
     {
-        return $this->organization->invitations()->latest()->get();
+        return $this->team->invitations()->latest()->get();
     }
 
     public function removeMember(User $member): void
     {
-        abort_unless($this->organization->isMember($member), 403);
+        abort_unless($this->team->isMember($member), 403);
 
-        $this->organization->removeMember($member);
+        $this->team->removeMember($member);
 
         Flux::toast(
             heading: __('Member removed'),
-            text: __('The member :name was removed from the organization.', ['name' => $member->name]),
+            text: __('The member :name was removed from team.', ['name' => $member->name]),
             variant: 'success'
         );
 
@@ -80,10 +80,10 @@ new class extends Component {
 
     private function getMembers(): Collection
     {
-        return $this->organization->members()->get();
+        return $this->team->members()->get();
     }
 
-    public function revokeInvitation(OrganizationInvitation $invitation): void
+    public function revokeInvitation(TeamInvitation $invitation): void
     {
         $this->authorize('revoke', $invitation);
 
@@ -100,19 +100,19 @@ new class extends Component {
 }; ?>
 
 <x-slot:breadcrumbs>
-    @include('partials.organization-settings-breadcrumbs', ['organization' => $organization, 'current' => __('Members')])
-</x-slot:breadcrumbs>
+    @include('partials.team-settings-breadcrumbs', ['team' => $team, 'current' => __('Members')])
+</x-slot>
 
 <div>
-    @include('partials.organization-settings-heading')
+    @include('partials.team-settings-heading')
     <div class="flex items-start max-md:flex-col">
-        @include('partials.organization-settings-sidebar', ['organization' => $organization])
+        @include('partials.team-settings-sidebar', ['team' => $team])
         <flux:separator class="md:hidden" />
         <div class="flex-1 self-stretch max-md:pt-6">
             <section class="max-w-lg">
                 <header>
-                    <flux:heading>{{ __('Organization Members') }}</flux:heading>
-                    <flux:text class="mt-2">{{ __('These are all the members in your organization.') }}</flux:text>
+                    <flux:heading>{{ __('Team Members') }}</flux:heading>
+                    <flux:text class="mt-2">{{ __('These are all members in your team.') }}</flux:text>
                 </header>
                 <div class="mt-4">
                     <flux:table>
@@ -123,12 +123,15 @@ new class extends Component {
                             <flux:table.row>
                                 <flux:table.cell>
                                     <div class="flex items-center gap-2 sm:gap-4">
-                                        <flux:avatar :name="$organization->user->name" class="max-sm:size-8" circle />
+                                        <flux:avatar :name="$team->user->name" class="max-sm:size-8" circle />
                                         <div class="flex flex-col">
-                                            <flux:heading>{{ $organization->user->name }}
-                                                <flux:badge size="sm" color="yellow" class="ml-1 max-sm:hidden">{{ __('Owner') }}</flux:badge>
+                                            <flux:heading>
+                                                {{ $team->user->name }}
+                                                <flux:badge size="sm" color="yellow" class="ml-1 max-sm:hidden">
+                                                    {{ __('Owner') }}
+                                                </flux:badge>
                                             </flux:heading>
-                                            <flux:text class="max-sm:hidden">{{ $organization->user->email }}</flux:text>
+                                            <flux:text class="max-sm:hidden">{{ $team->user->email }}</flux:text>
                                         </div>
                                     </div>
                                 </flux:table.cell>
@@ -142,9 +145,9 @@ new class extends Component {
                                         <div class="flex items-center gap-2 sm:gap-4">
                                             <flux:avatar :name="$member->name" class="max-sm:size-8" circle />
                                             <div class="flex flex-col">
-                                                <flux:heading>{{ $member->name }}
+                                                <flux:heading>
+                                                    {{ $member->name }}
                                                     @if (auth()->id() === $member->id)
-
                                                     @endif
                                                 </flux:heading>
                                                 <flux:text class="max-sm:hidden">{{ $member->email }}</flux:text>
@@ -152,7 +155,11 @@ new class extends Component {
                                         </div>
                                     </flux:table.cell>
                                     <flux:table.cell align="end">
-                                        <flux:button variant="subtle" size="sm" wire:click="removeMember({{ $member->id }})">
+                                        <flux:button
+                                            variant="subtle"
+                                            size="sm"
+                                            wire:click="removeMember({{ $member->id }})"
+                                        >
                                             {{ __('Remove') }}
                                         </flux:button>
                                     </flux:table.cell>
@@ -165,9 +172,11 @@ new class extends Component {
             <section class="mt-8">
                 <header>
                     <flux:heading>{{ __('Invite Member') }}</flux:heading>
-                    <flux:text class="mt-2">{{ __('Invite a new member to your organization by entering their email address below.') }}</flux:text>
+                    <flux:text class="mt-2">
+                        {{ __('Invite a new member to your team by entering their email address below.') }}
+                    </flux:text>
                 </header>
-                <form wire:submit="sendInvitation" class="max-w-lg space-y-4 mt-4">
+                <form wire:submit="sendInvitation" class="mt-4 max-w-lg space-y-4">
                     <flux:field>
                         <flux:label>{{ __('Email address') }}</flux:label>
                         <flux:input.group>
@@ -185,10 +194,12 @@ new class extends Component {
                     </flux:field>
                 </form>
             </section>
-            <section class="max-w-lg mt-8">
+            <section class="mt-8 max-w-lg">
                 <header>
                     <flux:heading>{{ __('Pending Invitations') }}</flux:heading>
-                    <flux:text class="mt-2">{{ __('These are the invitations you have sent to join your organization. You can manage them here.') }}</flux:text>
+                    <flux:text class="mt-2">
+                        {{ __('These are invitations you have sent to join your team. You can manage them here.') }}
+                    </flux:text>
                 </header>
                 <div class="mt-4">
                     @if ($invitations->isEmpty())
@@ -203,7 +214,6 @@ new class extends Component {
                         <flux:table>
                             <flux:table.columns>
                                 <flux:table.column>{{ __('Invitation') }}</flux:table.column>
-
                             </flux:table.columns>
                             <flux:table.rows>
                                 @foreach ($invitations as $invitation)
@@ -211,7 +221,12 @@ new class extends Component {
                                         <flux:table.cell>{{ $invitation->email }}</flux:table.cell>
 
                                         <flux:table.cell align="end">
-                                            <flux:button color="danger" variant="subtle" size="sm" wire:click="revokeInvitation({{ $invitation->id }})">
+                                            <flux:button
+                                                color="danger"
+                                                variant="subtle"
+                                                size="sm"
+                                                wire:click="revokeInvitation({{ $invitation->id }})"
+                                            >
                                                 {{ __('Revoke') }}
                                             </flux:button>
                                         </flux:table.cell>

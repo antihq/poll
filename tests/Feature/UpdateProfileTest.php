@@ -4,14 +4,14 @@ use App\Models\User;
 use Livewire\Livewire;
 
 test('profile page is displayed', function () {
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
     $this->actingAs($user);
 
     $this->get('/settings/profile')->assertOk();
 });
 
 it('updates the profile information', function () {
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
     $this->actingAs($user);
 
@@ -30,7 +30,7 @@ it('updates the profile information', function () {
 });
 
 test('email verification status is unchanged when email address is unchanged', function () {
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
     $this->actingAs($user);
 

@@ -7,8 +7,8 @@ use function Pest\Laravel\actingAs;
 
 it('displays a poll', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
-    $poll = Poll::factory()->for($user->currentOrganization)->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
 
     $response = actingAs($user)->get("/polls/{$poll->id}");
 

@@ -5,12 +5,12 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Actions\Logout;
-use App\Models\Organization;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
 
 new #[Layout('layouts::simple')] class extends Component {
-    public Collection $organizations;
-    public ?int $selectedOrganizationId;
+    public Collection $teams;
+    public ?int $selectedTeamId;
 
     #[Computed]
     public function user() {
@@ -19,35 +19,35 @@ new #[Layout('layouts::simple')] class extends Component {
 
     public function mount()
     {
-        $this->organizations = $this->user->allOrganizations();
-        $this->selectedOrganizationId = $this->user->currentOrganization?->id;
+        $this->teams = $this->user->allTeams();
+        $this->selectedTeamId = $this->user->currentTeam?->id;
 
-        if ($this->user->currentOrganization->subscribed('default')) {
+        if ($this->user->currentTeam->subscribed('default')) {
             $this->redirect(route('dashboard'), navigate: true);
         }
     }
 
-    public function switchOrganization(Organization $organization)
+    public function switchTeam(Team $team)
     {
-        $this->authorize('switch', $organization);
+        $this->authorize('switch', $team);
 
-        $this->user->switchOrganization($organization);
+        $this->user->switchTeam($team);
 
-        if ($organization->subscribed('default')) {
+        if ($team->subscribed('default')) {
             $this->redirect(route('dashboard'), navigate: true);
         }
     }
 
-    public function updatedSelectedOrganizationId(Organization $organization)
+    public function updatedSelectedTeamId(Team $team)
     {
-        $this->switchOrganization($organization);
+        $this->switchTeam($team);
     }
 
     public function goToCheckout()
     {
         $stripePriceId = config('services.stripe.price_id');
 
-        $this->redirect($this->user->currentOrganization->newSubscription('default', $stripePriceId)
+        $this->redirect($this->user->currentTeam->newSubscription('default', $stripePriceId)
             ->trialDays(31)
             ->checkout([
                 'success_url' => route('settings.profile'),
@@ -62,15 +62,15 @@ new #[Layout('layouts::simple')] class extends Component {
     }
 }; ?>
 
-<div class="mx-auto max-w-sm h-full flex flex-col gap-6 justify-center">
+<div class="mx-auto flex h-full max-w-sm flex-col justify-center gap-6">
     <div class="flex justify-center">
         <flux:dropdown position="bottom" align="center">
-            <flux:profile :name="$this->user->currentOrganization->name" />
+            <flux:profile :name="$this->user->currentTeam->name" />
             <flux:menu>
-                <flux:menu.radio.group wire:model.live="selectedOrganizationId">
-                    @foreach($organizations as $organization)
-                        <flux:menu.radio :value="$organization->id">
-                            {{ $organization->name }}
+                <flux:menu.radio.group wire:model.live="selectedTeamId">
+                    @foreach ($teams as $team)
+                        <flux:menu.radio :value="$team->id">
+                            {{ $team->name }}
                         </flux:menu.radio>
                     @endforeach
                 </flux:menu.radio.group>
@@ -84,7 +84,7 @@ new #[Layout('layouts::simple')] class extends Component {
         <flux:button wire:click="goToCheckout" variant="primary" class="w-full">
             {{ __('Proceed to Checkout') }}
         </flux:button>
-        <flux:link class="text-sm cursor-pointer" wire:click="logout">
+        <flux:link class="cursor-pointer text-sm" wire:click="logout">
             {{ __('Log out') }}
         </flux:link>
     </div>

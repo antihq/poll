@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Answer;
-use App\Models\Organization;
 use App\Models\Poll;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,7 +22,7 @@ class PollFactory extends Factory
     {
         return [
             'ulid' => Str::ulid(),
-            'organization_id' => Organization::factory(),
+            'team_id' => Team::factory(),
             'name' => fake()->sentence(3),
             'question' => fake()->sentence().'?',
         ];

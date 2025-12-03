@@ -2,36 +2,36 @@
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Organization;
+use App\Models\Team;
 
 new class extends Component {
     public string $name = '';
 
     public function create()
     {
-        $this->authorize('create', Organization::class);
+        $this->authorize('create', Team::class);
 
         $this->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
 
-        $organization = Auth::user()->organizations()->create([
+        $team = Auth::user()->teams()->create([
             'name' => $this->name,
         ]);
 
-        Auth::user()->switchOrganization($organization);
+        Auth::user()->switchTeam($team);
 
         return $this->redirect(route('dashboard'), navigate: true);
     }
 }; ?>
 
-<flux:modal name="create-organization" class="md:w-96">
+<flux:modal name="create-team" class="md:w-96">
     <form wire:submit="create" class="space-y-6">
         <div>
-            <flux:heading size="lg">{{ __('Create Organization') }}</flux:heading>
-            <flux:text class="mt-2">{{ __('Enter a name for your new organization.') }}</flux:text>
+            <flux:heading size="lg">{{ __('Create Team') }}</flux:heading>
+            <flux:text class="mt-2">{{ __('Enter a name for your new team.') }}</flux:text>
         </div>
-        <flux:input :label="__('Organization Name')" :placeholder="__('Acme Inc')" wire:model="name" />
+        <flux:input :label="__('Team Name')" :placeholder="__('Acme Inc')" wire:model="name" />
 
         <div class="flex gap-2">
             <flux:spacer />

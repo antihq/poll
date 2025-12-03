@@ -39,7 +39,7 @@ new class extends Component {
             'ulid' => Str::ulid(),
             'name' => $this->name,
             'question' => $this->question,
-            'organization_id' => $user->currentOrganization->id,
+            'team_id' => $user->currentTeam->id,
         ]);
 
         foreach (array_filter($this->answers, fn ($answer) => trim($answer) !== '') as $index => $answerText) {
@@ -55,13 +55,7 @@ new class extends Component {
 }; ?>
 
 <div class="mx-auto max-w-[512px]">
-    <flux:link
-        href="/polls"
-        class="inline-flex items-center gap-2 text-sm"
-        variant="subtle"
-        inline
-        wire:navigate
-    >
+    <flux:link href="/polls" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
         <flux:icon.chevron-left variant="micro" />
         Polls
     </flux:link>
@@ -70,16 +64,12 @@ new class extends Component {
 
     <form wire:submit="create">
         <flux:heading class="text-xl">Add a poll</flux:heading>
-        <flux:text class="mt-2">Create a new poll for your organization.</flux:text>
+        <flux:text class="mt-2">Create a new poll for your team.</flux:text>
 
         <flux:spacer class="mt-10" />
 
         <div class="space-y-6">
-            <flux:input
-                label="Poll name"
-                placeholder="Team Satisfaction Survey"
-                wire:model="name"
-            />
+            <flux:input label="Poll name" placeholder="Team Satisfaction Survey" wire:model="name" />
 
             <flux:textarea
                 label="Question"
@@ -93,7 +83,7 @@ new class extends Component {
                     <flux:text class="text-sm text-gray-600">Add at least 2 answers for your poll</flux:text>
 
                     @foreach ($answers as $index => $answer)
-                        <div class="flex items-center gap-2 mt-2">
+                        <div class="mt-2 flex items-center gap-2">
                             <flux:input
                                 wire:model="answers.{{ $index }}"
                                 placeholder="Answer {{ $index + 1 }}"
@@ -114,13 +104,7 @@ new class extends Component {
                         </div>
                     @endforeach
 
-                    <flux:button
-                        type="button"
-                        size="sm"
-                        wire:click="addAnswer"
-                        class="mt-3"
-                        icon="plus"
-                    >
+                    <flux:button type="button" size="sm" wire:click="addAnswer" class="mt-3" icon="plus">
                         Add answer
                     </flux:button>
                 </flux:field>

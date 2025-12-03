@@ -6,18 +6,16 @@ use App\Models\User;
 
 use function Pest\Laravel\actingAs;
 
-it('displays a list of polls for the current organization', function () {
+it('displays a list of polls for the current team', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
-    $poll1 = Poll::factory()->for($user->currentOrganization)->create(['name' => 'First Poll']);
-    $poll2 = Poll::factory()->for($user->currentOrganization)->create(['name' => 'Second Poll']);
-
+    $poll1 = Poll::factory()->for($user->currentTeam)->create(['name' => 'First Poll']);
+    $poll2 = Poll::factory()->for($user->currentTeam)->create(['name' => 'Second Poll']);
     PollResponse::factory()->count(3)->for($poll1)->create();
     PollResponse::factory()->count(5)->for($poll2)->create();
 
     $response = actingAs($user)->get('/polls/');
-
     $response->assertSuccessful();
     $response->assertSee('First Poll');
     $response->assertSee('Second Poll');
@@ -25,31 +23,32 @@ it('displays a list of polls for the current organization', function () {
     $response->assertSee('5');
 });
 
-it('only shows polls from the current organization', function () {
+it('only shows polls from the current team', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
-    /** @var User $otherUser */
-    $otherUser = User::factory()->withPersonalOrganizationAndSubscription()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
-    Poll::factory()->for($user->currentOrganization)->create(['name' => 'My Poll']);
-    Poll::factory()->for($otherUser->currentOrganization)->create(['name' => 'Other Poll']);
+    $poll1 = Poll::factory()->for($user->currentTeam)->create(['name' => 'My Poll']);
+    PollResponse::factory()->count(2)->for($poll1)->create();
 
     $response = actingAs($user)->get('/polls/');
-
     $response->assertSuccessful();
     $response->assertSee('My Poll');
-    $response->assertDontSee('Other Poll');
+    $response->assertSee('2');
+    $response->assertDontSee('First Poll');
+    $response->assertDontSee('Second Poll');
 });
 
 it('displays zero responses for polls with no responses', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
-    Poll::factory()->for($user->currentOrganization)->create(['name' => 'Empty Poll']);
+    $poll = Poll::factory()->for($user->currentTeam)->create(['name' => 'Empty Poll']);
+
+    PollResponse::factory()->count(0)->for($poll)->create();
 
     $response = actingAs($user)->get('/polls/');
-
     $response->assertSuccessful();
     $response->assertSee('Empty Poll');
     $response->assertSee('0');
 });
+

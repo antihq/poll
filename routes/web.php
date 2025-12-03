@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\OrganizationInvitationAcceptController;
 use App\Http\Middleware\EnsureUserIsSubscribed;
 use Illuminate\Support\Facades\Route;
 
@@ -29,16 +28,16 @@ Route::middleware(['auth'])->group(function () {
     Route::livewire('settings/password', 'pages::settings.password')->name('settings.password');
     Route::livewire('settings/appearance', 'pages::settings.appearance')->name('settings.appearance');
 
-    Route::livewire('organizations/{organization}/settings/members', 'pages::organizations.settings.members')
-        ->name('organizations.settings.members');
-    Route::livewire('organizations/{organization}/settings/general', 'pages::organizations.settings.general')
-        ->name('organizations.settings.general');
-    Route::livewire('organizations/{organization}', 'pages::organizations.settings.general')
-        ->name('organizations.show');
+    Route::livewire('teams/{team}/settings/members', 'pages::teams.settings.members')
+        ->name('teams.settings.members');
+    Route::livewire('teams/{team}/settings/general', 'pages::teams.settings.general')
+        ->name('teams.settings.general');
+    Route::livewire('teams/{team}', 'pages::teams.settings.general')
+        ->name('teams.show');
 
-    Route::get('organizations/invitations/{invitation}/accept', OrganizationInvitationAcceptController::class)
+    Route::get('teams/invitations/{invitation}/accept', \App\Http\Controllers\TeamInvitationAcceptController::class)
         ->middleware('signed')
-        ->name('organizations.invitations.accept');
+        ->name('teams.invitations.accept');
 });
 
 require __DIR__.'/auth.php';

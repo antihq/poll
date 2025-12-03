@@ -8,9 +8,9 @@ use Laravel\Cashier\Subscription;
 use Laravel\Cashier\SubscriptionItem;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Organization>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Team>
  */
-class OrganizationFactory extends Factory
+class TeamFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -26,13 +26,13 @@ class OrganizationFactory extends Factory
     }
 
     /**
-     * Indicate that the organization has an active subscription.
+     * Indicate that the team has an active subscription.
      */
     public function withSubscription(array $overrides = []): static
     {
-        return $this->afterCreating(function ($organization) use ($overrides) {
+        return $this->afterCreating(function ($team) use ($overrides) {
             $subscription = Subscription::factory()
-                ->for($organization, 'owner')
+                ->for($team, 'owner')
                 ->state($overrides)
                 ->create();
 
