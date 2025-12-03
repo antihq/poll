@@ -19,23 +19,10 @@
                     <div class="pt-20 pb-16 sm:pt-32 sm:pb-20 lg:py-20">
                         <div class="relative">
                             <div>
-                                <a href="/" class="flex items-baseline gap-4" wire:navigate>
-                                    <svg
-                                        class="inline-block h-8 w-auto"
-                                        width="32"
-                                        height="32"
-                                        viewBox="0 0 32 32"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path d="M21.3333 10.6667V0H0V10.6667L21.3333 10.6667Z" fill="#EAAA08" />
-                                        <path
-                                            d="M21.3329 21.3332C15.4419 21.3332 10.6662 26.1089 10.6662 31.9999L0.00130319 32.0003L0.00130319 31.725C0.147896 20.1153 9.56836 10.7403 21.1956 10.667L32 10.6675V32.0008H21.3333L21.3329 21.3332Z"
-                                            fill="#EAAA08"
-                                        />
-                                    </svg>
+                                <a href="/" class="flex items-center gap-4" wire:navigate>
+                                    <x-logo class="h-8 w-auto inline-block" />
                                     <span
-                                        class="text-2xl leading-none font-semibold tracking-tight text-zinc-800 dark:text-white"
+                                        class="text-2xl leading-none font-semibold tracking-tight text-zinc-800 dark:text-white mt-1"
                                     >
                                         Antipoll
                                     </span>
