@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 dark antialiased">
+<html
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="dark antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950"
+>
     <head>
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
-        <flux:header class="lg:border-b border-zinc-200 dark:border-zinc-700">
+        <flux:header class="border-zinc-200 lg:border-b dark:border-zinc-700">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" size="sm" />
 
-            <a href="{{ route('dashboard') }}" class="max-lg:hidden mr-5">
+            <a href="{{ route('dashboard') }}" class="mr-5 max-lg:hidden">
                 <x-logo class="h-6" />
             </a>
 
             @auth
-                <div class="max-lg:hidden flex items-center h-full">
+                <div class="flex h-full items-center max-lg:hidden">
                     <livewire:organizations-dropdown />
-                    <flux:separator vertical class="my-5 mx-1" />
+                    <flux:separator vertical class="mx-1 my-5" />
                 </div>
             @endauth
 
@@ -33,13 +36,26 @@
                     </flux:button>
 
                     <flux:menu>
-                        <flux:menu.item :href="route('settings.profile')" icon="cog-8-tooth" icon:variant="micro" wire:navigate>{{ __('Settings') }}</flux:menu.item>
+                        <flux:menu.item
+                            :href="route('settings.profile')"
+                            icon="cog-8-tooth"
+                            icon:variant="micro"
+                            wire:navigate
+                        >
+                            {{ __('Settings') }}
+                        </flux:menu.item>
 
                         <flux:menu.separator />
 
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
-                            <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" icon:variant="micro" class="w-full">
+                            <flux:menu.item
+                                as="button"
+                                type="submit"
+                                icon="arrow-right-start-on-rectangle"
+                                icon:variant="micro"
+                                class="w-full"
+                            >
                                 {{ __('Log Out') }}
                             </flux:menu.item>
                         </form>
@@ -51,10 +67,16 @@
         </flux:header>
 
         <!-- Mobile Menu -->
-        <flux:sidebar stashable sticky class="lg:hidden border-e border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+        <flux:sidebar
+            stashable
+            sticky
+            class="border-e border-zinc-200 bg-white lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
+        >
             <flux:sidebar.header>
                 <a href="{{ route('home') }}" class="ms-2"><x-logo class="h-6" /></a>
-                <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
+                <flux:sidebar.collapse
+                    class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"
+                />
             </flux:sidebar.header>
 
             @auth
@@ -72,20 +94,15 @@
 
         {{ $slot }}
 
-        <flux:footer class="lg:border-t border-zinc-200 dark:border-zinc-700">
-            <div>
-                <flux:text class="text-sm/6">
-                    Built with
-                    <flux:icon.heart variant="micro" class="inline" />
-                    by
-                    <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
-                </flux:text>
-                <flux:text class="mt-6 lg:mt-8 text-sm/6">
-                    &copy; {{ date('Y') }} Anti Software. All rights reserved. Problems or questions? Contact <
-                    <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
-                    >.
-                </flux:text>
-            </div>
+        <flux:footer class="border-zinc-200 lg:border-t dark:border-zinc-700">
+            <flux:text class="text-sm/6">
+                <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
+                is designed, built, and backed by
+                <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
+                . Problems or questions? Contact
+                <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
+                .
+            </flux:text>
         </flux:footer>
 
         @fluxScripts

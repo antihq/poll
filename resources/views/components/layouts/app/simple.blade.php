@@ -6,7 +6,7 @@
     <body class="min-h-screen bg-white dark:bg-zinc-900">
         <flux:header>
             <flux:spacer />
-            <flux:brand href="/" :name="config('app.name')">
+            <flux:brand href="/" :name="config('app.name')" wire:navigate>
                 <x-slot name="logo">
                     <x-logo class="h-6" />
                 </x-slot>
@@ -17,19 +17,14 @@
         {{ $slot }}
 
         <flux:footer>
-            <div class="text-center">
-                <flux:text class="text-sm/6">
-                    Built with
-                    <flux:icon.heart variant="micro" class="inline" />
-                    by
-                    <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
-                </flux:text>
-                <flux:text class="mt-6 lg:mt-8 text-sm/6">
-                    &copy; {{ date('Y') }} Anti Software. All rights reserved. Problems or questions? Contact <
-                    <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
-                    >.
-                </flux:text>
-            </div>
+            <flux:text class="text-sm/6 text-center">
+                <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
+                is designed, built, and backed by
+                <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
+                . Problems or questions? Contact
+                <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
+                .
+            </flux:text>
         </flux:footer>
 
         @fluxScripts
