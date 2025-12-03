@@ -82,7 +82,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
             Auth::login($user);
 
-            $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+            $this->redirectIntended('/dashboard', navigate: true);
 
             return;
         }
@@ -163,7 +163,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
         <flux:text class="space-x-1 text-center rtl:space-x-reverse">
             <span>Already have an account?</span>
-            <flux:link :href="route('login')" wire:navigate>Log in</flux:link>
+            <flux:link href="/login" wire:navigate>Log in</flux:link>
         </flux:text>
     @else
         <!-- OTP Verification Form -->

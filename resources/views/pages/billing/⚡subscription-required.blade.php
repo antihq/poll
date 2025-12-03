@@ -23,7 +23,7 @@ new #[Layout('layouts::simple')] class extends Component {
         $this->selectedTeamId = $this->user->currentTeam?->id;
 
         if ($this->user->currentTeam->subscribed('default')) {
-            $this->redirect(route('dashboard'), navigate: true);
+            $this->redirect('/dashboard', navigate: true);
         }
     }
 
@@ -34,7 +34,7 @@ new #[Layout('layouts::simple')] class extends Component {
         $this->user->switchTeam($team);
 
         if ($team->subscribed('default')) {
-            $this->redirect(route('dashboard'), navigate: true);
+            $this->redirect('/dashboard', navigate: true);
         }
     }
 
@@ -50,8 +50,8 @@ new #[Layout('layouts::simple')] class extends Component {
         $this->redirect($this->user->currentTeam->newSubscription('default', $stripePriceId)
             ->trialDays(31)
             ->checkout([
-                'success_url' => route('settings.profile'),
-                'cancel_url' => route('subscription-required'),
+                'success_url' => '/settings/profile',
+                'cancel_url' => '/subscription-required',
             ])->asStripeCheckoutSession()->url, navigate: false);
     }
 
@@ -77,13 +77,9 @@ new #[Layout('layouts::simple')] class extends Component {
             </flux:menu>
         </flux:dropdown>
     </div>
-    <flux:text class="text-center">
-        You need to subscribe to our service to continue.
-    </flux:text>
+    <flux:text class="text-center">You need to subscribe to our service to continue.</flux:text>
     <div class="flex flex-col items-center justify-between space-y-3">
-        <flux:button wire:click="goToCheckout" variant="primary" class="w-full">
-            Proceed to Checkout
-        </flux:button>
+        <flux:button wire:click="goToCheckout" variant="primary" class="w-full">Proceed to Checkout</flux:button>
         <flux:link class="cursor-pointer text-sm" wire:click="logout">Log out</flux:link>
     </div>
 </div>

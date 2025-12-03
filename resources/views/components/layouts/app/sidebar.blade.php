@@ -12,16 +12,14 @@
             <livewire:teams-dropdown />
 
             <flux:sidebar.nav>
-                <flux:sidebar.item icon="home" :href="route('dashboard')" wire:navigate>
-                    Dashboard
-                </flux:sidebar.item>
+                <flux:sidebar.item icon="home" href="/dashboard" wire:navigate>Dashboard</flux:sidebar.item>
             </flux:sidebar.nav>
 
             @can('update', auth()->user()->currentTeam)
                 <flux:sidebar.nav>
                     <flux:sidebar.group heading="Team">
                         <flux:sidebar.item
-                            :href="route('teams.settings.general', auth()->user()->currentTeam)"
+                            :href="'/teams/' . auth()->user()->currentTeam->id . '/settings/general'"
                             icon="cog-6-tooth"
                             wire:navigate
                         >
@@ -60,14 +58,12 @@
                     <flux:menu.separator />
 
                     <flux:menu.radio.group>
-                        <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>
-                            Settings
-                        </flux:menu.item>
+                        <flux:menu.item href="/settings/profile" icon="cog" wire:navigate>Settings</flux:menu.item>
                     </flux:menu.radio.group>
 
                     <flux:menu.separator />
 
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    <form method="POST" action="/logout" class="w-full">
                         @csrf
                         <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
                             Log Out

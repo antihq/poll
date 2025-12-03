@@ -8,7 +8,7 @@ new class extends Component {
     {
         $user = Auth::user();
 
-        return $this->redirect($user->billingPortalUrl(route('dashboard')), navigate: false);
+        return $this->redirect($user->billingPortalUrl('/dashboard'), navigate: false);
     }
 }; ?>
 

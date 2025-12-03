@@ -27,7 +27,7 @@ new class extends Component {
     {
         $this->authorize('switch', $team);
         $this->user->switchTeam($team);
-        $this->redirectRoute('dashboard', navigate: true);
+        $this->redirect('/dashboard', navigate: true);
     }
 
     public function updatedSelectedTeamId(Team $team)
@@ -37,7 +37,7 @@ new class extends Component {
 }; ?>
 
 <flux:button.group>
-    <flux:button :href="route('dashboard')" variant="subtle" size="sm" wire:navigate>
+    <flux:button href="/dashboard" variant="subtle" size="sm" wire:navigate>
         <flux:avatar size="xs" :name="$currentTeam?->name" color="auto" initials:single class="-ml-2" />
         {{ $currentTeam->name }}
     </flux:button>

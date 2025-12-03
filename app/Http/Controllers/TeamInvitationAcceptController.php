@@ -17,6 +17,6 @@ class TeamInvitationAcceptController extends Controller
         $invitation->delete();
         $user->switchTeam($team);
 
-        return redirect()->route('dashboard');
+        return redirect('/dashboard');
     }
 }

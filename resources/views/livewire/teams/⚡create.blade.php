@@ -21,7 +21,7 @@ new class extends Component {
 
         Auth::user()->switchTeam($team);
 
-        return $this->redirect(route('dashboard'), navigate: true);
+        return $this->redirect('/dashboard', navigate: true);
     }
 }; ?>
 

@@ -20,7 +20,7 @@ it('creates a new team for user with valid data', function () {
     $team = $user->teams()->where('name', $teamName)->first();
     expect($team)->not->toBeNull();
     expect($user->currentTeam->is($team))->toBeTrue();
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect('/dashboard');
 });
 
 it('shows validation errors for missing or invalid team name', function () {

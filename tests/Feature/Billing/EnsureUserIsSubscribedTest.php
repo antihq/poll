@@ -16,5 +16,5 @@ it('redirects unsubscribed users to the subscription-required page when accessin
 
     actingAs($user)
         ->get('/dashboard')
-        ->assertRedirect(route('subscription-required'));
+        ->assertRedirect('/subscription-required');
 });

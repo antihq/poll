@@ -58,7 +58,7 @@ new class extends Component {
         $user = Auth::user();
 
         if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false));
+            $this->redirectIntended(default: '/dashboard');
 
             return;
         }
@@ -110,9 +110,7 @@ new class extends Component {
                     <flux:button variant="primary" type="submit" class="w-full">Save</flux:button>
                 </div>
 
-                <x-action-message class="me-3" on="profile-updated">
-                    Saved.
-                </x-action-message>
+                <x-action-message class="me-3" on="profile-updated">Saved.</x-action-message>
             </div>
         </form>
     </x-settings.layout>

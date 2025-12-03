@@ -18,7 +18,7 @@ test('switching to a subscribed team redirects to dashboard', function () {
 
     Livewire::actingAs($user)->test('pages::billing.subscription-required')
         ->call('switchTeam', $subscribedTeam)
-        ->assertRedirect(route('dashboard'));
+        ->assertRedirect('/dashboard');
 });
 
 test('switching to a non-subscribed team stays on the page', function () {

@@ -57,7 +57,7 @@ it('authenticates users with valid OTP', function () {
 
     $response
         ->assertHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect('/dashboard');
 
     assertAuthenticated();
 });

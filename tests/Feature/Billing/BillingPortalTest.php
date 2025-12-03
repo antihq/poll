@@ -13,5 +13,5 @@ it('redirects unsubscribed users to the dashboard when accessing the billing por
 
     $response = actingAs($user)->get('/billing-portal');
 
-    $response->assertRedirect(route('subscription-required'));
+    $response->assertRedirect('/subscription-required');
 });

@@ -15,7 +15,7 @@ it('allows user to switch teams from the dropdown', function () {
     Livewire::actingAs($user)
         ->test('teams-dropdown')
         ->call('switchTeam', $teamB->id)
-        ->assertRedirect(route('dashboard'));
+        ->assertRedirect('/dashboard');
 
     expect($user->fresh()->currentTeam->is($teamB))->toBeTrue();
 });
@@ -32,7 +32,7 @@ it('allows user to switch to a team they are a member of', function () {
     Livewire::actingAs($member)
         ->test('teams-dropdown')
         ->call('switchTeam', $team->id)
-        ->assertRedirect(route('dashboard'));
+        ->assertRedirect('/dashboard');
 
     expect($member->fresh()->currentTeam->is($team))->toBeTrue();
 });

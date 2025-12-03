@@ -72,7 +72,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
             Auth::login($user);
 
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+            $this->redirectIntended(default: '/dashboard', navigate: true);
             return;
         }
 
@@ -131,12 +131,10 @@ new #[Layout('layouts::simple')] class extends Component {
             <flux:button variant="primary" type="submit" class="w-full">Send One-Time Password</flux:button>
         </form>
 
-        @if (Route::has('register'))
-            <flux:text class="space-x-1 text-center rtl:space-x-reverse">
-                <span>Don't have an account?</span>
-                <flux:link :href="route('register')" wire:navigate>Sign up</flux:link>
-            </flux:text>
-        @endif
+        <flux:text class="space-x-1 text-center rtl:space-x-reverse">
+            <span>Don't have an account?</span>
+            <flux:link href="/register" wire:navigate>Sign up</flux:link>
+        </flux:text>
     @else
         <!-- OTP Form -->
         <form wire:submit="login" class="space-y-6">

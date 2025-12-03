@@ -21,5 +21,5 @@ it('allows a user to accept a team invitation and join', function () {
     expect($team->members()->where('user_id', $invitedUser->id)->exists())->toBeTrue();
     expect($invitedUser->refresh()->currentTeam->is($team))->toBeTrue();
     expect(TeamInvitation::find($invitation->id))->toBeNull();
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect('/dashboard');
 });

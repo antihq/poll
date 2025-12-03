@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TeamInvitationAcceptController;
 use App\Http\Middleware\EnsureUserIsSubscribed;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ Route::livewire('changelog/', 'pages::changelog');
 Route::livewire('p/{poll:ulid}', 'pages::p.show');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
-    Route::redirect('dashboard', 'polls');
+    Route::redirect('dashboard', 'polls')->name('dashboard');
 
     Route::livewire('polls/', 'pages::polls.index');
     Route::livewire('polls/create', 'pages::polls.create');
@@ -24,18 +25,15 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
-    Route::livewire('settings/profile', 'pages::settings.profile')->name('settings.profile');
-    Route::livewire('settings/password', 'pages::settings.password')->name('settings.password');
-    Route::livewire('settings/appearance', 'pages::settings.appearance')->name('settings.appearance');
+    Route::livewire('settings/profile', 'pages::settings.profile');
+    Route::livewire('settings/password', 'pages::settings.password');
+    Route::livewire('settings/appearance', 'pages::settings.appearance');
 
-    Route::livewire('teams/{team}/settings/members', 'pages::teams.settings.members')
-        ->name('teams.settings.members');
-    Route::livewire('teams/{team}/settings/general', 'pages::teams.settings.general')
-        ->name('teams.settings.general');
-    Route::livewire('teams/{team}', 'pages::teams.settings.general')
-        ->name('teams.show');
+    Route::livewire('teams/{team}/settings/members', 'pages::teams.settings.members');
+    Route::livewire('teams/{team}/settings/general', 'pages::teams.settings.general');
+    Route::livewire('teams/{team}', 'pages::teams.settings.general');
 
-    Route::get('teams/invitations/{invitation}/accept', \App\Http\Controllers\TeamInvitationAcceptController::class)
+    Route::get('teams/invitations/{invitation}/accept', TeamInvitationAcceptController::class)
         ->middleware('signed')
         ->name('teams.invitations.accept');
 });

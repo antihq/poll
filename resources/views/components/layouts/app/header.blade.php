@@ -32,18 +32,13 @@
                     </flux:button>
 
                     <flux:menu>
-                        <flux:menu.item
-                            :href="route('settings.profile')"
-                            icon="cog-8-tooth"
-                            icon:variant="micro"
-                            wire:navigate
-                        >
+                        <flux:menu.item href="/settings/profile" icon="cog-8-tooth" icon:variant="micro" wire:navigate>
                             Settings
                         </flux:menu.item>
 
                         <flux:menu.separator />
 
-                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                        <form method="POST" action="/logout" class="w-full">
                             @csrf
                             <flux:menu.item
                                 as="button"
@@ -58,7 +53,7 @@
                     </flux:menu>
                 </flux:dropdown>
             @else
-                <flux:button :href="route('dashboard')" variant="subtle">Account</flux:button>
+                <flux:button href="/dashboard" variant="subtle">Account</flux:button>
             @endauth
         </flux:header>
 
