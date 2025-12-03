@@ -16,6 +16,7 @@
 
             <flux:navbar>
                 <flux:navbar.item href="/docs" :accent="false" wire:navigate>Docs</flux:navbar.item>
+                <flux:navbar.item href="/changelog" :accent="false" wire:navigate>Changelog</flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
