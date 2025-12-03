@@ -42,7 +42,7 @@ it('creates a new poll for the organization with valid data', function () {
     $answerTexts = $poll->answers->pluck('text')->toArray();
     expect($answerTexts)->toBe($pollData['answers']);
 
-    $component->assertRedirect('/polls/1/edit');
+    $component->assertRedirect('/polls/1');
 });
 
 it('shows validation errors when less than two answers are provided', function () {
@@ -99,7 +99,7 @@ it('can add and remove answers dynamically', function () {
         ->call('create');
 
     $component->assertHasNoErrors();
-    $component->assertRedirect('/polls/1/edit');
+    $component->assertRedirect('/polls/1');
 
     $poll = Poll::first();
     expect($poll->name)->toBe('Dynamic Poll');

@@ -50,7 +50,7 @@ new class extends Component {
             ]);
         }
 
-        $this->redirect("polls/{$poll->id}/edit", navigate: true);
+        $this->redirect("/polls/{$poll->id}", navigate: true);
     }
 }; ?>
 

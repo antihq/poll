@@ -17,7 +17,7 @@ new #[Layout('layouts::site')] class extends Component
             <flux:heading size="lg" level="2">1. Create Your First Poll</flux:heading>
             <flux:text class="mt-6 text-base">
                 Navigate to
-                <flux:link href="/polls/create">/polls/create</flux:link>
+                <flux:link href="/polls/create" wire:navigate>/polls/create</flux:link>
                 to create your first poll. You'll need to provide:
             </flux:text>
             <ul class="mt-4 ml-4 list-inside list-disc space-y-2">
