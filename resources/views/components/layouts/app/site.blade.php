@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="dark antialiased dark:bg-zinc-900"
+>
+    <head>
+        @include('partials.head')
+    </head>
+    <body class="min-h-screen bg-white dark:bg-zinc-900">
+        <flux:header container>
+            <flux:brand href="/" :name="config('app.name')" wire:navigate>
+                <x-slot name="logo">
+                    <x-logo class="h-6" />
+                </x-slot>
+            </flux:brand>
+
+            <flux:spacer />
+
+            <div class="flex items-center gap-x-5 md:gap-x-8">
+                <flux:button href="/login" variant="subtle" wire:navigate>Sign in</flux:button>
+
+                <flux:button href="/register" variant="primary" wire:navigate>Get started today</flux:button>
+            </div>
+        </flux:header>
+
+        {{ $slot }}
+
+        <flux:footer container class="border-zinc-200 lg:border-t dark:border-zinc-700">
+            <flux:text class="text-sm/6">
+                <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
+                is designed, built, and backed by
+                <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
+                . Problems or questions? Contact
+                <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
+                .
+            </flux:text>
+        </flux:footer>
+
+        @fluxScripts
+    </body>
+</html>
