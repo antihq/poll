@@ -21,7 +21,7 @@
             <flux:spacer />
 
             <div class="flex items-center gap-x-5 md:gap-x-8">
-                <flux:button href="/login" variant="subtle" wire:navigate>Sign in</flux:button>
+                <flux:button href="/login" variant="subtle" wire:navigate class="max-lg:hidden">Sign in</flux:button>
 
                 <flux:button href="/register" variant="primary" wire:navigate>Get started today</flux:button>
             </div>
