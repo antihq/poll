@@ -9,7 +9,7 @@ use function Pest\Laravel\get;
 
 it('creates a new poll for the organization with valid data', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
 
     $pollData = [
         'name' => 'Team Satisfaction Survey',
@@ -47,7 +47,7 @@ it('creates a new poll for the organization with valid data', function () {
 
 it('shows validation errors when less than two answers are provided', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', 'Test Poll')
@@ -74,7 +74,7 @@ it('redirects guests to login page', function () {
 
 it('can add and remove answers dynamically', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', 'Dynamic Poll')

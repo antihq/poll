@@ -1,0 +1,3 @@
+- `/polls/`
+- Show a table of all polls for the current organization
+- The table contains the poll name and the number of responses

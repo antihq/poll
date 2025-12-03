@@ -11,7 +11,11 @@ Route::get('/', function () {
 Route::livewire('p/{poll:ulid}', 'pages::p.show')->name('polls.show');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::redirect('dashboard', 'polls')->name('dashboard');
+
+    Route::livewire('polls/', 'pages::polls.index');
+    Route::livewire('polls/create', 'pages::polls.create');
+    Route::livewire('polls/{poll}', 'pages::polls.show');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -27,9 +31,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('organizations.settings.general');
     Route::livewire('organizations/{organization}', 'pages::organizations.settings.general')
         ->name('organizations.show');
-
-    Route::livewire('polls/create', 'pages::polls.create');
-    Route::livewire('poll/{poll}', 'pages::poll.view')->name('poll.view');
 
     Route::get('organizations/invitations/{invitation}/accept', OrganizationInvitationAcceptController::class)
         ->middleware('signed')
