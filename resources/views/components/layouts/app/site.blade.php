@@ -34,8 +34,8 @@
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by
                 <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
-                . Problems or questions? Contact
-                <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
+                . Need help? Send me an email
+                <flux:link href="mailto:oliver@antihq.com" :accent="false">oliver@antihq.com</flux:link>
                 .
             </flux:text>
         </flux:footer>

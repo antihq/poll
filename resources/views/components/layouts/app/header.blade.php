@@ -10,10 +10,6 @@
         <flux:header class="border-zinc-200 lg:border-b dark:border-zinc-700">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" size="sm" />
 
-            <a href="{{ route('dashboard') }}" class="mr-5 max-lg:hidden">
-                <x-logo class="h-6" />
-            </a>
-
             @auth
                 <div class="flex h-full items-center max-lg:hidden">
                     <livewire:organizations-dropdown />
@@ -99,8 +95,8 @@
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by
                 <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
-                . Problems or questions? Contact
-                <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
+                . Need help? Send me an email
+                <flux:link href="mailto:oliver@antihq.com" :accent="false">oliver@antihq.com</flux:link>
                 .
             </flux:text>
         </flux:footer>
