@@ -69,15 +69,12 @@
             class="border-e border-zinc-200 bg-white lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
         >
             <flux:sidebar.header>
-                <a href="{{ route('home') }}" class="ms-2"><x-logo class="h-6" /></a>
+                <livewire:organizations-dropdown />
+
                 <flux:sidebar.collapse
                     class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"
                 />
             </flux:sidebar.header>
-
-            @auth
-                <livewire:organizations-dropdown />
-            @endauth
 
             <flux:separator variant="subtle" />
 
