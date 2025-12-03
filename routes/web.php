@@ -8,7 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::livewire('p/{poll:ulid}', 'pages::p.show')->name('polls.show');
+Route::livewire('docs/', 'pages::docs.index');
+
+Route::livewire('p/{poll:ulid}', 'pages::p.show');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::redirect('dashboard', 'polls')->name('dashboard');

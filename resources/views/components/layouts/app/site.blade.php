@@ -14,6 +14,10 @@
                 </x-slot>
             </flux:brand>
 
+            <flux:navbar>
+                <flux:navbar.item href="/docs" :accent="false" wire:navigate>Docs</flux:navbar.item>
+            </flux:navbar>
+
             <flux:spacer />
 
             <div class="flex items-center gap-x-5 md:gap-x-8">
