@@ -54,62 +54,83 @@ new class extends Component {
     }
 }; ?>
 
-<div class="mx-auto max-w-3xl">
-    <flux:heading size="lg">Create Poll</flux:heading>
-    <flux:text class="mt-2">Create a new poll for your organization.</flux:text>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        href="/polls"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
+        <flux:icon.chevron-left variant="micro" />
+        Polls
+    </flux:link>
 
-    <form wire:submit="create" class="mt-6 space-y-6">
-        <flux:input
-            label="Poll Name"
-            placeholder="Team Satisfaction Survey"
-            wire:model="name"
-        />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
-        <flux:textarea
-            label="Question"
-            placeholder="How satisfied are you with our team collaboration?"
-            wire:model="question"
-        />
+    <form wire:submit="create">
+        <flux:heading class="text-xl">Add a poll</flux:heading>
+        <flux:text class="mt-2">Create a new poll for your organization.</flux:text>
 
-        <div>
-            <flux:field>
-                <flux:label>Answers</flux:label>
-                <flux:text class="text-sm text-gray-600">Add at least 2 answers for your poll</flux:text>
+        <flux:spacer class="mt-10" />
 
-                @foreach ($answers as $index => $answer)
-                    <div class="flex items-center gap-2 mt-2">
-                        <flux:input
-                            wire:model="answers.{{ $index }}"
-                            placeholder="Answer {{ $index + 1 }}"
-                            class="flex-1"
-                        />
-                        @if (count($answers) > 2)
-                            <flux:button
-                                type="button"
-                                variant="subtle"
-                                size="sm"
-                                wire:click="removeAnswer({{ $index }})"
-                                class="shrink-0"
-                                square
-                            >
-                                <flux:icon name="trash" variant="mini" />
-                            </flux:button>
-                        @endif
-                    </div>
-                @endforeach
+        <div class="space-y-6">
+            <flux:input
+                label="Poll name"
+                placeholder="Team Satisfaction Survey"
+                wire:model="name"
+            />
 
-                <flux:button
-                    type="button"
-                    size="sm"
-                    wire:click="addAnswer"
-                    class="mt-3"
-                    icon="plus"
-                >
-                    Add Answer
-                </flux:button>
-            </flux:field>
+            <flux:textarea
+                label="Question"
+                placeholder="How satisfied are you with our team collaboration?"
+                wire:model="question"
+            />
+
+            <div>
+                <flux:field>
+                    <flux:label>Answers</flux:label>
+                    <flux:text class="text-sm text-gray-600">Add at least 2 answers for your poll</flux:text>
+
+                    @foreach ($answers as $index => $answer)
+                        <div class="flex items-center gap-2 mt-2">
+                            <flux:input
+                                wire:model="answers.{{ $index }}"
+                                placeholder="Answer {{ $index + 1 }}"
+                                class="flex-1"
+                            />
+                            @if (count($answers) > 2)
+                                <flux:button
+                                    type="button"
+                                    variant="subtle"
+                                    size="sm"
+                                    wire:click="removeAnswer({{ $index }})"
+                                    class="shrink-0"
+                                    square
+                                >
+                                    <flux:icon name="trash" variant="mini" />
+                                </flux:button>
+                            @endif
+                        </div>
+                    @endforeach
+
+                    <flux:button
+                        type="button"
+                        size="sm"
+                        wire:click="addAnswer"
+                        class="mt-3"
+                        icon="plus"
+                    >
+                        Add answer
+                    </flux:button>
+                </flux:field>
+            </div>
         </div>
 
-        <flux:button type="submit" variant="primary">Create Poll</flux:button>
+        <flux:spacer class="mt-8" />
+
+        <div class="flex flex-col gap-4">
+            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Create poll</flux:button>
+        </div>
     </form>
 </div>
