@@ -7,11 +7,11 @@ use Livewire\Attributes\Computed;
 new class extends Component {
     public Poll $poll;
 
-    public function mount(Poll $poll): void
+    public function mount(): void
     {
         $this->authorize('view', $this->poll);
 
-        $this->poll = $poll->load(['answers' => function ($query) {
+        $this->poll->load(['answers' => function ($query) {
             $query->orderBy('sort_order');
         }]);
     }
@@ -42,48 +42,74 @@ new class extends Component {
 }; ?>
 
 <div class="mx-auto max-w-3xl">
-    <flux:heading size="lg">{{ $poll->name }}</flux:heading>
-    <flux:text class="mt-2">{{ $poll->question }}</flux:text>
-    
-    <div class="mt-4">
-        <flux:button variant="ghost" href="/p/{{ $poll->ulid }}" target="_blank">
-            Share Poll
-        </flux:button>
-    </div>
-    
-    <flux:subheading class="mt-6">
-        {{ $this->totalResponses }} {{ Str::plural('response', $this->totalResponses) }}
-    </flux:subheading>
+    <header class="flex items-center">
+        <div class="flex items-center gap-3">
+            <flux:avatar
+                :name="strtoupper($poll->name)"
+                color="auto"
+                initials:single
+                :color:seed="'poll-'.$poll->id"
+            />
+            <flux:heading class="text-xl">{{ $poll->name }}</flux:heading>
+        </div>
+        <flux:spacer />
+        <flux:dropdown align="end">
+            <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
-    <flux:table class="mt-6">
-        <flux:table.columns>
-            <flux:table.column>Answer</flux:table.column>
-            <flux:table.column>Responses</flux:table.column>
-            <flux:table.column>Progress</flux:table.column>
-        </flux:table.columns>
+            <flux:menu>
+                <flux:menu.item href="/p/{{ $poll->ulid }}" icon="share" icon:variant="micro" target="_blank">
+                    Share
+                </flux:menu.item>
+            </flux:menu>
+        </flux:dropdown>
+    </header>
+
+    <flux:text class="mt-4">
+        {{ $poll->question }}
+    </flux:text>
+
+    <flux:spacer class="mt-8" />
+
+    <header class="flex items-center">
+        <flux:heading size="lg">
+            {{ $this->totalResponses }} {{ Str::plural('response', $this->totalResponses) }}
+        </flux:heading>
+    </header>
+
+    <flux:separator class="mt-3" />
+
+    <flux:table>
         <flux:table.rows>
             @foreach ($poll->answers as $answer)
                 <flux:table.row :key="$answer->id">
-                    <flux:table.cell variant="strong">{{ $answer->text }}</flux:table.cell>
-                    <flux:table.cell>
-                        {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }} ({{ $this->responseCounts[$answer->id]['percentage'] }}%)
+                    <flux:table.cell variant="strong" class="w-full">
+                        <div class="flex items-center gap-3">
+                            <flux:avatar
+                                :name="strtoupper($answer->text)"
+                                size="xs"
+                                color="auto"
+                                initials:single
+                                :color:seed="'answer-'.$answer->id"
+                            />
+                            {{ $answer->text }}
+                            <flux:badge color="zinc" size="sm" inset="top bottom" class="tabular-nums">
+                                {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}
+                            </flux:badge>
+                        </div>
                     </flux:table.cell>
-                    <flux:table.cell>
-                        <div class="w-full bg-zinc-200 rounded-full h-2">
-                            <div 
-                                class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                                style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%;"
-                            ></div>
+                    <flux:table.cell align="end">
+                        <div class="flex items-center gap-3 justify-end">
+                            <div class="text-xs mt-1 tabular-nums">{{ $this->responseCounts[$answer->id]['percentage'] }}%</div>
+                            <div class="bg-zinc-200 rounded-full h-2 w-36">
+                                <div
+                                    class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                    style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%;"
+                                ></div>
+                            </div>
                         </div>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
         </flux:table.rows>
     </flux:table>
-    
-    @if ($poll->answers->isEmpty())
-        <flux:callout class="mt-6" variant="subtle">
-            <flux:text>This poll has no answers yet.</flux:text>
-        </flux:callout>
-    @endif
 </div>
