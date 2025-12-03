@@ -38,9 +38,9 @@ new #[Layout('layouts::simple')] class extends Component {
 };
 ?>
 
-<div class="mx-auto max-w-2xl">
+<div class="mx-auto max-w-[512px] h-full flex flex-col items-center justify-center">
     @if ($submitted)
-        <div class="text-center py-12">
+        <div class="text-center">
             <flux:heading size="lg">Thank you for your response!</flux:heading>
             <flux:text class="mt-2">Your answer has been recorded successfully.</flux:text>
         </div>
@@ -61,7 +61,7 @@ new #[Layout('layouts::simple')] class extends Component {
                     @endforeach
                 </flux:radio.group>
 
-                <flux:button type="submit" variant="primary">Submit Response</flux:button>
+                <flux:button type="submit" variant="primary" class="w-full">Submit Response</flux:button>
             </form>
         </div>
     @endif

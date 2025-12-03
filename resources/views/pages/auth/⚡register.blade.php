@@ -13,7 +13,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 
-new #[Layout('layouts::auth')] class extends Component {
+new #[Layout('layouts::simple')] class extends Component {
     #[Validate('required|string|max:255')]
     public string $name = '';
 
@@ -132,30 +132,27 @@ new #[Layout('layouts::auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Create an account')" :description="__('Enter your details to create your account and verify your email')" />
-
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
-
+<div class="mx-auto max-w-sm h-full flex flex-col gap-6 justify-center">
     @if (!$showOtpForm)
-        <!-- Registration Form -->
-        <form wire:submit="sendOtp" class="flex flex-col gap-6">
-            <!-- Name -->
+        <div class="text-center">
+            <flux:heading class="text-xl">Create an account</flux:heading>
+            <flux:text class="mt-2">Enter your details to create your account and verify your email</flux:text>
+        </div>
+
+        <form wire:submit="sendOtp" class="space-y-6">
             <flux:input
                 wire:model="name"
-                :label="__('Name')"
+                label="Name"
                 type="text"
                 required
                 autofocus
                 autocomplete="name"
-                :placeholder="__('Full name')"
+                placeholder="Full name"
             />
 
-            <!-- Email Address -->
             <flux:input
                 wire:model="email"
-                :label="__('Email address')"
+                label="Email address"
                 type="email"
                 required
                 autocomplete="email"
@@ -164,55 +161,36 @@ new #[Layout('layouts::auth')] class extends Component {
 
             <div class="flex items-center justify-end">
                 <flux:button variant="primary" type="submit" class="w-full">
-                    {{ __('Create account') }}
+                    Create account
                 </flux:button>
             </div>
         </form>
+
+        <flux:text class="space-x-1 rtl:space-x-reverse text-center">
+            <span>Already have an account?</span>
+            <flux:link :href="route('login')" wire:navigate>Log in</flux:link>
+        </flux:text>
     @else
         <!-- OTP Verification Form -->
-        <form wire:submit="register" class="flex flex-col gap-6">
-            <!-- Email Display -->
-            <div class="text-sm text-zinc-600 dark:text-zinc-400">
-                {{ __('We sent a one-time password to:') }} <strong>{{ $email }}</strong>
+        <form wire:submit="register" class="space-y-6">
+            <div class="text-center">
+                <flux:heading class="text-xl">Check your email</flux:heading>
+                <flux:text class="mt-2">Then enter the verification code included in the email below:</flux:text>
             </div>
 
             <!-- One-Time Password -->
-            <div>
+            <div class="text-center">
                 <flux:otp
                     wire:model="one_time_password"
-                    :label="__('One-time password')"
+                    label="One-time password"
+                    description:trailing="The code you receive will work for 15 minutes."
                     length="6"
                     submit="auto"
+                    class="mx-auto"
                 />
 
                 <flux:error name="email" />
             </div>
-
-            <div class="flex gap-3">
-                <flux:button type="submit" variant="primary" class="flex-1">
-                    {{ __('Verify and create account') }}
-                </flux:button>
-                
-                <flux:button wire:click="resetForm" variant="outline" class="flex-1">
-                    {{ __('Start over') }}
-                </flux:button>
-            </div>
-
-            <!-- Resend OTP -->
-            <div class="text-center">
-                <flux:link 
-                    wire:click="sendOtp" 
-                    wire:loading.attr="disabled"
-                    class="text-sm"
-                >
-                    {{ __("Didn't receive a code? Resend") }}
-                </flux:link>
-            </div>
         </form>
     @endif
-
-    <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
-        <span>{{ __('Already have an account?') }}</span>
-        <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
-    </div>
 </div>

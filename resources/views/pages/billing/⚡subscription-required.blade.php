@@ -8,7 +8,7 @@ use App\Livewire\Actions\Logout;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Collection;
 
-new #[Layout('layouts::auth')] class extends Component {
+new #[Layout('layouts::simple')] class extends Component {
     public Collection $organizations;
     public ?int $selectedOrganizationId;
 
@@ -62,7 +62,7 @@ new #[Layout('layouts::auth')] class extends Component {
     }
 }; ?>
 
-<div class="mt-4 flex flex-col gap-6">
+<div class="mx-auto max-w-sm h-full flex flex-col gap-6 justify-center">
     <div class="flex justify-center">
         <flux:dropdown position="bottom" align="center">
             <flux:profile :name="$this->user->currentOrganization->name" />
