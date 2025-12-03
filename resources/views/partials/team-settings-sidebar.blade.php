@@ -5,14 +5,14 @@
             :current="request()->routeIs('teams.settings.general')"
             wire:navigate
         >
-            {{ __('General') }}
+            General
         </flux:navlist.item>
         <flux:navlist.item
             :href="route('teams.settings.members', $team)"
             :current="request()->routeIs('teams.settings.members')"
             wire:navigate
         >
-            {{ __('Members') }}
+            Members
         </flux:navlist.item>
     </flux:navlist>
 </div>

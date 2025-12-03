@@ -33,11 +33,11 @@ class TeamInvitation extends Notification
         $acceptUrl = url()->signedRoute('teams.invitations.accept', $invitation);
 
         return (new MailMessage)
-            ->subject(__('You have been invited to join :team', ['team' => $team->name]))
-            ->greeting(__('Hello!'))
-            ->line(__('You have been invited to join the team ":team".', ['team' => $team->name]))
-            ->action(__('Accept Invitation'), $acceptUrl)
-            ->line(__('If you do not wish to join, you may ignore this email.'));
+            ->subject('You have been invited to join '.$team->name)
+            ->greeting('Hello!')
+            ->line('You have been invited to join the team "'.$team->name.'".')
+            ->action('Accept Invitation', $acceptUrl)
+            ->line('If you do not wish to join, you may ignore this email.');
     }
 
     /**

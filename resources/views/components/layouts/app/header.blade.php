@@ -19,7 +19,7 @@
 
             <flux:navbar class="-mb-px max-lg:hidden">
                 <flux:navbar.item href="/polls" :current="request()->routeIs('polls.*')" wire:navigate>
-                    {{ __('Polls') }}
+                    Polls
                 </flux:navbar.item>
             </flux:navbar>
 
@@ -38,7 +38,7 @@
                             icon:variant="micro"
                             wire:navigate
                         >
-                            {{ __('Settings') }}
+                            Settings
                         </flux:menu.item>
 
                         <flux:menu.separator />
@@ -52,7 +52,7 @@
                                 icon:variant="micro"
                                 class="w-full"
                             >
-                                {{ __('Log Out') }}
+                                Log Out
                             </flux:menu.item>
                         </form>
                     </flux:menu>

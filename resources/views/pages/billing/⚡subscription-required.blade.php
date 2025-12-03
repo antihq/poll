@@ -78,14 +78,12 @@ new #[Layout('layouts::simple')] class extends Component {
         </flux:dropdown>
     </div>
     <flux:text class="text-center">
-        {{ __('You need to subscribe to our service to continue.') }}
+        You need to subscribe to our service to continue.
     </flux:text>
     <div class="flex flex-col items-center justify-between space-y-3">
         <flux:button wire:click="goToCheckout" variant="primary" class="w-full">
-            {{ __('Proceed to Checkout') }}
+            Proceed to Checkout
         </flux:button>
-        <flux:link class="cursor-pointer text-sm" wire:click="logout">
-            {{ __('Log out') }}
-        </flux:link>
+        <flux:link class="cursor-pointer text-sm" wire:click="logout">Log out</flux:link>
     </div>
 </div>

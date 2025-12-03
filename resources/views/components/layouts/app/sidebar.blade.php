@@ -13,19 +13,19 @@
 
             <flux:sidebar.nav>
                 <flux:sidebar.item icon="home" :href="route('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
+                    Dashboard
                 </flux:sidebar.item>
             </flux:sidebar.nav>
 
             @can('update', auth()->user()->currentTeam)
                 <flux:sidebar.nav>
-                    <flux:sidebar.group :heading="__('Team')">
+                    <flux:sidebar.group heading="Team">
                         <flux:sidebar.item
                             :href="route('teams.settings.general', auth()->user()->currentTeam)"
                             icon="cog-6-tooth"
                             wire:navigate
                         >
-                            {{ __('Settings') }}
+                            Settings
                         </flux:sidebar.item>
                     </flux:sidebar.group>
                 </flux:sidebar.nav>
@@ -61,7 +61,7 @@
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
+                            Settings
                         </flux:menu.item>
                     </flux:menu.radio.group>
 
@@ -70,7 +70,7 @@
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
                         <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
-                            {{ __('Log Out') }}
+                            Log Out
                         </flux:menu.item>
                     </form>
                 </flux:menu>

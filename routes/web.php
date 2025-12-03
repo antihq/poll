@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+});
 
 Route::livewire('docs/', 'pages::docs.index');
 
@@ -14,7 +14,7 @@ Route::livewire('changelog/', 'pages::changelog');
 Route::livewire('p/{poll:ulid}', 'pages::p.show');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
-    Route::redirect('dashboard', 'polls')->name('dashboard');
+    Route::redirect('dashboard', 'polls');
 
     Route::livewire('polls/', 'pages::polls.index');
     Route::livewire('polls/create', 'pages::polls.create');

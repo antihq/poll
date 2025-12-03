@@ -60,7 +60,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
         if (!$user) {
             throw ValidationException::withMessages([
-                'email' => __('Registration failed. Please try again.'),
+                'email' => 'Registration failed. Please try again.',
             ]);
         }
 
@@ -106,10 +106,7 @@ new #[Layout('layouts::simple')] class extends Component {
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => __('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => 'Too many login attempts. Please try again in ' . ceil($seconds / 60) . ' minutes.',
         ]);
     }
 

@@ -28,17 +28,17 @@ new class extends Component {
 <flux:modal name="create-team" class="md:w-96">
     <form wire:submit="create" class="space-y-6">
         <div>
-            <flux:heading size="lg">{{ __('Create Team') }}</flux:heading>
-            <flux:text class="mt-2">{{ __('Enter a name for your new team.') }}</flux:text>
+            <flux:heading size="lg">Create Team</flux:heading>
+            <flux:text class="mt-2">Enter a name for your new team.</flux:text>
         </div>
-        <flux:input :label="__('Team Name')" :placeholder="__('Acme Inc')" wire:model="name" />
+        <flux:input label="Team Name" placeholder="Acme Inc" wire:model="name" />
 
         <div class="flex gap-2">
             <flux:spacer />
             <flux:modal.close>
-                <flux:button variant="ghost" type="button">{{ __('Cancel') }}</flux:button>
+                <flux:button variant="ghost" type="button">Cancel</flux:button>
             </flux:modal.close>
-            <flux:button type="submit" variant="primary">{{ __('Create') }}</flux:button>
+            <flux:button type="submit" variant="primary">Create</flux:button>
         </div>
     </form>
 </flux:modal>
