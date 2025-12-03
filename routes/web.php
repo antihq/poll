@@ -10,6 +10,8 @@ Route::get('/', function () {
 
 Route::livewire('docs/', 'pages::docs.index');
 
+Route::livewire('changelog/', 'pages::changelog');
+
 Route::livewire('p/{poll:ulid}', 'pages::p.show');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
