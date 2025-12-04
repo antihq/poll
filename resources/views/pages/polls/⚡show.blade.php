@@ -94,7 +94,9 @@ new class extends Component {
                                 initials:single
                                 :color:seed="'answer-'.$answer->id"
                             />
-                            {{ $answer->text }}
+                            <flux:link href="/polls/{{ $poll->id }}/answers/{{ $answer->id }}" wire:navigate>
+                                {{ $answer->text }}
+                            </flux:link>
                             <flux:badge color="zinc" size="sm" inset="top bottom" class="tabular-nums">
                                 {{ $this->responseCounts[$answer->id]['count'] }}
                                 {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}

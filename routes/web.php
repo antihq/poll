@@ -21,6 +21,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
     Route::livewire('polls/create', 'pages::polls.create');
     Route::livewire('polls/{poll}', 'pages::polls.show');
     Route::livewire('polls/{poll}/share', 'pages::polls.share');
+    Route::livewire('polls/{poll}/answers/{answer}', 'pages::polls.answers.show');
 });
 
 Route::middleware(['auth'])->group(function () {
