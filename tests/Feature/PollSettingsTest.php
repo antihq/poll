@@ -22,7 +22,43 @@ it('displays poll settings page', function () {
     $response->assertSee($poll->name);
 });
 
-it('updates poll settings', function () {
+it('updates poll settings with thank you message', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    $team->subscriptions()->create([
+        'type' => 'default',
+        'stripe_status' => 'active',
+        'stripe_id' => 'sub_test_'.uniqid(),
+    ]);
+    $poll = Poll::factory()->create(['team_id' => $team->id]);
+
+    $component = Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
+        ->set('accepts_responses', false)
+        ->set('require_email', true)
+        ->set('auto_submit', true)
+        ->set('collect_feedback', true)
+        ->set('submission_action', 'message')
+        ->set('thank_you_message', 'Custom thank you message')
+        ->set('thank_you_button_label', 'Continue')
+        ->set('thank_you_button_url', 'https://example.com')
+        ->set('hide_branding', true)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $poll->refresh();
+
+    expect($poll->accepts_responses)->toBeFalse();
+    expect($poll->require_email)->toBeTrue();
+    expect($poll->auto_submit)->toBeTrue();
+    expect($poll->collect_feedback)->toBeTrue();
+    expect($poll->thank_you_message)->toBe('Custom thank you message');
+    expect($poll->thank_you_button_label)->toBe('Continue');
+    expect($poll->thank_you_button_url)->toBe('https://example.com');
+    expect($poll->redirect_url)->toBeNull();
+    expect($poll->hide_branding)->toBeTrue();
+});
+
+it('updates poll settings with redirect URL', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $team->subscriptions()->create([
@@ -37,9 +73,7 @@ it('updates poll settings', function () {
         ->set('require_email', true)
         ->set('auto_submit', true)
         ->set('collect_feedback', true)
-        ->set('thank_you_message', 'Custom thank you message')
-        ->set('thank_you_button_label', 'Continue')
-        ->set('thank_you_button_url', 'https://example.com')
+        ->set('submission_action', 'redirect')
         ->set('redirect_url', 'https://redirect.com')
         ->set('hide_branding', true)
         ->call('save');
@@ -50,9 +84,9 @@ it('updates poll settings', function () {
     expect($poll->require_email)->toBeTrue();
     expect($poll->auto_submit)->toBeTrue();
     expect($poll->collect_feedback)->toBeTrue();
-    expect($poll->thank_you_message)->toBe('Custom thank you message');
-    expect($poll->thank_you_button_label)->toBe('Continue');
-    expect($poll->thank_you_button_url)->toBe('https://example.com');
+    expect($poll->thank_you_message)->toBeNull();
+    expect($poll->thank_you_button_label)->toBeNull();
+    expect($poll->thank_you_button_url)->toBeNull();
     expect($poll->redirect_url)->toBe('https://redirect.com');
     expect($poll->hide_branding)->toBeTrue();
 });
@@ -69,6 +103,24 @@ it('shows success message after saving settings', function () {
 
     Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
         ->set('accepts_responses', false)
+        ->set('submission_action', 'message')
         ->call('save')
         ->assertSee('Poll settings updated successfully!');
+});
+
+it('validates redirect URL is required when redirect is selected', function () {
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    $team->subscriptions()->create([
+        'type' => 'default',
+        'stripe_status' => 'active',
+        'stripe_id' => 'sub_test_'.uniqid(),
+    ]);
+    $poll = Poll::factory()->create(['team_id' => $team->id]);
+
+    Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
+        ->set('submission_action', 'redirect')
+        ->set('redirect_url', '')
+        ->call('save')
+        ->assertHasErrors(['redirect_url' => 'required']);
 });
