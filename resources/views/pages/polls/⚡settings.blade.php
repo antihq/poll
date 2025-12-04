@@ -65,12 +65,18 @@ new class extends Component
     private function clearConflictingValues(): void
     {
         if ($this->submission_action === 'message') {
-            $this->redirect_url = null;
-        } else {
-            $this->thank_you_message = null;
-            $this->thank_you_button_label = null;
-            $this->thank_you_button_url = null;
+            $this->reset(['redirect_url']);
+
+            return;
         }
+
+        $this->reset([
+            'thank_you_message',
+            'thank_you_button_label',
+            'thank_you_button_url',
+        ]);
+
+        return;
     }
 
     public function save(): void
