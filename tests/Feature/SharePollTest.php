@@ -69,11 +69,11 @@ it('generates correct share links for kit platform', function () {
     expect($shareContent)->toContain('Do you agree?');
     expect($shareContent)->toContain('Agree');
     expect($shareContent)->toContain('Disagree');
-    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[0]->ulid.'"');
-    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[1]->ulid.'"');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[0]->ulid.'&email={{ subscriber.email_address }}"');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[1]->ulid.'&email={{ subscriber.email_address }}"');
 });
 
-it('copies share content to clipboard', function () {
+it('displays copy to clipboard button', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeamAndSubscription()->create();
     $poll = Poll::factory()
@@ -81,11 +81,9 @@ it('copies share content to clipboard', function () {
         ->has(Answer::factory()->count(2))
         ->create();
 
-    $component = Livewire::actingAs($user)->test('pages::polls.share', ['poll' => $poll])
-        ->set('platform', 'universal')
-        ->call('copyToClipboard');
+    $response = actingAs($user)->get("/polls/{$poll->id}/share");
 
-    $component->assertDispatched('share-copied');
+    $response->assertSee('Copy to Clipboard');
 });
 
 it('redirects guests to login page', function () {

@@ -21,20 +21,25 @@ new class extends Component {
     #[Computed]
     public function shareContent(): string
     {
-        $content = "<h2>{$this->poll->question}</h2>\n\n";
-        $content .= "<ul>\n";
+        $question = $this->poll->question;
+        $answers = $this->poll->answers->all();
+        $pollUlid = $this->poll->ulid;
+        $platform = $this->platform;
 
-        foreach ($this->poll->answers as $answer) {
-            $url = url("/p/{$this->poll->ulid}?answer={$answer->ulid}");
-            if ($this->platform === 'kit') {
-                $url .= "&email={{ subscriber.email_address }}";
-            }
-            $content .= "    <li><a href=\"{$url}\">{$answer->text}</a></li>\n";
-        }
+        return <<<HTML
+            <h2>{$question}</h2>
 
-        $content .= "</ul>";
+            <ul>
 
-        return $content;
+            HTML . implode('', array_map(function ($answer) use ($pollUlid, $platform) {
+                $url = url("/p/{$pollUlid}?answer={$answer->ulid}");
+                if ($platform === 'kit') {
+                    $url .= "&email={{ subscriber.email_address }}";
+                }
+                return "    <li><a href=\"{$url}\">{$answer->text}</a></li>\n";
+            }, $answers)) . <<<HTML
+            </ul>
+            HTML;
     }
 
 
@@ -47,7 +52,7 @@ new class extends Component {
             <flux:heading class="text-xl">{{ $poll->name }}</flux:heading>
         </div>
         <flux:spacer />
-        <flux:button href="/polls/{{ $poll->id }}" icon:trailing="arrow-left" size="sm" variant="subtle">
+        <flux:button href="/polls/{{ $poll->id }}" icon:trailing="arrow-left" size="sm" variant="subtle" wire:navigate>
             Back to Poll
         </flux:button>
     </header>
@@ -62,8 +67,9 @@ new class extends Component {
 
     <flux:spacer class="mt-6" />
 
-    <flux:card>
-        <flux:heading class="text-base!">Preview</flux:heading>
+    <flux:heading>Preview</flux:heading>
+
+    <flux:card class="mt-3">
         <flux:text class="mt-2 font-semibold" variant="strong">{{ $poll->question }}</flux:text>
         <ul class="mt-3 list-inside list-disc space-y-2">
             @foreach ($poll->answers as $answer)
@@ -85,15 +91,6 @@ new class extends Component {
     </flux:field>
 
     <flux:spacer class="mt-6" />
-
-    <flux:field>
-        <flux:label>Share Content</flux:label>
-        <flux:textarea readonly rows="10" wire:model="shareContent" placeholder="Share content will appear here...">
-            {{ $this->shareContent }}
-        </flux:textarea>
-    </flux:field>
-
-    <flux:spacer class="mt-4" />
 
     <flux:button
         x-data="{
