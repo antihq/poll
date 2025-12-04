@@ -74,8 +74,8 @@ new class extends Component
                 @foreach ($this->responses as $response)
                     <flux:table.row :key="$response->id">
                         <flux:table.cell variant="strong" class="w-full">
-                            @if ($response->email)
-                                <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-3">
+                                @if ($response->email)
                                     <flux:avatar
                                         :name="strtoupper($response->email)"
                                         size="xs"
@@ -84,10 +84,19 @@ new class extends Component
                                         :color:seed="'response-'.$response->id"
                                     />
                                     {{ $response->email }}
-                                </div>
-                            @else
-                                <flux:text class="text-gray-500 italic">No email provided</flux:text>
-                            @endif
+                                @else
+                                    <flux:text>No email provided</flux:text>
+                                @endif
+
+                                @if (!empty($response->feedback))
+                                    <flux:tooltip toggleable position="right">
+                                        <flux:button icon="information-circle" size="xs" variant="ghost" />
+                                        <flux:tooltip.content class="max-w-md">
+                                            <p>{{ $response->feedback }}</p>
+                                        </flux:tooltip.content>
+                                    </flux:tooltip>
+                                @endif
+                            </div>
                         </flux:table.cell>
                         <flux:table.cell align="end">
                             <flux:text class="text-sm text-gray-500">
