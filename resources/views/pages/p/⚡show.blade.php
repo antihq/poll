@@ -71,14 +71,14 @@ new #[Layout('layouts::simple')] class extends Component
             'feedback' => $this->feedback,
         ]);
 
-        if ($this->poll->shouldRedirect()) {
-            $this->redirect($this->poll->redirect_url);
+        if ($answer->redirect_url) {
+            $this->redirect($answer->redirect_url);
 
             return;
         }
 
-        if ($answer->redirect_url) {
-            $this->redirect($answer->redirect_url);
+        if ($this->poll->shouldRedirect()) {
+            $this->redirect($this->poll->redirect_url);
 
             return;
         }
@@ -88,18 +88,24 @@ new #[Layout('layouts::simple')] class extends Component
 };
 ?>
 
-<div class="mx-auto flex h-full max-w-[512px] flex-col items-center justify-center">
+<div
+    class="mx-auto flex h-full max-w-[512px] flex-col items-center justify-center"
+    @if ($poll->auto_submit)
+        x-init="$wire.submit()"
+    @endif
+>
     @if ($submitted)
         <div class="text-center">
-            <flux:heading size="lg">{{ $poll->thank_you_message ?? 'Thank you for your response!' }}</flux:heading>
-            <flux:text class="mt-2">Your answer has been recorded successfully.</flux:text>
+            @if ($poll->thank_you_message)
+                <flux:text class="mt-2">{{ $poll->thank_you_message }}</flux:text>
+            @else
+                <flux:heading size="lg">Thank you for your response!</flux:heading>
+                <flux:text class="mt-2">Your answer has been recorded successfully.</flux:text>
+            @endif
 
             @if ($poll->thank_you_button_label && $poll->thank_you_button_url)
                 <div class="mt-6">
-                    <flux:button
-                        variant="primary"
-                        onclick="window.location.href = '{{ $poll->thank_you_button_url }}'"
-                    >
+                    <flux:button variant="primary" :href="$poll->thank_you_button_url">
                         {{ $poll->thank_you_button_label }}
                     </flux:button>
                 </div>
@@ -144,9 +150,7 @@ new #[Layout('layouts::simple')] class extends Component
                     />
                 @endif
 
-                @if (! $poll->auto_submit)
-                    <flux:button type="submit" variant="primary" class="w-full">Submit Response</flux:button>
-                @endif
+                <flux:button type="submit" variant="primary" class="w-full">Submit Response</flux:button>
             </form>
         </div>
     @endif
