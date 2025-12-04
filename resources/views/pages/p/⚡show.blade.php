@@ -1,13 +1,14 @@
 <?php
 
-use Livewire\Component;
 use App\Models\Poll;
 use App\Models\PollResponse;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
+use Livewire\Component;
 
-new #[Layout('layouts::simple')] class extends Component {
+new #[Layout('layouts::simple')] class extends Component
+{
     public Poll $poll;
 
     public bool $submitted = false;
@@ -61,9 +62,19 @@ new #[Layout('layouts::simple')] class extends Component {
 
             <form wire:submit="submit" class="mt-8 space-y-6">
                 <flux:radio.group wire:model="answer" label="Select your answer">
-                    @foreach ($poll->answers as $answer)
-                        <flux:radio :value="$answer->ulid" :label="$answer->text" />
-                    @endforeach
+                    @if ($poll->layout === 'horizontal')
+                        <div class="flex flex-col gap-4 sm:flex-row">
+                            @foreach ($poll->answers as $answer)
+                                <div class="flex-1">
+                                    <flux:radio :value="$answer->ulid" :label="$answer->text" />
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        @foreach ($poll->answers as $answer)
+                            <flux:radio :value="$answer->ulid" :label="$answer->text" />
+                        @endforeach
+                    @endif
                 </flux:radio.group>
 
                 <flux:button type="submit" variant="primary" class="w-full">Submit Response</flux:button>

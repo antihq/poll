@@ -25,6 +25,7 @@ class PollFactory extends Factory
             'team_id' => Team::factory(),
             'name' => fake()->sentence(3),
             'question' => fake()->sentence().'?',
+            'layout' => fake()->randomElement(['vertical', 'horizontal']),
         ];
     }
 

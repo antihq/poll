@@ -1,18 +1,25 @@
 <?php
 
-use Livewire\Component;
-use App\Models\Poll;
 use App\Models\Answer;
+use App\Models\Poll;
+use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public Poll $poll;
+
     public string $name = '';
+
     public string $question = '';
+
     public array $answers = [];
+
+    public string $layout = 'vertical';
 
     protected array $rules = [
         'name' => ['required', 'string', 'max:255'],
         'question' => ['required', 'string', 'max:1000'],
+        'layout' => ['required', 'string', 'in:vertical,horizontal'],
         'answers' => ['required', 'array', 'min:2'],
         'answers.*' => ['required', 'string', 'max:255'],
     ];
@@ -24,6 +31,7 @@ new class extends Component {
 
         $this->name = $poll->name;
         $this->question = $poll->question;
+        $this->layout = $poll->layout ?? 'vertical';
         $this->answers = $poll->answers->map(fn ($answer) => $answer->text)->toArray();
     }
 
@@ -46,6 +54,7 @@ new class extends Component {
         $this->poll->update([
             'name' => $this->name,
             'question' => $this->question,
+            'layout' => $this->layout,
         ]);
 
         $existingAnswers = $this->poll->answers;
@@ -104,6 +113,11 @@ new class extends Component {
                 placeholder="How satisfied are you with our team collaboration?"
                 wire:model="question"
             />
+
+            <flux:select label="Layout" wire:model="layout">
+                <option value="vertical">Vertical</option>
+                <option value="horizontal">Horizontal</option>
+            </flux:select>
 
             <div>
                 <flux:field>
