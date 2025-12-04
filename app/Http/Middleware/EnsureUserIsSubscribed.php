@@ -15,8 +15,8 @@ class EnsureUserIsSubscribed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()->currentOrganization->subscribed()) {
-            return redirect()->route('subscription-required');
+        if (! $request->user()->currentTeam->subscribed()) {
+            return redirect('/subscription-required');
         }
 
         return $next($request);

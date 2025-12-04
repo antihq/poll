@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Organization;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrganizationInvitation>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TeamInvitation>
  */
-class OrganizationInvitationFactory extends Factory
+class TeamInvitationFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class OrganizationInvitationFactory extends Factory
     public function definition(): array
     {
         return [
-            'organization_id' => Organization::factory(),
+            'team_id' => Team::factory(),
             'email' => fake()->unique()->safeEmail,
         ];
     }

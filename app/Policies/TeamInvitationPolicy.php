@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\OrganizationInvitation;
+use App\Models\TeamInvitation;
 use App\Models\User;
 
-class OrganizationInvitationPolicy
+class TeamInvitationPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +18,7 @@ class OrganizationInvitationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, OrganizationInvitation $organizationInvitation): bool
+    public function view(User $user, TeamInvitation $teamInvitation): bool
     {
         return false;
     }
@@ -34,7 +34,7 @@ class OrganizationInvitationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, OrganizationInvitation $organizationInvitation): bool
+    public function update(User $user, TeamInvitation $teamInvitation): bool
     {
         return false;
     }
@@ -42,15 +42,15 @@ class OrganizationInvitationPolicy
     /**
      * Determine whether the user can revoke the invitation.
      */
-    public function revoke(User $user, OrganizationInvitation $invitation): bool
+    public function revoke(User $user, TeamInvitation $invitation): bool
     {
-        return $invitation->organization->user->is($user);
+        return $invitation->team->user->is($user);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, OrganizationInvitation $organizationInvitation): bool
+    public function delete(User $user, TeamInvitation $teamInvitation): bool
     {
         return false;
     }
@@ -58,7 +58,7 @@ class OrganizationInvitationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, OrganizationInvitation $organizationInvitation): bool
+    public function restore(User $user, TeamInvitation $teamInvitation): bool
     {
         return false;
     }
@@ -66,7 +66,7 @@ class OrganizationInvitationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, OrganizationInvitation $organizationInvitation): bool
+    public function forceDelete(User $user, TeamInvitation $teamInvitation): bool
     {
         return false;
     }

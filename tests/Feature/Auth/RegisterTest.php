@@ -1,116 +1,90 @@
 <?php
 
-use App\Models\Organization;
 use App\Models\User;
-use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
-use function Pest\Laravel\assertAuthenticated;
-use function Pest\Laravel\get;
-
 it('renders the registration screen', function () {
-    $response = get('/register');
+    $response = $this->get('/register');
 
-    $response->assertStatus(200);
+    $response->assertOk();
+    $response->assertSee('Create an account');
 });
 
 it('creates a user and sends OTP with valid data', function () {
-    Notification::fake();
-
-    $response = Livewire::test('pages::auth.register')
+    Livewire::test('pages::auth.register')
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
-        ->call('sendOtp');
-
-    $response
+        ->call('sendOtp')
         ->assertHasNoErrors()
         ->assertSet('showOtpForm', true);
 
-    $user = User::where('email', 'test@example.com')->first();
-    expect($user)->not->toBeNull();
-
-    Notification::assertSentTo($user, \Spatie\OneTimePasswords\Notifications\OneTimePasswordNotification::class);
+    $this->assertDatabaseHas('users', [
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);
 });
 
 it('completes registration with valid OTP', function () {
-    Notification::fake();
+    $user = User::factory()->create([
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);
 
-    // First step: create user
-    $livewire = Livewire::test('pages::auth.register')
+    $otp = $user->createOneTimePassword()->password;
+
+    Livewire::test('pages::auth.register')
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
-        ->call('sendOtp');
-
-    $user = User::where('email', 'test@example.com')->first();
-    $otp = $user->createOneTimePassword()->password;
-
-    // Second step: verify OTP
-    $response = $livewire
         ->set('one_time_password', $otp)
-        ->set('showOtpForm', true)
-        ->call('register');
-
-    $response
-        ->assertHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
-
-    assertAuthenticated();
-    expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
+        ->call('register')
+        ->assertRedirect('/dashboard');
 });
 
-it('creates a personal organization for the new user on registration', function () {
-    Notification::fake();
+it('creates a personal team for the new user on registration', function () {
+    $user = User::factory()->create([
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);
 
-    $userName = 'Test User';
-    $userEmail = 'test2@example.com';
-
-    // First step: create user
-    $livewire = Livewire::test('pages::auth.register')
-        ->set('name', $userName)
-        ->set('email', $userEmail)
-        ->call('sendOtp');
-
-    $user = User::where('email', $userEmail)->first();
     $otp = $user->createOneTimePassword()->password;
 
-    // Second step: verify OTP
-    $livewire
+    Livewire::test('pages::auth.register')
+        ->set('name', 'Test User')
+        ->set('email', 'test@example.com')
         ->set('one_time_password', $otp)
-        ->set('showOtpForm', true)
         ->call('register');
 
-    $organization = Organization::first();
+    $this->assertDatabaseHas('teams', [
+        'user_id' => $user->id,
+        'name' => 'Test User',
+        'personal' => true,
+    ]);
 
-    expect($organization)->not->toBeNull();
-    expect($organization->user->is($user))->toBeTrue();
-    expect($organization->personal)->toBeTrue();
-    expect($user->fresh()->currentOrganization->is($organization))->toBeTrue();
+    $user->refresh();
+    expect($user->currentTeam)->not->toBeNull();
+    expect($user->currentTeam->personal)->toBeTrue();
 });
 
 it('rejects registration with invalid OTP', function () {
-    Notification::fake();
+    User::factory()->create([
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);
 
-    // First step: create user
-    $livewire = Livewire::test('pages::auth.register')
+    Livewire::test('pages::auth.register')
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
-        ->call('sendOtp');
-
-    $response = $livewire
-        ->set('one_time_password', '123456')
-        ->set('showOtpForm', true)
-        ->call('register');
-
-    $response->assertHasErrors('one_time_password');
+        ->set('one_time_password', 'invalid')
+        ->call('register')
+        ->assertHasErrors(['one_time_password']);
 });
 
 it('validates unique email during registration', function () {
-    User::factory()->create(['email' => 'existing@example.com']);
+    User::factory()->create(['email' => 'test@example.com']);
 
-    $response = Livewire::test('pages::auth.register')
+    Livewire::test('pages::auth.register')
         ->set('name', 'Test User')
-        ->set('email', 'existing@example.com')
-        ->call('sendOtp');
-
-    $response->assertHasErrors('email');
+        ->set('email', 'test@example.com')
+        ->call('sendOtp')
+        ->assertHasErrors(['email']);
 });

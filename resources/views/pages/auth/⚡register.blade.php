@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\Organization;
+use App\Models\Team;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -60,7 +60,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
         if (!$user) {
             throw ValidationException::withMessages([
-                'email' => __('Registration failed. Please try again.'),
+                'email' => 'Registration failed. Please try again.',
             ]);
         }
 
@@ -72,7 +72,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
             $user->markEmailAsVerified();
 
-            Organization::create([
+            Team::create([
                 'name' => $user->name,
                 'user_id' => $user->id,
                 'personal' => true,
@@ -82,7 +82,7 @@ new #[Layout('layouts::simple')] class extends Component {
 
             Auth::login($user);
 
-            $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+            $this->redirectIntended('/dashboard', navigate: true);
 
             return;
         }
@@ -106,10 +106,7 @@ new #[Layout('layouts::simple')] class extends Component {
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => __('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => 'Too many login attempts. Please try again in ' . ceil($seconds / 60) . ' minutes.',
         ]);
     }
 
@@ -132,7 +129,7 @@ new #[Layout('layouts::simple')] class extends Component {
     }
 }; ?>
 
-<div class="mx-auto max-w-sm h-full flex flex-col gap-6 justify-center">
+<div class="mx-auto flex h-full max-w-sm flex-col justify-center gap-6">
     @if (!$showOtpForm)
         <div class="text-center">
             <flux:heading class="text-xl">Create an account</flux:heading>
@@ -160,15 +157,13 @@ new #[Layout('layouts::simple')] class extends Component {
             />
 
             <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full">
-                    Create account
-                </flux:button>
+                <flux:button variant="primary" type="submit" class="w-full">Create account</flux:button>
             </div>
         </form>
 
-        <flux:text class="space-x-1 rtl:space-x-reverse text-center">
+        <flux:text class="space-x-1 text-center rtl:space-x-reverse">
             <span>Already have an account?</span>
-            <flux:link :href="route('login')" wire:navigate>Log in</flux:link>
+            <flux:link href="/login" wire:navigate>Log in</flux:link>
         </flux:text>
     @else
         <!-- OTP Verification Form -->

@@ -13,9 +13,9 @@ class Poll extends Model
 
     protected $guarded = [];
 
-    public function organization(): BelongsTo
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function answers(): HasMany

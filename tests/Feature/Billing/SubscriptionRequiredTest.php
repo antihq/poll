@@ -1,64 +1,64 @@
 <?php
 
-use App\Models\Organization;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 
-test('switching to a subscribed organization redirects to dashboard', function () {
+test('switching to a subscribed team redirects to dashboard', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
-    $subscribedOrg = Organization::factory()->for($user)->withSubscription()->create();
+    $subscribedTeam = Team::factory()->for($user)->withSubscription()->create();
 
-    $unsubscribedOrg = Organization::factory()->for($user)->create();
-    $user->switchOrganization($unsubscribedOrg);
+    $unsubscribedTeam = Team::factory()->for($user)->create();
+    $user->switchTeam($unsubscribedTeam);
 
     Livewire::actingAs($user)->test('pages::billing.subscription-required')
-        ->call('switchOrganization', $subscribedOrg)
-        ->assertRedirect(route('dashboard'));
+        ->call('switchTeam', $subscribedTeam)
+        ->assertRedirect('/dashboard');
 });
 
-test('switching to a non-subscribed organization stays on the page', function () {
+test('switching to a non-subscribed team stays on the page', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
-    $org1 = Organization::factory()->for($user)->create();
-    $org2 = Organization::factory()->for($user)->create();
+    $team1 = Team::factory()->for($user)->create();
+    $team2 = Team::factory()->for($user)->create();
 
-    $user->switchOrganization($org1);
+    $user->switchTeam($team1);
 
     Livewire::actingAs($user)->test('pages::billing.subscription-required')
-        ->call('switchOrganization', $org2)
+        ->call('switchTeam', $team2)
         ->assertOk();
 });
 
-test('user can switch to an organization they are a member of', function () {
+test('user can switch to a team they are a member of', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
-    $org = Organization::factory()->create();
-    $org->addMember($user);
+    $team = Team::factory()->create();
+    $team->addMember($user);
 
-    $user->switchOrganization($user->organizations->first());
+    $user->switchTeam($user->teams->first());
 
     Livewire::actingAs($user)->test('pages::billing.subscription-required')
-        ->call('switchOrganization', $org)
+        ->call('switchTeam', $team)
         ->assertOk();
 });
 
-test('user cannot switch to an organization they neither own nor are a member of', function () {
+test('user cannot switch to a team they neither own nor are a member of', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganization()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
-    $otherUser = User::factory()->withPersonalOrganization()->create();
-    $otherOrg = $otherUser->organizations->first();
+    $otherUser = User::factory()->withPersonalTeam()->create();
+    $otherTeam = $otherUser->teams->first();
 
-    $user->switchOrganization($user->organizations->first());
+    $user->switchTeam($user->teams->first());
 
     Livewire::actingAs($user)->test('pages::billing.subscription-required')
-        ->call('switchOrganization', $otherOrg)
+        ->call('switchTeam', $otherTeam)
         ->assertForbidden();
 });

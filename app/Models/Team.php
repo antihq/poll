@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
 
-class Organization extends Model
+class Team extends Model
 {
     use Billable;
 
-    /** @use HasFactory<\Database\Factories\OrganizationFactory> */
+    /** @use HasFactory<\Database\Factories\TeamFactory> */
     use HasFactory;
 
     protected $guarded = [];
@@ -22,12 +22,12 @@ class Organization extends Model
 
     public function invitations()
     {
-        return $this->hasMany(OrganizationInvitation::class);
+        return $this->hasMany(TeamInvitation::class);
     }
 
     public function members()
     {
-        return $this->belongsToMany(User::class, 'organization_user');
+        return $this->belongsToMany(User::class, 'team_user');
     }
 
     public function addMember(User $user): void
@@ -39,8 +39,8 @@ class Organization extends Model
     {
         $this->members()->detach($user->id);
 
-        if ($user->current_organization_id === $this->id) {
-            $user->current_organization_id = null;
+        if ($user->current_team_id === $this->id) {
+            $user->current_team_id = null;
             $user->save();
         }
     }
@@ -50,7 +50,7 @@ class Organization extends Model
         return $this->members->contains($user);
     }
 
-    public function inviteMember(string $email): OrganizationInvitation
+    public function inviteMember(string $email): TeamInvitation
     {
         return $this->invitations()->create([
             'email' => $email,

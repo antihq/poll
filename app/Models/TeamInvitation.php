@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationInvitation extends Model
+class TeamInvitation extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<\Database\Factories\TeamInvitationFactory> */
     use HasFactory;
 
     protected $guarded = [];
 
-    public function organization()
+    public function team()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Team::class);
     }
 }

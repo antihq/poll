@@ -7,9 +7,9 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-it('creates a new poll for the organization with valid data', function () {
+it('creates a new poll for the team with valid data', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
     $pollData = [
         'name' => 'Team Satisfaction Survey',
@@ -37,7 +37,7 @@ it('creates a new poll for the organization with valid data', function () {
 
     $poll = Poll::first();
     expect($poll)->not->toBeNull();
-    expect($poll->organization->is($user->currentOrganization))->toBeTrue();
+    expect($poll->team->is($user->currentTeam))->toBeTrue();
     expect($poll->question)->toBe($pollData['question']);
     $answerTexts = $poll->answers->pluck('text')->toArray();
     expect($answerTexts)->toBe($pollData['answers']);
@@ -47,7 +47,7 @@ it('creates a new poll for the organization with valid data', function () {
 
 it('shows validation errors when less than two answers are provided', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', 'Test Poll')
@@ -74,7 +74,7 @@ it('redirects guests to login page', function () {
 
 it('can add and remove answers dynamically', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', 'Dynamic Poll')

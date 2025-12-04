@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Poll;
-use App\Models\Organization;
+use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
@@ -12,16 +12,16 @@ new class extends Component
     use WithPagination;
 
     #[Computed]
-    public function organization()
+    public function team()
     {
-        return Auth::user()->currentOrganization;
+        return Auth::user()->currentTeam;
     }
 
     #[Computed]
     public function polls()
     {
         return Poll::query()
-            ->where('organization_id', $this->organization->id)
+            ->where('team_id', $this->team->id)
             ->withCount('pollResponses')
             ->paginate(10);
     }
@@ -59,7 +59,8 @@ new class extends Component
                     </flux:table.cell>
                     <flux:table.cell align="end">
                         <flux:badge color="zinc" size="sm" inset="top bottom">
-                            {{ $poll->poll_responses_count }} {{ Str::plural('response', $poll->poll_responses_count) }}
+                            {{ $poll->poll_responses_count }}
+                            {{ Str::plural('response', $poll->poll_responses_count) }}
                         </flux:badge>
                     </flux:table.cell>
                     <flux:table.cell align="end" class="text-xs">
@@ -70,4 +71,3 @@ new class extends Component
         </flux:table.rows>
     </flux:table>
 </div>
-
