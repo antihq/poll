@@ -30,8 +30,7 @@ new #[Layout('layouts::site')] class extends Component
         <section>
             <flux:heading size="lg" level="2">2. Share Your Poll</flux:heading>
             <flux:text class="mt-6 text-base">
-                After creating your poll, click the share button on your poll to get the link. You can share this link
-                in your emails or newsletters to collect responses.
+                After creating your poll, click the share button to copy and paste it into any email client. You can also embed your poll in Kit.com's newsletter platform, where email addresses will be captured automatically.
             </flux:text>
         </section>
 
