@@ -1,13 +1,13 @@
-## Todo
+## To-Do
 
 - `/polls/1/settings`
-- poll can be configure to no longer accept responses
-- it can be configured to:
-	- require an email address
-	- auto submit responses
-	- collect feedback
-	- have a custom thank you message
-	- have a thank you button with a label and a url
-	- have a redirect url instead of a thank you message
-		- have a redirect url
-	- hide antipoll branding
+- Poll can be configured to no longer accept responses.
+- It can be configured to:
+	- Require an email address.
+	- Auto-submit responses.
+	- Collect feedback.
+	- Have a custom thank you message.
+	- Have a thank you button with a label and a URL.
+	- Have a redirect URL instead of a thank you message.
+		- Have a redirect URL.
+	- Hide Antipoll branding.
