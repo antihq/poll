@@ -71,7 +71,7 @@ new #[Layout('layouts::simple')] class extends Component
             'feedback' => $this->feedback,
         ]);
 
-        if ($this->poll->redirect_url) {
+        if ($this->poll->shouldRedirect()) {
             $this->redirect($this->poll->redirect_url);
 
             return;

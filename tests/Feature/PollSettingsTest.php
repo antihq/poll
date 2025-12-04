@@ -55,6 +55,7 @@ it('updates poll settings with thank you message', function () {
     expect($poll->thank_you_button_label)->toBe('Continue');
     expect($poll->thank_you_button_url)->toBe('https://example.com');
     expect($poll->redirect_url)->toBeNull();
+    expect($poll->submissionAction())->toBe('message');
     expect($poll->hide_branding)->toBeTrue();
 });
 
@@ -88,6 +89,7 @@ it('updates poll settings with redirect URL', function () {
     expect($poll->thank_you_button_label)->toBeNull();
     expect($poll->thank_you_button_url)->toBeNull();
     expect($poll->redirect_url)->toBe('https://redirect.com');
+    expect($poll->submissionAction())->toBe('redirect');
     expect($poll->hide_branding)->toBeTrue();
 });
 

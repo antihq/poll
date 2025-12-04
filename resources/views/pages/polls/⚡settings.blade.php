@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Poll;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
@@ -40,7 +41,7 @@ new class extends Component
         $this->thank_you_button_label = $poll->thank_you_button_label;
         $this->thank_you_button_url = $poll->thank_you_button_url;
         $this->redirect_url = $poll->redirect_url;
-        $this->submission_action = $poll->redirect_url ? 'redirect' : 'message';
+        $this->submission_action = $poll->submissionAction();
         $this->hide_branding = $poll->hide_branding ?? false;
     }
 

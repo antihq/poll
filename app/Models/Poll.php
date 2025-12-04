@@ -43,4 +43,14 @@ class Poll extends Model
     {
         return $this->hasMany(PollResponse::class);
     }
+
+    public function submissionAction(): string
+    {
+        return $this->redirect_url ? 'redirect' : 'message';
+    }
+
+    public function shouldRedirect(): bool
+    {
+        return $this->submissionAction() === 'redirect';
+    }
 }
