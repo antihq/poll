@@ -10,6 +10,7 @@ class TeamInvitationAcceptController extends Controller
 {
     public function __invoke(TeamInvitation $invitation): RedirectResponse
     {
+        /** @var User $user */
         $user = Auth::user();
         $team = $invitation->team;
 
