@@ -23,57 +23,46 @@ new class extends Component
     public function shareContent(): string
     {
         $question = e($this->poll->question);
-        $answers = $this->poll->answers->all();
-        $pollUlid = $this->poll->ulid;
-        $platform = $this->platform;
+        $layout = $this->poll->layout;
+
+        $answerLinks = $this->poll->answers->map(function ($answer) {
+            return "<a href=\"{$this->generateAnswerUrl($answer)}\">".e($answer->text).'</a>';
+        });
+
+        if ($layout === 'horizontal') {
+            return <<<HTML
+                <h2>{$question}</h2>
+                <p>{$answerLinks->implode(' | ')}</p>
+                HTML;
+        }
+
+        $listItems = $answerLinks->map(fn ($link) => "    <li>{$link}</li>")->implode("\n");
 
         return <<<HTML
             <h2>{$question}</h2>
 
             <ul>
 
-            HTML.implode('', array_map(function ($answer) use ($pollUlid, $platform) {
-            $url = url("/p/{$pollUlid}?answer={$answer->ulid}");
-
-            // Add platform-specific email parameters
-            switch ($platform) {
-                case 'beehiiv':
-                    $url .= '&email={{ subscriber.email }}';
-                    break;
-                case 'brevo':
-                    $url .= '&email={{ contact.email }}';
-                    break;
-                case 'emailoctopus':
-                    $url .= '&email={{ subscriber.email_address }}';
-                    break;
-                case 'ghost':
-                    $url .= '&email={{ member.email }}';
-                    break;
-                case 'hubspot':
-                    $url .= '&email={{ contact.email }}';
-                    break;
-                case 'kit':
-                    $url .= '&email={{ subscriber.email_address }}';
-                    break;
-                case 'loops':
-                    $url .= '&email={{ subscriber.email }}';
-                    break;
-                case 'mailerlite':
-                    $url .= '&email={{ subscriber.email }}';
-                    break;
-                case 'sendy':
-                    $url .= '&email={{ subscriber.email }}';
-                    break;
-                case 'universal':
-                default:
-                    // No email parameter for universal
-                    break;
-            }
-
-            return "    <li><a href=\"{$url}\">".e($answer->text)."</a></li>\n";
-        }, $answers)).<<<'HTML'
-            </ul>
+            {$listItems}</ul>
             HTML;
+    }
+
+    private function generateAnswerUrl($answer): string
+    {
+        $url = url("/p/{$this->poll->ulid}?answer={$answer->ulid}");
+
+        return match ($this->platform) {
+            'beehiiv' => $url.'&email={{email}}',
+            'brevo' => $url.'&email={{contact.EMAIL}}',
+            'emailoctopus' => $url.'&email={{EmailAddress}}',
+            'ghost' => $url.'&email={email}',
+            'hubspot' => $url.'&email={{personalization_token(\'contact.email\',\'\')}}',
+            'kit' => $url.'&email={{ subscriber.email_address }}',
+            'loops' => $url.'&email={email}',
+            'mailerlite' => $url.'&email={email}',
+            'sendy' => $url.'&email=[Email]',
+            default => $url,
+        };
     }
 }; ?>
 
@@ -161,13 +150,24 @@ new class extends Component
 
     <flux:card class="mt-3">
         <flux:text class="mt-2 font-semibold" variant="strong">{{ $poll->question }}</flux:text>
-        <ul class="mt-3 list-inside list-disc space-y-2">
-            @foreach ($poll->answers as $answer)
-                <li>
-                    <flux:text inline variant="strong">{{ $answer->text }}</flux:text>
-                </li>
-            @endforeach
-        </ul>
+
+        @if ($poll->layout === 'horizontal')
+            <div class="mt-3 flex flex-wrap gap-2">
+                @foreach ($poll->answers as $answer)
+                    <flux:text inline>
+                        {{ $answer->text }}
+                    </flux:text>
+                @endforeach
+            </div>
+        @else
+            <ul class="mt-3 list-inside list-disc space-y-2">
+                @foreach ($poll->answers as $answer)
+                    <li>
+                        <flux:text inline variant="strong">{{ $answer->text }}</flux:text>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
     </flux:card>
 
     <flux:spacer class="mt-6" />
