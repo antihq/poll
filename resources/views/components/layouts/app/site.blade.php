@@ -22,9 +22,12 @@
             <flux:spacer />
 
             <div class="flex items-center gap-x-5 md:gap-x-8">
-                <flux:button href="/login" variant="subtle" wire:navigate class="max-lg:hidden">Sign in</flux:button>
-
-                <flux:button href="/register" variant="primary" wire:navigate>Get started today</flux:button>
+                @guest
+                    <flux:button href="/login" variant="subtle" size="sm" wire:navigate class="max-lg:hidden">Sign in</flux:button>
+                    <flux:button href="/register" variant="primary" size="sm" wire:navigate>Get started today</flux:button>
+                @else
+                    <flux:button href="/dashboard" size="sm" wire:navigate>Dashboard</flux:button>
+                @endguest
             </div>
         </flux:header>
 
