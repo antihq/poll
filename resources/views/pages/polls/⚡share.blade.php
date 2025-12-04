@@ -21,7 +21,7 @@ new class extends Component {
     #[Computed]
     public function shareContent(): string
     {
-        $question = $this->poll->question;
+        $question = e($this->poll->question);
         $answers = $this->poll->answers->all();
         $pollUlid = $this->poll->ulid;
         $platform = $this->platform;
@@ -36,7 +36,7 @@ new class extends Component {
                 if ($platform === 'kit') {
                     $url .= "&email={{ subscriber.email_address }}";
                 }
-                return "    <li><a href=\"{$url}\">{$answer->text}</a></li>\n";
+                return "    <li><a href=\"{$url}\">" . e($answer->text) . "</a></li>\n";
             }, $answers)) . <<<HTML
             </ul>
             HTML;

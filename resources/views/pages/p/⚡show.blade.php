@@ -25,6 +25,7 @@ new #[Layout('layouts::simple')] class extends Component {
                     $query->where('poll_id', $this->poll->id);
                 }),
             ],
+            'email' => ['nullable', 'email', 'max:255'],
         ];
     }
 
