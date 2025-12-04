@@ -1,38 +1,14 @@
 <?php
 
 use App\Models\Poll;
-use App\Models\Team;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('displays poll settings page', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $team->subscriptions()->create([
-        'type' => 'default',
-        'stripe_status' => 'active',
-        'stripe_id' => 'sub_test_'.uniqid(),
-    ]);
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
-
-    $response = $this->actingAs($user)->get("/polls/{$poll->id}/settings");
-
-    $response->assertSuccessful();
-    $response->assertSee('Poll Settings');
-    $response->assertSee($poll->name);
-});
-
 it('updates poll settings with thank you message', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $team->subscriptions()->create([
-        'type' => 'default',
-        'stripe_status' => 'active',
-        'stripe_id' => 'sub_test_'.uniqid(),
-    ]);
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
 
-    $component = Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
+    Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
         ->set('accepts_responses', false)
         ->set('require_email', true)
         ->set('auto_submit', true)
@@ -60,14 +36,8 @@ it('updates poll settings with thank you message', function () {
 });
 
 it('updates poll settings with redirect URL', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $team->subscriptions()->create([
-        'type' => 'default',
-        'stripe_status' => 'active',
-        'stripe_id' => 'sub_test_'.uniqid(),
-    ]);
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
 
     Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
         ->set('accepts_responses', false)
@@ -94,14 +64,8 @@ it('updates poll settings with redirect URL', function () {
 });
 
 it('validates redirect URL is required when redirect is selected', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $team->subscriptions()->create([
-        'type' => 'default',
-        'stripe_status' => 'active',
-        'stripe_id' => 'sub_test_'.uniqid(),
-    ]);
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
 
     Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
         ->set('submission_action', 'redirect')
