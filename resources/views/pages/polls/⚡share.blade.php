@@ -26,6 +26,9 @@ new class extends Component {
 
         foreach ($this->poll->answers as $answer) {
             $url = url("/p/{$this->poll->ulid}?answer={$answer->ulid}");
+            if ($this->platform === 'kit') {
+                $url .= "&email={{ subscriber.email_address }}";
+            }
             $content .= "    <li><a href=\"{$url}\">{$answer->text}</a></li>\n";
         }
 
@@ -34,10 +37,7 @@ new class extends Component {
         return $content;
     }
 
-    public function copyToClipboard(): void
-    {
-        $this->dispatch('share-copied', content: $this->shareContent);
-    }
+
 }; ?>
 
 <div class="mx-auto max-w-3xl">
@@ -63,13 +63,12 @@ new class extends Component {
     <flux:spacer class="mt-6" />
 
     <flux:card>
-        <flux:heading size="md">Preview</flux:heading>
-        <flux:text class="mt-2 font-semibold">{{ $poll->question }}</flux:text>
-        <ul class="mt-3 space-y-2">
+        <flux:heading class="text-base!">Preview</flux:heading>
+        <flux:text class="mt-2 font-semibold" variant="strong">{{ $poll->question }}</flux:text>
+        <ul class="mt-3 list-inside list-disc space-y-2">
             @foreach ($poll->answers as $answer)
-                <li class="flex items-center gap-2">
-                    <flux:icon name="link" size="sm" />
-                    <span>{{ $answer->text }}</span>
+                <li>
+                    <flux:text inline variant="strong">{{ $answer->text }}</flux:text>
                 </li>
             @endforeach
         </ul>
@@ -89,29 +88,52 @@ new class extends Component {
 
     <flux:field>
         <flux:label>Share Content</flux:label>
-        <flux:textarea readonly rows="10" wire:model="shareContent" placeholder="Share content will appear here..." />
+        <flux:textarea readonly rows="10" wire:model="shareContent" placeholder="Share content will appear here...">
+            {{ $this->shareContent }}
+        </flux:textarea>
     </flux:field>
 
     <flux:spacer class="mt-4" />
 
-    <flux:button wire:click="copyToClipboard" icon:trailing="clipboard">Copy to Clipboard</flux:button>
+    <flux:button
+        x-data="{
+            copyToClipboard() {
+                const htmlContent = `{{ $this->shareContent }}`
+                const plainText = htmlContent
+                    .replace(/<[^>]*>/g, '')
+                    .replace(/&nbsp;/g, ' ')
+                    .trim()
 
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('share-copied', ({ content }) => {
-                navigator.clipboard.writeText(content).then(() => {
-                    // Show success message
-                    const button = document.querySelector('[wire\\:click="copyToClipboard"]');
-                    const originalText = button.textContent;
-                    button.textContent = 'Copied!';
-                    button.classList.add('bg-green-600', 'text-white');
+                if (navigator.clipboard && window.ClipboardItem) {
+                    const clipboardItem = new ClipboardItem({
+                        'text/html': new Blob([htmlContent], { type: 'text/html' }),
+                        'text/plain': new Blob([plainText], { type: 'text/plain' }),
+                    })
+                    navigator.clipboard.write([clipboardItem]).then(() => {
+                        this.showSuccess()
+                    })
+                } else {
+                    // Fallback for older browsers
+                    navigator.clipboard.writeText(plainText).then(() => {
+                        this.showSuccess()
+                    })
+                }
+            },
+            showSuccess() {
+                const button = this.$el
+                const originalText = button.textContent
+                button.textContent = 'Copied!'
+                button.classList.add('bg-green-600', 'text-white')
 
-                    setTimeout(() => {
-                        button.textContent = originalText;
-                        button.classList.remove('bg-green-600', 'text-white');
-                    }, 2000);
-                });
-            });
-        });
-    </script>
+                setTimeout(() => {
+                    button.textContent = originalText
+                    button.classList.remove('bg-green-600', 'text-white')
+                }, 2000)
+            },
+        }"
+        x-on:click="copyToClipboard()"
+        icon:trailing="clipboard"
+    >
+        Copy to Clipboard
+    </flux:button>
 </div>
