@@ -1,10 +1,11 @@
 <?php
 
-use Livewire\Component;
 use App\Models\Poll;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public Poll $poll;
 
     public string $platform = 'universal';
@@ -31,18 +32,49 @@ new class extends Component {
 
             <ul>
 
-            HTML . implode('', array_map(function ($answer) use ($pollUlid, $platform) {
-                $url = url("/p/{$pollUlid}?answer={$answer->ulid}");
-                if ($platform === 'kit') {
-                    $url .= "&email={{ subscriber.email_address }}";
-                }
-                return "    <li><a href=\"{$url}\">" . e($answer->text) . "</a></li>\n";
-            }, $answers)) . <<<HTML
+            HTML.implode('', array_map(function ($answer) use ($pollUlid, $platform) {
+            $url = url("/p/{$pollUlid}?answer={$answer->ulid}");
+
+            // Add platform-specific email parameters
+            switch ($platform) {
+                case 'beehiiv':
+                    $url .= '&email={{ subscriber.email }}';
+                    break;
+                case 'brevo':
+                    $url .= '&email={{ contact.email }}';
+                    break;
+                case 'emailoctopus':
+                    $url .= '&email={{ subscriber.email_address }}';
+                    break;
+                case 'ghost':
+                    $url .= '&email={{ member.email }}';
+                    break;
+                case 'hubspot':
+                    $url .= '&email={{ contact.email }}';
+                    break;
+                case 'kit':
+                    $url .= '&email={{ subscriber.email_address }}';
+                    break;
+                case 'loops':
+                    $url .= '&email={{ subscriber.email }}';
+                    break;
+                case 'mailerlite':
+                    $url .= '&email={{ subscriber.email }}';
+                    break;
+                case 'sendy':
+                    $url .= '&email={{ subscriber.email }}';
+                    break;
+                case 'universal':
+                default:
+                    // No email parameter for universal
+                    break;
+            }
+
+            return "    <li><a href=\"{$url}\">".e($answer->text)."</a></li>\n";
+        }, $answers)).<<<'HTML'
             </ul>
             HTML;
     }
-
-
 }; ?>
 
 <div class="mx-auto max-w-3xl">
@@ -67,6 +99,64 @@ new class extends Component {
 
     <flux:spacer class="mt-6" />
 
+    <flux:field>
+        <flux:label>Platform</flux:label>
+        <flux:radio.group wire:model.live="platform" variant="cards" class="grid grid-cols-2 max-sm:grid-cols-1">
+            <flux:radio
+                value="universal"
+                label="Universal"
+                description="Works universally with Apple Mail, Gmail, Substack and more, but it doesn't automatically link responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="beehiiv"
+                label="Beehiiv"
+                description="Automatically links responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="brevo"
+                label="Brevo"
+                description="Automatically links responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="emailoctopus"
+                label="EmailOctopus"
+                description="Automatically links responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="ghost"
+                label="Ghost"
+                description="For email posts, it links responses to Ghost members. The poll must be embedded as an email call-to-action content card. For regular blog posts, users must use the universal poll instead."
+            />
+            <flux:radio
+                value="hubspot"
+                label="HubSpot"
+                description="It requires the 'Marketing Hub Starter' plan or higher."
+            />
+            <flux:radio
+                value="kit"
+                label="Kit"
+                description="Automatically links responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="loops"
+                label="Loops"
+                description="Automatically links responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="mailerlite"
+                label="MailerLite"
+                description="Automatically links responses to subscribers or contacts."
+            />
+            <flux:radio
+                value="sendy"
+                label="Sendy"
+                description="Automatically links responses to subscribers or contacts."
+            />
+        </flux:radio.group>
+    </flux:field>
+
+    <flux:spacer class="mt-6" />
+
     <flux:heading>Preview</flux:heading>
 
     <flux:card class="mt-3">
@@ -79,16 +169,6 @@ new class extends Component {
             @endforeach
         </ul>
     </flux:card>
-
-    <flux:spacer class="mt-6" />
-
-    <flux:field>
-        <flux:label>Platform</flux:label>
-        <flux:radio.group wire:model.live="platform">
-            <flux:radio value="universal" label="Universal" />
-            <flux:radio value="kit" label="Kit" />
-        </flux:radio.group>
-    </flux:field>
 
     <flux:spacer class="mt-6" />
 

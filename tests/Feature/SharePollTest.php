@@ -73,6 +73,66 @@ it('generates correct share links for kit platform', function () {
     expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[1]->ulid.'&email={{ subscriber.email_address }}"');
 });
 
+it('generates correct share links for ghost platform', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $poll = Poll::factory()
+        ->for($user->currentTeam)
+        ->has(Answer::factory()->count(2)->sequence(['text' => 'Love it'], ['text' => 'Hate it']))
+        ->create(['question' => 'What do you think?']);
+
+    $component = Livewire::actingAs($user)->test('pages::polls.share', ['poll' => $poll])
+        ->set('platform', 'ghost');
+
+    $shareContent = $component->get('shareContent');
+
+    expect($shareContent)->toContain('What do you think?');
+    expect($shareContent)->toContain('Love it');
+    expect($shareContent)->toContain('Hate it');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[0]->ulid.'&email={{ member.email }}"');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[1]->ulid.'&email={{ member.email }}"');
+});
+
+it('generates correct share links for hubspot platform', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $poll = Poll::factory()
+        ->for($user->currentTeam)
+        ->has(Answer::factory()->count(2)->sequence(['text' => 'Yes'], ['text' => 'No']))
+        ->create(['question' => 'Would you recommend us?']);
+
+    $component = Livewire::actingAs($user)->test('pages::polls.share', ['poll' => $poll])
+        ->set('platform', 'hubspot');
+
+    $shareContent = $component->get('shareContent');
+
+    expect($shareContent)->toContain('Would you recommend us?');
+    expect($shareContent)->toContain('Yes');
+    expect($shareContent)->toContain('No');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[0]->ulid.'&email={{ contact.email }}"');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[1]->ulid.'&email={{ contact.email }}"');
+});
+
+it('generates correct share links for beehiiv platform', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $poll = Poll::factory()
+        ->for($user->currentTeam)
+        ->has(Answer::factory()->count(2)->sequence(['text' => 'Option 1'], ['text' => 'Option 2']))
+        ->create(['question' => 'Which do you prefer?']);
+
+    $component = Livewire::actingAs($user)->test('pages::polls.share', ['poll' => $poll])
+        ->set('platform', 'beehiiv');
+
+    $shareContent = $component->get('shareContent');
+
+    expect($shareContent)->toContain('Which do you prefer?');
+    expect($shareContent)->toContain('Option 1');
+    expect($shareContent)->toContain('Option 2');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[0]->ulid.'&email={{ subscriber.email }}"');
+    expect($shareContent)->toContain('href="'.url("/p/{$poll->ulid}?answer=").$poll->answers[1]->ulid.'&email={{ subscriber.email }}"');
+});
+
 it('displays copy to clipboard button', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeamAndSubscription()->create();
