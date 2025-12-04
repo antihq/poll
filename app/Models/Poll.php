@@ -13,6 +13,14 @@ class Poll extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'accepts_responses' => 'boolean',
+        'require_email' => 'boolean',
+        'auto_submit' => 'boolean',
+        'collect_feedback' => 'boolean',
+        'hide_branding' => 'boolean',
+    ];
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
@@ -26,5 +34,15 @@ class Poll extends Model
     public function pollResponses(): HasMany
     {
         return $this->hasMany(PollResponse::class);
+    }
+
+    public function submissionAction(): string
+    {
+        return $this->redirect_url ? 'redirect' : 'message';
+    }
+
+    public function shouldRedirect(): bool
+    {
+        return $this->submissionAction() === 'redirect';
     }
 }

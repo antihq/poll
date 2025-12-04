@@ -1,10 +1,11 @@
 <?php
 
-use Livewire\Component;
 use App\Models\Poll;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public Poll $poll;
 
     public function mount(): void
@@ -35,7 +36,7 @@ new class extends Component {
                 $answer->id => [
                     'count' => $responseCount,
                     'percentage' => $percentage,
-                ]
+                ],
             ];
         })->all();
     }
@@ -54,6 +55,14 @@ new class extends Component {
             <flux:menu>
                 <flux:menu.item href="/polls/{{ $poll->id }}/edit" icon="pencil" icon:variant="micro" wire:navigate>
                     Edit Poll
+                </flux:menu.item>
+                <flux:menu.item
+                    href="/polls/{{ $poll->id }}/settings"
+                    icon="cog-6-tooth"
+                    icon:variant="micro"
+                    wire:navigate
+                >
+                    Settings
                 </flux:menu.item>
                 <flux:menu.item href="/polls/{{ $poll->id }}/share" icon="share" icon:variant="micro" wire:navigate>
                     Share Poll
