@@ -13,24 +13,22 @@ new #[Layout('layouts::changelog'), Title('Changelog')] class extends Component
 }; ?>
 
 <div class="space-y-20 sm:space-y-32">
-    {{--
-        <x-changelog.entry date="2025-11-01">
-            <x-changelog.img src="/assets/images/CleanShot 2025-11-12 at 10.16.41@2x.png" />
-            <h2><a href="#changelog-2025-11-01">Culpa voluptate ea laborum nisi in est nulla.</a></h2>
-            <p>Deserunt pariatur veniam velit elit voluptate.</p>
-            <p>Ullamco magna magna incididunt voluptate quis eu sit proident.</p>
-            <h3>
-                <flux:icon.sparkles variant="solid" />
-                Improvements
-            </h3>
-            <ul>
-                <li>Sunt eu id cupidatat dolor ad dolore elit deserunt occaecat Lorem eiusmod aute.</li>
-                <li>Dolor aliqua ut id ullamco duis duis cupidatat mollit commodo pariatur.</li>
-                <li>Sunt eu id cupidatat dolor ad dolore elit deserunt occaecat Lorem eiusmod aute.</li>
-                <li>Dolor aliqua ut id ullamco duis duis cupidatat mollit commodo pariatur.</li>
-                <li>Sunt eu id cupidatat dolor ad dolore elit deserunt occaecat Lorem eiusmod aute.</li>
-                <li>Dolor aliqua ut id ullamco duis duis cupidatat mollit commodo pariatur.</li>
-            </ul>
-        </x-changelog.entry>
-    --}}
+    <x-changelog.entry date="2025-12-03">
+        <x-changelog.img src="/assets/images/CleanShot 2025-12-03 at 20.15.15@2x.png" />
+        <h2><a href="#changelog-2025-12-03">Poll Sharing and Email Capture</a></h2>
+        <p>
+            You can now share your polls with others and capture email addresses from respondents. Copy polls to any email client using the universal platform format, or paste them directly into Kit.com. When using Kit.com, the respondent's email is automatically captured in the poll response.
+        </p>
+        <h3>
+            <flux:icon.sparkles variant="solid" />
+            New Features
+        </h3>
+        <ul>
+            <li>Share polls with a dedicated sharing page featuring rich text clipboard support</li>
+            <li>Universal platform format for copying polls to any email client</li>
+            <li>Kit.com platform integration with automatic email capture</li>
+            <li>Capture email addresses from poll respondents</li>
+            <li>Pre-select answers via URL query parameters for easy sharing</li>
+        </ul>
+    </x-changelog.entry>
 </div>
