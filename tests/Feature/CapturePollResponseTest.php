@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Answer;
 use App\Models\Poll;
+use App\Models\PollResponse;
 use Livewire\Livewire;
 
 use function Pest\Laravel\get;
@@ -24,7 +26,7 @@ it('allows guests to select and submit a poll response', function () {
     $answer = $poll->answers->first();
 
     $component = Livewire::test('pages::p.show', ['poll' => $poll])
-        ->set('selectedAnswer', $answer->id)
+        ->set('answer', $answer->ulid)
         ->call('submit');
 
     $component->assertHasNoErrors();
@@ -37,28 +39,56 @@ it('shows validation error when no answer is selected', function () {
     $component = Livewire::test('pages::p.show', ['poll' => $poll])
         ->call('submit');
 
-    $component->assertHasErrors(['selectedAnswer' => 'required']);
+    $component->assertHasErrors(['answer' => 'required']);
 });
 
-it('shows validation error when selected answer does not belong to the poll', function () {
+it('shows validation error when selected answer does not belong to poll', function () {
     $poll = Poll::factory()->withAnswers(2, ['Yes', 'No'])->create();
     $otherPoll = Poll::factory()->withAnswers(2, ['Maybe', 'Later'])->create();
     $otherAnswer = $otherPoll->answers->first();
 
     $component = Livewire::test('pages::p.show', ['poll' => $poll])
-        ->set('selectedAnswer', $otherAnswer->id)
+        ->set('answer', $otherAnswer->ulid)
         ->call('submit');
 
-    $component->assertHasErrors(['selectedAnswer' => 'exists']);
+    $component->assertHasErrors(['answer' => 'exists']);
 });
 
-it('shows thank you message after submission and hides the form', function () {
+it('shows thank you message after submission and hides form', function () {
     $poll = Poll::factory()->withAnswers(2, ['Yes', 'No'])->create();
     $answer = $poll->answers->first();
 
     $component = Livewire::test('pages::p.show', ['poll' => $poll])
-        ->set('selectedAnswer', $answer->id)
+        ->set('answer', $answer->ulid)
         ->call('submit');
 
     $component->assertSee('Thank you for your response!');
+});
+
+it('preselects answer from URL parameter', function () {
+    $poll = Poll::factory()->has(Answer::factory()->count(3))->create();
+    $answer = $poll->answers->first();
+
+    $response = get("/p/{$poll->ulid}?answer={$answer->ulid}");
+
+    $response->assertSuccessful();
+    $response->assertSee('value="'.$answer->ulid.'"', false);
+    $response->assertSee('checked', false);
+});
+
+it('stores email in poll response when submitted', function () {
+    $poll = Poll::factory()->has(Answer::factory()->count(3))->create();
+    $answer = $poll->answers->first();
+    $email = 'test@example.com';
+
+    Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->set('email', $email)
+        ->call('submit');
+
+    $pollResponse = PollResponse::first();
+
+    expect($pollResponse->poll_id)->toBe($poll->id);
+    expect($pollResponse->answer_id)->toBe($answer->id);
+    expect($pollResponse->email)->toBe($email);
 });

@@ -5,19 +5,23 @@ use App\Models\Poll;
 use App\Models\PollResponse;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 
 new #[Layout('layouts::simple')] class extends Component {
     public Poll $poll;
-    public ?int $selectedAnswer = null;
+    public ?string $answer = null;
     public bool $submitted = false;
+
+    #[Url]
+    public ?string $email = null;
 
     protected function rules(): array
     {
         return [
-            'selectedAnswer' => [
+            'answer' => [
                 'required',
-                'integer',
-                Rule::exists('answers', 'id')->where(function ($query) {
+                'string',
+                Rule::exists('answers', 'ulid')->where(function ($query) {
                     $query->where('poll_id', $this->poll->id);
                 }),
             ],
@@ -28,9 +32,12 @@ new #[Layout('layouts::simple')] class extends Component {
     {
         $this->validate();
 
+        $answer = $this->poll->answers()->where('ulid', $this->answer)->first();
+
         PollResponse::create([
             'poll_id' => $this->poll->id,
-            'answer_id' => $this->selectedAnswer,
+            'answer_id' => $answer->id,
+            'email' => $this->email,
         ]);
 
         $this->submitted = true;
@@ -38,7 +45,7 @@ new #[Layout('layouts::simple')] class extends Component {
 };
 ?>
 
-<div class="mx-auto max-w-[512px] h-full flex flex-col items-center justify-center">
+<div class="mx-auto flex h-full max-w-[512px] flex-col items-center justify-center">
     @if ($submitted)
         <div class="text-center">
             <flux:heading size="lg">Thank you for your response!</flux:heading>
@@ -49,15 +56,9 @@ new #[Layout('layouts::simple')] class extends Component {
             <flux:heading size="lg">{{ $poll->question }}</flux:heading>
 
             <form wire:submit="submit" class="mt-8 space-y-6">
-                <flux:radio.group
-                    wire:model="selectedAnswer"
-                    label="Select your answer"
-                >
+                <flux:radio.group wire:model="answer" label="Select your answer">
                     @foreach ($poll->answers as $answer)
-                        <flux:radio
-                            value="{{ $answer->id }}"
-                            label="{{ $answer->text }}"
-                        />
+                        <flux:radio :value="$answer->ulid" :label="$answer->text" />
                     @endforeach
                 </flux:radio.group>
 
