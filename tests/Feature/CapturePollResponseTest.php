@@ -92,3 +92,66 @@ it('stores email in poll response when submitted', function () {
     expect($pollResponse->answer_id)->toBe($answer->id);
     expect($pollResponse->email)->toBe($email);
 });
+
+it('stores feedback in poll response when answer has feedback field', function () {
+    $poll = Poll::factory()->create();
+    $answer = Answer::factory()->for($poll)->create(['feedback_field_label' => 'Please provide feedback']);
+    $feedback = 'This is my feedback';
+
+    Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->set('feedback', $feedback)
+        ->call('submit');
+
+    $pollResponse = PollResponse::first();
+
+    expect($pollResponse->poll_id)->toBe($poll->id);
+    expect($pollResponse->answer_id)->toBe($answer->id);
+    expect($pollResponse->feedback)->toBe($feedback);
+});
+
+it('requires feedback when answer has feedback field label', function () {
+    $poll = Poll::factory()->create();
+    $answer = Answer::factory()->for($poll)->create(['feedback_field_label' => 'Please provide feedback']);
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertHasErrors(['feedback' => 'required']);
+});
+
+it('does not require feedback when answer has no feedback field label', function () {
+    $poll = Poll::factory()->create();
+    $answer = Answer::factory()->for($poll)->create(['feedback_field_label' => null]);
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertHasNoErrors();
+});
+
+it('redirects to answer redirect URL when answer has redirect URL', function () {
+    $poll = Poll::factory()->create();
+    $redirectUrl = 'https://example.com/success';
+    $answer = Answer::factory()->for($poll)->create(['redirect_url' => $redirectUrl]);
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertRedirect($redirectUrl);
+});
+
+it('shows thank you message when answer has no redirect URL', function () {
+    $poll = Poll::factory()->create();
+    $answer = Answer::factory()->for($poll)->create(['redirect_url' => null]);
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertSee('Thank you for your response!');
+    $component->assertSet('submitted', true);
+});

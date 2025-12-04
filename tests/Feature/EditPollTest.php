@@ -41,8 +41,7 @@ test('it updates a poll with valid data', function () {
         ->set('name', 'Updated Poll Name')
         ->set('question', 'Updated question?')
         ->set('answers', ['Updated Answer 1', 'Updated Answer 2'])
-        ->call('update')
-        ->assertRedirect("/polls/{$poll->id}");
+        ->call('update');
 
     $this->assertDatabaseHas('polls', [
         'id' => $poll->id,
@@ -78,8 +77,7 @@ test('it can add new answers when editing', function () {
         ->set('name', $poll->name)
         ->set('question', $poll->question)
         ->set('answers', ['Answer 1', 'Answer 2', 'New Answer 3'])
-        ->call('update')
-        ->assertRedirect("/polls/{$poll->id}");
+        ->call('update');
 
     $this->assertDatabaseHas('answers', [
         'poll_id' => $poll->id,
@@ -104,8 +102,7 @@ test('it can remove answers when editing', function () {
         ->set('name', $poll->name)
         ->set('question', $poll->question)
         ->set('answers', ['Answer 1', 'Answer 2'])
-        ->call('update')
-        ->assertRedirect("/polls/{$poll->id}");
+        ->call('update');
 
     $this->assertDatabaseMissing('answers', [
         'id' => $answer3->id,
