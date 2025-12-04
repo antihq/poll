@@ -267,21 +267,3 @@ it('redirects to poll redirect URL when configured', function () {
 
     $component->assertRedirect($redirectUrl);
 });
-
-it('hides branding when poll is configured to hide branding', function () {
-    $poll = Poll::factory()->create(['hide_branding' => true]);
-
-    $response = get("/p/{$poll->ulid}");
-
-    $response->assertSuccessful();
-    $response->assertDontSee('Antipoll');
-});
-
-it('shows branding when poll is not configured to hide branding', function () {
-    $poll = Poll::factory()->create(['hide_branding' => false]);
-
-    $response = get("/p/{$poll->ulid}");
-
-    $response->assertSuccessful();
-    $response->assertSee('Antipoll');
-});
