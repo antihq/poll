@@ -52,6 +52,9 @@ new class extends Component {
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
             <flux:menu>
+                <flux:menu.item href="/polls/{{ $poll->id }}/edit" icon="pencil" icon:variant="micro" wire:navigate>
+                    Edit Poll
+                </flux:menu.item>
                 <flux:menu.item href="/polls/{{ $poll->id }}/share" icon="share" icon:variant="micro" wire:navigate>
                     Share Poll
                 </flux:menu.item>
