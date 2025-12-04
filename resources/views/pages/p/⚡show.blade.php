@@ -9,8 +9,11 @@ use Livewire\Attributes\Url;
 
 new #[Layout('layouts::simple')] class extends Component {
     public Poll $poll;
-    public ?string $answer = null;
+
     public bool $submitted = false;
+
+    #[Url]
+    public ?string $answer = null;
 
     #[Url]
     public ?string $email = null;
