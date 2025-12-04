@@ -197,7 +197,6 @@ new class extends Component
                         type="url"
                         label="Redirect URL"
                         placeholder="https://example.com/success"
-                        required
                         description="Users will be redirected to this URL after submitting their response."
                     />
                 </div>
@@ -214,7 +213,7 @@ new class extends Component
         </flux:fieldset>
 
         <div class="flex justify-end">
-            <flux:button type="submit">Save Settings</flux:button>
+            <flux:button type="submit" variant="primary">Save Settings</flux:button>
         </div>
     </form>
 </div>
