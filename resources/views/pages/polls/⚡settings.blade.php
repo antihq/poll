@@ -82,7 +82,7 @@ new class extends Component
             'hide_branding' => $this->hide_branding,
         ]);
 
-        session()->flash('message', 'Poll settings updated successfully!');
+        $this->redirect("/polls/{$this->poll->id}", navigate: true);
     }
 }; ?>
 
@@ -91,12 +91,6 @@ new class extends Component
         <flux:heading size="xl">Poll Settings</flux:heading>
         <flux:text class="mt-2">Configure settings for "{{ $poll->name }}"</flux:text>
     </div>
-
-    @if (session()->has('message'))
-        <div class="mb-4 rounded-md border border-green-200 bg-green-50 p-4">
-            <flux:text color="green">{{ session('message') }}</flux:text>
-        </div>
-    @endif
 
     <form wire:submit="save" class="space-y-6">
         <flux:fieldset>
