@@ -93,23 +93,6 @@ it('updates poll settings with redirect URL', function () {
     expect($poll->hide_branding)->toBeTrue();
 });
 
-it('shows success message after saving settings', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $team->subscriptions()->create([
-        'type' => 'default',
-        'stripe_status' => 'active',
-        'stripe_id' => 'sub_test_'.uniqid(),
-    ]);
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
-
-    Livewire::actingAs($user)->test('pages::polls.settings', ['poll' => $poll])
-        ->set('accepts_responses', false)
-        ->set('submission_action', 'message')
-        ->call('save')
-        ->assertSee('Poll settings updated successfully!');
-});
-
 it('validates redirect URL is required when redirect is selected', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);

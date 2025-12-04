@@ -45,17 +45,8 @@ new class extends Component
         $this->hide_branding = $poll->hide_branding ?? false;
     }
 
-    public function save(): void
+    public function rules(): array
     {
-        // Clear values based on action choice first
-        if ($this->submission_action === 'message') {
-            $this->redirect_url = null;
-        } else {
-            $this->thank_you_message = null;
-            $this->thank_you_button_label = null;
-            $this->thank_you_button_url = null;
-        }
-
         $rules = [
             'submission_action' => 'required|in:message,redirect',
         ];
@@ -68,7 +59,25 @@ new class extends Component
             $rules['thank_you_button_url'] = 'required|url';
         }
 
-        $this->validate($rules);
+        return $rules;
+    }
+
+    private function clearConflictingValues(): void
+    {
+        if ($this->submission_action === 'message') {
+            $this->redirect_url = null;
+        } else {
+            $this->thank_you_message = null;
+            $this->thank_you_button_label = null;
+            $this->thank_you_button_url = null;
+        }
+    }
+
+    public function save(): void
+    {
+        $this->clearConflictingValues();
+
+        $this->validate();
 
         $this->poll->update([
             'accepts_responses' => $this->accepts_responses,
