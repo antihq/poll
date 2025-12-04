@@ -2,6 +2,7 @@
 
 use App\Models\Answer;
 use App\Models\Poll;
+use Flux\Flux;
 use Livewire\Component;
 
 new class extends Component
@@ -81,7 +82,7 @@ new class extends Component
             $existingAnswers->slice(count($answerTexts))->each->delete();
         }
 
-        $this->redirect("/polls/{$this->poll->id}", navigate: true);
+        Flux::toast('Poll updated successfully.', variant: 'success');
     }
 }; ?>
 
@@ -114,10 +115,10 @@ new class extends Component
                 wire:model="question"
             />
 
-            <flux:select label="Layout" wire:model="layout">
-                <option value="vertical">Vertical</option>
-                <option value="horizontal">Horizontal</option>
-            </flux:select>
+            <flux:radio.group label="Layout" wire:model="layout">
+                <flux:radio value="vertical" label="Vertical" />
+                <flux:radio value="horizontal" label="Horizontal" />
+            </flux:radio.group>
 
             <div>
                 <flux:field>
@@ -131,18 +132,35 @@ new class extends Component
                                 placeholder="Answer {{ $index + 1 }}"
                                 class="flex-1"
                             />
-                            @if (count($answers) > 2)
-                                <flux:button
-                                    type="button"
-                                    variant="subtle"
-                                    size="sm"
-                                    wire:click="removeAnswer({{ $index }})"
-                                    class="shrink-0"
-                                    square
-                                >
-                                    <flux:icon name="trash" variant="mini" />
+                            <flux:dropdown position="bottom" align="end">
+                                <flux:button type="button" variant="subtle" size="sm" class="shrink-0" square>
+                                    <flux:icon name="ellipsis-horizontal" variant="micro" />
                                 </flux:button>
-                            @endif
+                                <flux:menu>
+                                    @if ($poll->answers->has($index))
+                                        <flux:menu.item
+                                            href="/answers/{{ $poll->answers[$index]->id }}/settings"
+                                            icon="cog-6-tooth"
+                                            icon:variant="micro"
+                                            wire:navigate
+                                        >
+                                            Settings
+                                        </flux:menu.item>
+                                    @endif
+
+                                    @if (count($answers) > 2)
+                                        <flux:menu.item
+                                            variant="danger"
+                                            icon="trash"
+                                            icon:variant="micro"
+                                            wire:click="removeAnswer({{ $index }})"
+                                            wire:confirm="Are you sure you want to delete this answer?"
+                                        >
+                                            Delete
+                                        </flux:menu.item>
+                                    @endif
+                                </flux:menu>
+                            </flux:dropdown>
                         </div>
                     @endforeach
 
