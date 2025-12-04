@@ -63,6 +63,10 @@ new class extends Component
             $rules['redirect_url'] = 'required|url';
         }
 
+        if ($this->submission_action === 'message' && $this->thank_you_button_label) {
+            $rules['thank_you_button_url'] = 'required|url';
+        }
+
         $this->validate($rules);
 
         $this->poll->update([
@@ -126,48 +130,58 @@ new class extends Component
         <flux:fieldset>
             <flux:legend>After Submission</flux:legend>
             <div class="space-y-6">
-                <flux:field>
-                    <flux:label>What should happen after submission?</flux:label>
-                    <div class="space-y-3">
-                        <flux:field variant="inline">
-                            <flux:radio wire:model="submission_action" value="message" />
-                            <flux:label>Show thank you message</flux:label>
-                        </flux:field>
-                        <flux:field variant="inline">
-                            <flux:radio wire:model="submission_action" value="redirect" />
-                            <flux:label>Redirect to URL</flux:label>
-                        </flux:field>
-                    </div>
-                </flux:field>
+                <flux:radio.group
+                    wire:model="submission_action"
+                    label="What should happen after submission?"
+                    variant="cards"
+                    class="max-sm:flex-col"
+                >
+                    <flux:radio
+                        value="message"
+                        label="Show thank you message"
+                        description="Display a custom thank you message with optional button"
+                    />
+                    <flux:radio
+                        value="redirect"
+                        label="Redirect to URL"
+                        description="Automatically redirect users to a custom URL after submission"
+                    />
+                </flux:radio.group>
 
-                @if ($submission_action === 'message')
-                    <div class="space-y-4">
+                <div x-cloak x-show="$wire.submission_action === 'message'" class="space-y-4">
+                    <flux:field>
+                        <flux:label badge="Optional">Custom thank you message</flux:label>
                         <flux:textarea
                             wire:model="thank_you_message"
-                            label="Custom thank you message"
                             placeholder="Thank you for your response!"
                             rows="3"
-                            description="Custom message to show after submission. Leave empty for default message."
                         />
+                        <flux:description>
+                            Custom message to show after submission. Leave empty for default message.
+                        </flux:description>
+                        <flux:error name="thank_you_message" />
+                    </flux:field>
 
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <flux:input
-                                wire:model="thank_you_button_label"
-                                label="Button label"
-                                placeholder="Continue"
-                            />
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <flux:field>
+                            <flux:label badge="Optional">Button label</flux:label>
+                            <flux:input wire:model="thank_you_button_label" placeholder="Continue" />
+                            <flux:error name="thank_you_button_label" />
+                        </flux:field>
+                        <flux:field>
+                            <flux:label badge="Optional">Button URL</flux:label>
                             <flux:input
                                 wire:model="thank_you_button_url"
                                 type="url"
-                                label="Button URL"
                                 placeholder="https://example.com"
                             />
-                        </div>
-                        <flux:text class="text-sm">Show a custom button on the thank you screen.</flux:text>
+                            <flux:error name="thank_you_button_url" />
+                        </flux:field>
                     </div>
-                @endif
+                    <flux:text class="text-sm">Show a custom button on the thank you screen.</flux:text>
+                </div>
 
-                @if ($submission_action === 'redirect')
+                <div x-cloak x-show="$wire.submission_action === 'redirect'">
                     <flux:input
                         wire:model="redirect_url"
                         type="url"
@@ -176,7 +190,7 @@ new class extends Component
                         required
                         description="Users will be redirected to this URL after submitting their response."
                     />
-                @endif
+                </div>
             </div>
         </flux:fieldset>
 
