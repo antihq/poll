@@ -46,15 +46,15 @@ it('updates poll settings', function () {
 
     $poll->refresh();
 
-    expect($poll->accepts_responses)->toBe(0);
-    expect($poll->require_email)->toBe(1);
-    expect($poll->auto_submit)->toBe(1);
-    expect($poll->collect_feedback)->toBe(1);
+    expect($poll->accepts_responses)->toBeFalse();
+    expect($poll->require_email)->toBeTrue();
+    expect($poll->auto_submit)->toBeTrue();
+    expect($poll->collect_feedback)->toBeTrue();
     expect($poll->thank_you_message)->toBe('Custom thank you message');
     expect($poll->thank_you_button_label)->toBe('Continue');
     expect($poll->thank_you_button_url)->toBe('https://example.com');
     expect($poll->redirect_url)->toBe('https://redirect.com');
-    expect($poll->hide_branding)->toBe(1);
+    expect($poll->hide_branding)->toBeTrue();
 });
 
 it('shows success message after saving settings', function () {

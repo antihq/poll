@@ -13,6 +13,14 @@ class Poll extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'accepts_responses' => 'boolean',
+        'require_email' => 'boolean',
+        'auto_submit' => 'boolean',
+        'collect_feedback' => 'boolean',
+        'hide_branding' => 'boolean',
+    ];
+
     protected $attributes = [
         'accepts_responses' => true,
         'require_email' => false,

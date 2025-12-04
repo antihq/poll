@@ -61,158 +61,89 @@ new class extends Component
 
 <div class="mx-auto max-w-2xl">
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Poll Settings</h1>
-        <p class="mt-2 text-gray-600">Configure settings for "{{ $poll->name }}"</p>
+        <flux:heading size="xl">Poll Settings</flux:heading>
+        <flux:text class="mt-2">Configure settings for "{{ $poll->name }}"</flux:text>
     </div>
 
     @if (session()->has('message'))
         <div class="mb-4 rounded-md border border-green-200 bg-green-50 p-4">
-            <p class="text-green-800">{{ session('message') }}</p>
+            <flux:text color="green">{{ session('message') }}</flux:text>
         </div>
     @endif
 
     <form wire:submit="save" class="space-y-6">
-        <div class="rounded-lg bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-lg font-medium text-gray-900">Response Settings</h2>
-
+        <flux:fieldset>
+            <flux:legend>Response Settings</flux:legend>
             <div class="space-y-4">
-                <div>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            wire:model="accepts_responses"
-                            class="focus:ring-opacity-50 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-                        />
-                        <span class="ml-2 text-sm font-medium text-gray-700">Accept responses</span>
-                    </label>
-                    <p class="mt-1 text-sm text-gray-500">When disabled, the poll will not accept new responses.</p>
-                </div>
+                <flux:field variant="inline">
+                    <flux:checkbox wire:model="accepts_responses" />
+                    <flux:label>Accept responses</flux:label>
+                    <flux:description>When disabled, poll will not accept new responses.</flux:description>
+                </flux:field>
 
-                <div>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            wire:model="require_email"
-                            class="focus:ring-opacity-50 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-                        />
-                        <span class="ml-2 text-sm font-medium text-gray-700">Require email address</span>
-                    </label>
-                    <p class="mt-1 text-sm text-gray-500">Require respondents to provide their email address.</p>
-                </div>
+                <flux:field variant="inline">
+                    <flux:checkbox wire:model="require_email" />
+                    <flux:label>Require email address</flux:label>
+                    <flux:description>Require respondents to provide their email address.</flux:description>
+                </flux:field>
 
-                <div>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            wire:model="auto_submit"
-                            class="focus:ring-opacity-50 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-                        />
-                        <span class="ml-2 text-sm font-medium text-gray-700">Auto-submit responses</span>
-                    </label>
-                    <p class="mt-1 text-sm text-gray-500">Automatically submit responses when an answer is selected.</p>
-                </div>
+                <flux:field variant="inline">
+                    <flux:checkbox wire:model="auto_submit" />
+                    <flux:label>Auto-submit responses</flux:label>
+                    <flux:description>Automatically submit responses when an answer is selected.</flux:description>
+                </flux:field>
 
-                <div>
-                    <label class="flex items-center">
-                        <input
-                            type="checkbox"
-                            wire:model="collect_feedback"
-                            class="focus:ring-opacity-50 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-                        />
-                        <span class="ml-2 text-sm font-medium text-gray-700">Collect feedback</span>
-                    </label>
-                    <p class="mt-1 text-sm text-gray-500">Show a feedback field after response submission.</p>
-                </div>
+                <flux:field variant="inline">
+                    <flux:checkbox wire:model="collect_feedback" />
+                    <flux:label>Collect feedback</flux:label>
+                    <flux:description>Show a feedback field after response submission.</flux:description>
+                </flux:field>
             </div>
-        </div>
+        </flux:fieldset>
 
-        <div class="rounded-lg bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-lg font-medium text-gray-900">Thank You Settings</h2>
-
-            <div class="space-y-4">
-                <div>
-                    <label for="thank_you_message" class="block text-sm font-medium text-gray-700">
-                        Custom thank you message
-                    </label>
-                    <textarea
-                        id="thank_you_message"
-                        wire:model="thank_you_message"
-                        rows="3"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        placeholder="Thank you for your response!"
-                    ></textarea>
-                    <p class="mt-1 text-sm text-gray-500">
-                        Custom message to show after submission. Leave empty for default message.
-                    </p>
-                </div>
+        <flux:fieldset>
+            <flux:legend>Thank You Settings</flux:legend>
+            <div class="space-y-6">
+                <flux:textarea
+                    wire:model="thank_you_message"
+                    label="Custom thank you message"
+                    placeholder="Thank you for your response!"
+                    rows="3"
+                    description="Custom message to show after submission. Leave empty for default message."
+                />
 
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <label for="thank_you_button_label" class="block text-sm font-medium text-gray-700">
-                            Button label
-                        </label>
-                        <input
-                            type="text"
-                            id="thank_you_button_label"
-                            wire:model="thank_you_button_label"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Continue"
-                        />
-                    </div>
-                    <div>
-                        <label for="thank_you_button_url" class="block text-sm font-medium text-gray-700">
-                            Button URL
-                        </label>
-                        <input
-                            type="url"
-                            id="thank_you_button_url"
-                            wire:model="thank_you_button_url"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="https://example.com"
-                        />
-                    </div>
-                </div>
-                <p class="text-sm text-gray-500">Show a custom button on the thank you screen.</p>
-
-                <div>
-                    <label for="redirect_url" class="block text-sm font-medium text-gray-700">Redirect URL</label>
-                    <input
+                    <flux:input wire:model="thank_you_button_label" label="Button label" placeholder="Continue" />
+                    <flux:input
+                        wire:model="thank_you_button_url"
                         type="url"
-                        id="redirect_url"
-                        wire:model="redirect_url"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        placeholder="https://example.com/success"
+                        label="Button URL"
+                        placeholder="https://example.com"
                     />
-                    <p class="mt-1 text-sm text-gray-500">
-                        Redirect to this URL instead of showing a thank you message.
-                    </p>
                 </div>
-            </div>
-        </div>
+                <flux:text class="text-sm">Show a custom button on the thank you screen.</flux:text>
 
-        <div class="rounded-lg bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-lg font-medium text-gray-900">Branding</h2>
-
-            <div>
-                <label class="flex items-center">
-                    <input
-                        type="checkbox"
-                        wire:model="hide_branding"
-                        class="focus:ring-opacity-50 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-                    />
-                    <span class="ml-2 text-sm font-medium text-gray-700">Hide Antipoll branding</span>
-                </label>
-                <p class="mt-1 text-sm text-gray-500">Remove Antipoll branding from the poll display.</p>
+                <flux:input
+                    wire:model="redirect_url"
+                    type="url"
+                    label="Redirect URL"
+                    placeholder="https://example.com/success"
+                    description="Redirect to this URL instead of showing a thank you message."
+                />
             </div>
-        </div>
+        </flux:fieldset>
+
+        <flux:fieldset>
+            <flux:legend>Branding</flux:legend>
+            <flux:field variant="inline">
+                <flux:checkbox wire:model="hide_branding" />
+                <flux:label>Hide Antipoll branding</flux:label>
+                <flux:description>Remove Antipoll branding from the poll display.</flux:description>
+            </flux:field>
+        </flux:fieldset>
 
         <div class="flex justify-end">
-            <button
-                type="submit"
-                class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
-            >
-                Save Settings
-            </button>
+            <flux:button type="submit">Save Settings</flux:button>
         </div>
     </form>
 </div>
