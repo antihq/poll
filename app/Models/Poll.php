@@ -13,6 +13,14 @@ class Poll extends Model
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'accepts_responses' => true,
+        'require_email' => false,
+        'auto_submit' => false,
+        'collect_feedback' => false,
+        'hide_branding' => false,
+    ];
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

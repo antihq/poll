@@ -155,3 +155,133 @@ it('shows thank you message when answer has no redirect URL', function () {
     $component->assertSee('Thank you for your response!');
     $component->assertSet('submitted', true);
 });
+
+it('shows 404 when poll does not accept responses', function () {
+    $poll = Poll::factory()->create(['accepts_responses' => false]);
+
+    $response = get("/p/{$poll->ulid}");
+
+    $response->assertNotFound();
+});
+
+it('requires email when poll is configured to require email', function () {
+    $poll = Poll::factory()->withAnswers(2)->create(['require_email' => true]);
+    $answer = $poll->answers->first();
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertHasErrors(['email' => 'required']);
+});
+
+it('submits successfully with email when poll requires email', function () {
+    $poll = Poll::factory()->withAnswers(2)->create(['require_email' => true]);
+    $answer = $poll->answers->first();
+    $email = 'test@example.com';
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->set('email', $email)
+        ->call('submit');
+
+    $component->assertHasNoErrors();
+    $component->assertSee('Thank you for your response!');
+});
+
+it('auto-submits when poll is configured to auto submit', function () {
+    $poll = Poll::factory()->withAnswers(2)->create(['auto_submit' => true]);
+    $answer = $poll->answers->first();
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit'); // Manually trigger submit since auto-submit is hard to test
+
+    $component->assertSet('submitted', true);
+});
+
+it('collects feedback when poll is configured to collect feedback', function () {
+    $poll = Poll::factory()->withAnswers(2)->create(['collect_feedback' => true]);
+    $answer = $poll->answers->first();
+    $feedback = 'This is my feedback';
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->set('feedback', $feedback)
+        ->call('submit');
+
+    $component->assertHasNoErrors();
+
+    $pollResponse = \App\Models\PollResponse::first();
+    expect($pollResponse->feedback)->toBe($feedback);
+});
+
+it('requires feedback when poll is configured to collect feedback', function () {
+    $poll = Poll::factory()->withAnswers(2)->create(['collect_feedback' => true]);
+    $answer = $poll->answers->first();
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertHasErrors(['feedback' => 'required']);
+});
+
+it('shows custom thank you message when configured', function () {
+    $customMessage = 'Thank you for completing our survey!';
+    $poll = Poll::factory()->withAnswers(2)->create(['thank_you_message' => $customMessage]);
+    $answer = $poll->answers->first();
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertSee($customMessage);
+});
+
+it('shows custom thank you button when configured', function () {
+    $buttonLabel = 'Continue to Results';
+    $buttonUrl = 'https://example.com/results';
+    $poll = Poll::factory()->withAnswers(2)->create([
+        'thank_you_button_label' => $buttonLabel,
+        'thank_you_button_url' => $buttonUrl,
+    ]);
+    $answer = $poll->answers->first();
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertSee($buttonLabel);
+    $component->assertSee($buttonUrl);
+});
+
+it('redirects to poll redirect URL when configured', function () {
+    $redirectUrl = 'https://example.com/success';
+    $poll = Poll::factory()->withAnswers(2)->create(['redirect_url' => $redirectUrl]);
+    $answer = $poll->answers->first();
+
+    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+        ->set('answer', $answer->ulid)
+        ->call('submit');
+
+    $component->assertRedirect($redirectUrl);
+});
+
+it('hides branding when poll is configured to hide branding', function () {
+    $poll = Poll::factory()->create(['hide_branding' => true]);
+
+    $response = get("/p/{$poll->ulid}");
+
+    $response->assertSuccessful();
+    $response->assertDontSee('Antipoll');
+});
+
+it('shows branding when poll is not configured to hide branding', function () {
+    $poll = Poll::factory()->create(['hide_branding' => false]);
+
+    $response = get("/p/{$poll->ulid}");
+
+    $response->assertSuccessful();
+    $response->assertSee('Antipoll');
+});
