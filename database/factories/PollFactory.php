@@ -26,6 +26,11 @@ class PollFactory extends Factory
             'name' => fake()->sentence(3),
             'question' => fake()->sentence().'?',
             'layout' => fake()->randomElement(['vertical', 'horizontal']),
+            'accepts_responses' => true,
+            'require_email' => false,
+            'auto_submit' => false,
+            'collect_feedback' => false,
+            'hide_branding' => false,
         ];
     }
 
