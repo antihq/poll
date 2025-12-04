@@ -30,7 +30,7 @@ new class extends Component {
         return $this->poll->answers->mapWithKeys(function ($answer) use ($totalResponses) {
             $responseCount = $answer->pollResponses()->count();
             $percentage = $totalResponses > 0 ? round(($responseCount / $totalResponses) * 100) : 0;
-            
+
             return [
                 $answer->id => [
                     'count' => $responseCount,
@@ -44,12 +44,7 @@ new class extends Component {
 <div class="mx-auto max-w-3xl">
     <header class="flex items-center">
         <div class="flex items-center gap-3">
-            <flux:avatar
-                :name="strtoupper($poll->name)"
-                color="auto"
-                initials:single
-                :color:seed="'poll-'.$poll->id"
-            />
+            <flux:avatar :name="strtoupper($poll->name)" color="auto" initials:single :color:seed="'poll-'.$poll->id" />
             <flux:heading class="text-xl">{{ $poll->name }}</flux:heading>
         </div>
         <flux:spacer />
@@ -57,8 +52,16 @@ new class extends Component {
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
             <flux:menu>
-                <flux:menu.item href="/p/{{ $poll->ulid }}" icon="share" icon:variant="micro" target="_blank">
-                    Share
+                <flux:menu.item href="/polls/{{ $poll->id }}/share" icon="share" icon:variant="micro" wire:navigate>
+                    Share Poll
+                </flux:menu.item>
+                <flux:menu.item
+                    href="/p/{{ $poll->ulid }}"
+                    icon="arrow-top-right-on-square"
+                    icon:variant="micro"
+                    target="_blank"
+                >
+                    View Public Link
                 </flux:menu.item>
             </flux:menu>
         </flux:dropdown>
@@ -93,17 +96,20 @@ new class extends Component {
                             />
                             {{ $answer->text }}
                             <flux:badge color="zinc" size="sm" inset="top bottom" class="tabular-nums">
-                                {{ $this->responseCounts[$answer->id]['count'] }} {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}
+                                {{ $this->responseCounts[$answer->id]['count'] }}
+                                {{ Str::plural('response', $this->responseCounts[$answer->id]['count']) }}
                             </flux:badge>
                         </div>
                     </flux:table.cell>
                     <flux:table.cell align="end">
-                        <div class="flex items-center gap-3 justify-end">
-                            <div class="text-xs mt-1 tabular-nums">{{ $this->responseCounts[$answer->id]['percentage'] }}%</div>
-                            <div class="bg-zinc-200 rounded-full h-2 w-36">
+                        <div class="flex items-center justify-end gap-3">
+                            <div class="mt-1 text-xs tabular-nums">
+                                {{ $this->responseCounts[$answer->id]['percentage'] }}%
+                            </div>
+                            <div class="h-2 w-36 rounded-full bg-zinc-200">
                                 <div
-                                    class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                                    style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%;"
+                                    class="h-2 rounded-full bg-blue-600 transition-all duration-300"
+                                    style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%"
                                 ></div>
                             </div>
                         </div>

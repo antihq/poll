@@ -2,3 +2,5 @@
 - Guests can view polls
 - Guests select their poll response and submit it
 - Display a thank you message after they submit their response
+- Answers can be preselected via a URL query
+- Email is autofilled via a URL query
