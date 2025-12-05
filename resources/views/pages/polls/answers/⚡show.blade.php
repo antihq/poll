@@ -76,7 +76,7 @@ new class extends Component
 
                                 @if (!empty($response->feedback))
                                     <flux:tooltip toggleable position="right">
-                                        <flux:button icon="information-circle" size="xs" variant="ghost" />
+                                        <flux:button icon="chat-bubble-left-ellipsis" size="xs" variant="ghost" />
                                         <flux:tooltip.content class="max-w-md">
                                             <p>{{ $response->feedback }}</p>
                                         </flux:tooltip.content>
