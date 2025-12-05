@@ -30,6 +30,15 @@ new class extends Component {
         }
     }
 
+    public function sortAnswer($item, $position): void
+    {
+        $movedItem = $this->answers[$item];
+
+        array_splice($this->answers, $item, 1);
+
+        array_splice($this->answers, $position, 0, [$movedItem]);
+    }
+
     public function create(): void
     {
         $this->validate();
@@ -80,29 +89,36 @@ new class extends Component {
             <div>
                 <flux:field>
                     <flux:label>Answers</flux:label>
-                    <flux:text class="text-sm text-gray-600">Add at least 2 answers for your poll</flux:text>
+                    <flux:text class="text-sm text-gray-600">
+                        Add at least 2 answers for your poll. Drag to reorder.
+                    </flux:text>
 
-                    @foreach ($answers as $index => $answer)
-                        <div class="mt-2 flex items-center gap-2">
-                            <flux:input
-                                wire:model="answers.{{ $index }}"
-                                placeholder="Answer {{ $index + 1 }}"
-                                class="flex-1"
-                            />
-                            @if (count($answers) > 2)
-                                <flux:button
-                                    type="button"
-                                    variant="subtle"
-                                    size="sm"
-                                    wire:click="removeAnswer({{ $index }})"
-                                    class="shrink-0"
-                                    square
-                                >
-                                    <flux:icon name="trash" variant="mini" />
-                                </flux:button>
-                            @endif
-                        </div>
-                    @endforeach
+                    <ul wire:sort="sortAnswer">
+                        @foreach ($answers as $index => $answer)
+                            <li wire:sort:item="{{ $index }}" class="mt-2 flex items-center gap-2">
+                                <div wire:sort:handle class="cursor-grab p-1 active:cursor-grabbing">
+                                    <flux:icon name="bars-3" variant="micro" class="text-gray-400" />
+                                </div>
+                                <flux:input
+                                    wire:model="answers.{{ $index }}"
+                                    placeholder="Answer {{ $index + 1 }}"
+                                    class="flex-1"
+                                />
+                                @if (count($answers) > 2)
+                                    <flux:button
+                                        type="button"
+                                        variant="subtle"
+                                        size="sm"
+                                        wire:click="removeAnswer({{ $index }})"
+                                        class="shrink-0"
+                                        square
+                                    >
+                                        <flux:icon name="trash" variant="mini" />
+                                    </flux:button>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
 
                     <flux:button type="button" size="sm" wire:click="addAnswer" class="mt-3" icon="plus">
                         Add answer

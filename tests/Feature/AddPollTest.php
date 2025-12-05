@@ -106,3 +106,29 @@ it('can add and remove answers dynamically', function () {
     expect($poll->answers->count())->toBe(3);
     expect($poll->answers->pluck('text')->toArray())->toBe(['Yes', 'Maybe', 'Not sure']);
 });
+
+it('can sort answers by dragging and dropping', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+
+    $component = Livewire::actingAs($user)->test('pages::polls.create')
+        ->set('name', 'Sortable Poll')
+        ->set('question', 'Can we sort answers?')
+        ->set('answers', ['First', 'Second', 'Third']);
+
+    $component->call('sortAnswer', 0, 2);
+
+    $component->assertSet('answers', ['Second', 'Third', 'First']);
+
+    $component->call('sortAnswer', 1, 0);
+
+    $component->assertSet('answers', ['Third', 'Second', 'First']);
+
+    $component->call('create');
+
+    $component->assertHasNoErrors();
+
+    $poll = Poll::first();
+    expect($poll->answers->count())->toBe(3);
+    expect($poll->answers->pluck('text')->toArray())->toBe(['Third', 'Second', 'First']);
+});

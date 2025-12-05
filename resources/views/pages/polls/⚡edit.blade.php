@@ -44,6 +44,15 @@ new class extends Component
         }
     }
 
+    public function sortAnswer($item, $position): void
+    {
+        $movedItem = $this->answers[$item];
+
+        array_splice($this->answers, $item, 1);
+
+        array_splice($this->answers, $position, 0, [$movedItem]);
+    }
+
     public function update(): void
     {
         $this->validate();
@@ -117,46 +126,53 @@ new class extends Component
             <div>
                 <flux:field>
                     <flux:label>Answers</flux:label>
-                    <flux:text class="text-sm text-gray-600">Add at least 2 answers for your poll</flux:text>
+                    <flux:text class="text-sm text-gray-600">
+                        Add at least 2 answers for your poll. Drag to reorder.
+                    </flux:text>
 
-                    @foreach ($answers as $index => $answer)
-                        <div class="mt-2 flex items-center gap-2">
-                            <flux:input
-                                wire:model="answers.{{ $index }}"
-                                placeholder="Answer {{ $index + 1 }}"
-                                class="flex-1"
-                            />
-                            <flux:dropdown position="bottom" align="end">
-                                <flux:button type="button" variant="subtle" size="sm" class="shrink-0" square>
-                                    <flux:icon name="ellipsis-horizontal" variant="micro" />
-                                </flux:button>
-                                <flux:menu>
-                                    @if ($poll->answers->has($index))
-                                        <flux:menu.item
-                                            href="/answers/{{ $poll->answers[$index]->id }}/settings"
-                                            icon="cog-6-tooth"
-                                            icon:variant="micro"
-                                            wire:navigate
-                                        >
-                                            Settings
-                                        </flux:menu.item>
-                                    @endif
+                    <ul wire:sort="sortAnswer">
+                        @foreach ($answers as $index => $answer)
+                            <li wire:sort:item="{{ $index }}" class="mt-2 flex items-center gap-2">
+                                <div wire:sort:handle class="cursor-grab p-1 active:cursor-grabbing">
+                                    <flux:icon name="bars-3" variant="micro" class="text-gray-400" />
+                                </div>
+                                <flux:input
+                                    wire:model="answers.{{ $index }}"
+                                    placeholder="Answer {{ $index + 1 }}"
+                                    class="flex-1"
+                                />
+                                <flux:dropdown position="bottom" align="end">
+                                    <flux:button type="button" variant="subtle" size="sm" class="shrink-0" square>
+                                        <flux:icon name="ellipsis-horizontal" variant="micro" />
+                                    </flux:button>
+                                    <flux:menu>
+                                        @if ($poll->answers->has($index))
+                                            <flux:menu.item
+                                                href="/answers/{{ $poll->answers[$index]->id }}/settings"
+                                                icon="cog-6-tooth"
+                                                icon:variant="micro"
+                                                wire:navigate
+                                            >
+                                                Settings
+                                            </flux:menu.item>
+                                        @endif
 
-                                    @if (count($answers) > 2)
-                                        <flux:menu.item
-                                            variant="danger"
-                                            icon="trash"
-                                            icon:variant="micro"
-                                            wire:click="removeAnswer({{ $index }})"
-                                            wire:confirm="Are you sure you want to delete this answer?"
-                                        >
-                                            Delete
-                                        </flux:menu.item>
-                                    @endif
-                                </flux:menu>
-                            </flux:dropdown>
-                        </div>
-                    @endforeach
+                                        @if (count($answers) > 2)
+                                            <flux:menu.item
+                                                variant="danger"
+                                                icon="trash"
+                                                icon:variant="micro"
+                                                wire:click="removeAnswer({{ $index }})"
+                                                wire:confirm="Are you sure you want to delete this answer?"
+                                            >
+                                                Delete
+                                            </flux:menu.item>
+                                        @endif
+                                    </flux:menu>
+                                </flux:dropdown>
+                            </li>
+                        @endforeach
+                    </ul>
 
                     <flux:button type="button" size="sm" wire:click="addAnswer" class="mt-3" icon="plus">
                         Add answer

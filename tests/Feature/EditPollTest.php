@@ -149,3 +149,18 @@ it('shows 403 for polls that do not belong to user team', function () {
         ->test('pages::polls.edit', ['poll' => $poll])
         ->assertStatus(403);
 });
+
+it('can sort answers by dragging and dropping', function () {
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
+    Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 3', 'sort_order' => 2]);
+
+    $component = Livewire::actingAs($user)
+        ->test('pages::polls.edit', ['poll' => $poll]);
+
+    $component->call('sortAnswer', 0, 2);
+
+    $component->assertSet('answers', ['Answer 2', 'Answer 3', 'Answer 1']);
+});
