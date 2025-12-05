@@ -35,30 +35,36 @@ new class extends Component {
     }
 }; ?>
 
-<x-slot:breadcrumbs>
-    @include('partials.team-settings-breadcrumbs', ['team' => $team, 'current' => 'General'])
-</x-slot>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        href="/dashboard"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
+        <flux:icon.chevron-left variant="micro" />
+        Back to home
+    </flux:link>
 
-<div>
-    @include('partials.team-settings-heading')
-    <div class="flex items-start max-md:flex-col">
-        @include('partials.team-settings-sidebar', ['team' => $team])
-        <flux:separator class="md:hidden" />
-        <div class="flex-1 self-stretch max-md:pt-6">
-            <header>
-                <flux:heading>
-                    General Settings
-                </flux:heading>
-                <flux:text class="mt-2">
-                    Update your team name below to keep your workspace up to date.
-                </flux:text>
-            </header>
-            <form wire:submit="edit" class="mt-6 max-w-lg space-y-6">
-                <flux:input wire:model="name" label="Name" />
-                <flux:button type="submit" variant="primary">
-                    Save
-                </flux:button>
-            </form>
+    <flux:spacer class="mt-4 lg:mt-8" />
+
+    <form wire:submit="edit">
+        <header class="flex items-center gap-3">
+            <flux:heading class="text-xl">Team settings</flux:heading>
+            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <flux:text class="text-xl">{{ $team->name }}</flux:text>
+        </header>
+        <flux:text class="mt-2">Update your team details.</flux:text>
+
+        <flux:spacer class="mt-10" />
+
+        <div class="space-y-6">
+            <flux:input label="Team name" placeholder="My Team" wire:model="name" />
         </div>
-    </div>
+
+        <flux:spacer class="mt-8" />
+
+        <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save changes</flux:button>
+    </form>
 </div>
