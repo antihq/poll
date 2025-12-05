@@ -52,9 +52,7 @@ new class extends Component {
                 @endforeach
             </flux:menu.radio.group>
             <flux:menu.separator />
-            <flux:modal.trigger name="create-team">
-                <flux:menu.item icon="plus">New team</flux:menu.item>
-            </flux:modal.trigger>
+            <flux:menu.item href="/teams/create" icon="plus" wire:navigate>New team</flux:menu.item>
         </flux:menu>
     </flux:dropdown>
 </flux:button.group>

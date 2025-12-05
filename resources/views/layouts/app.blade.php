@@ -3,9 +3,5 @@
         {{ $slot }}
     </flux:main>
 
-    @auth
-        <livewire:teams.create />
-    @endauth
-
     <flux:toast />
 </x-layouts.app.header>

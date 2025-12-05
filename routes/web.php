@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::livewire('settings/password', 'pages::settings.password');
     Route::livewire('settings/appearance', 'pages::settings.appearance');
 
+    Route::livewire('teams/create', 'pages::teams.create');
     Route::livewire('teams/{team}/settings/members', 'pages::teams.settings.members');
     Route::livewire('teams/{team}/settings/general', 'pages::teams.settings.general');
     Route::livewire('teams/{team}', 'pages::teams.settings.general');

@@ -5,13 +5,13 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-it('creates a new team for user with valid data', function () {
+it('adds a new team for user with valid data', function () {
     /** @var User $user */
     $user = User::factory()->create();
     actingAs($user);
 
     $teamName = 'Acme Inc';
-    $response = Livewire::test('teams.create')
+    $response = Livewire::test('pages::teams.create')
         ->set('name', $teamName)
         ->call('create');
 
@@ -28,16 +28,16 @@ it('shows validation errors for missing or invalid team name', function () {
     $user = User::factory()->create();
     actingAs($user);
 
-    $response = Livewire::test('teams.create')
+    $response = Livewire::test('pages::teams.create')
         ->set('name', '')
         ->call('create');
 
     $response->assertHasErrors(['name']);
 });
 
-it('guests cannot create teams', function () {
+it('guests cannot add teams', function () {
     $teamName = 'Gamma Ltd';
-    $response = Livewire::test('teams.create')
+    $response = Livewire::test('pages::teams.create')
         ->set('name', $teamName)
         ->call('create');
 
