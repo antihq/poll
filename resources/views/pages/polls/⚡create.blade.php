@@ -113,8 +113,6 @@ new class extends Component {
 
         <flux:spacer class="mt-8" />
 
-        <div class="flex flex-col gap-4">
-            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Create poll</flux:button>
-        </div>
+        <flux:button type="submit" variant="primary" color="zinc" class="w-full">Create poll</flux:button>
     </form>
 </div>
