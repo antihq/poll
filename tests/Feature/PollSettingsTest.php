@@ -18,6 +18,7 @@ it('updates poll settings with thank you message', function () {
         ->set('thank_you_button_label', 'Continue')
         ->set('thank_you_button_url', 'https://example.com')
         ->set('hide_branding', true)
+        ->set('layout', 'horizontal')
         ->call('save')
         ->assertHasNoErrors();
 
@@ -33,6 +34,7 @@ it('updates poll settings with thank you message', function () {
     expect($poll->redirect_url)->toBeNull();
     expect($poll->submissionAction())->toBe('message');
     expect($poll->hide_branding)->toBeTrue();
+    expect($poll->layout)->toBe('horizontal');
 });
 
 it('updates poll settings with redirect URL', function () {
@@ -47,6 +49,7 @@ it('updates poll settings with redirect URL', function () {
         ->set('submission_action', 'redirect')
         ->set('redirect_url', 'https://redirect.com')
         ->set('hide_branding', true)
+        ->set('layout', 'vertical')
         ->call('save');
 
     $poll->refresh();
@@ -61,6 +64,7 @@ it('updates poll settings with redirect URL', function () {
     expect($poll->redirect_url)->toBe('https://redirect.com');
     expect($poll->submissionAction())->toBe('redirect');
     expect($poll->hide_branding)->toBeTrue();
+    expect($poll->layout)->toBe('vertical');
 });
 
 it('validates redirect URL is required when redirect is selected', function () {

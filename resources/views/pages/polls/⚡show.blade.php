@@ -53,8 +53,19 @@ new class extends Component
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
             <flux:menu>
+                <flux:menu.item href="/polls/{{ $poll->id }}/share" icon="share" icon:variant="micro" wire:navigate>
+                    Share
+                </flux:menu.item>
+                <flux:menu.item
+                    href="/p/{{ $poll->ulid }}"
+                    icon="arrow-top-right-on-square"
+                    icon:variant="micro"
+                    target="_blank"
+                >
+                    View public link
+                </flux:menu.item>
                 <flux:menu.item href="/polls/{{ $poll->id }}/edit" icon="pencil" icon:variant="micro" wire:navigate>
-                    Edit Poll
+                    Edit
                 </flux:menu.item>
                 <flux:menu.item
                     href="/polls/{{ $poll->id }}/settings"
@@ -63,17 +74,6 @@ new class extends Component
                     wire:navigate
                 >
                     Settings
-                </flux:menu.item>
-                <flux:menu.item href="/polls/{{ $poll->id }}/share" icon="share" icon:variant="micro" wire:navigate>
-                    Share Poll
-                </flux:menu.item>
-                <flux:menu.item
-                    href="/p/{{ $poll->ulid }}"
-                    icon="arrow-top-right-on-square"
-                    icon:variant="micro"
-                    target="_blank"
-                >
-                    View Public Link
                 </flux:menu.item>
             </flux:menu>
         </flux:dropdown>
@@ -107,7 +107,7 @@ new class extends Component
                                     initials:single
                                     :color:seed="'answer-'.$answer->id"
                                 />
-                                <flux:link href="/polls/{{ $poll->id }}/answers/{{ $answer->id }}" wire:navigate>
+                                <flux:link href="/polls/{{ $poll->id }}/answers/{{ $answer->id }}" :accent="false" wire:navigate>
                                     {{ $answer->text }}
                                 </flux:link>
                                 <flux:badge color="zinc" size="sm" inset="top bottom" class="tabular-nums">
@@ -118,7 +118,7 @@ new class extends Component
                         </flux:table.cell>
                         <flux:table.cell align="end">
                             <div class="flex items-center justify-end gap-3">
-                                <div class="mt-1 text-xs tabular-nums">
+                                <div class="text-xs tabular-nums">
                                     {{ $this->responseCounts[$answer->id]['percentage'] }}%
                                 </div>
                                 <div class="h-2 w-36 rounded-full bg-zinc-200">

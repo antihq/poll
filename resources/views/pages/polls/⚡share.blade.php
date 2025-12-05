@@ -66,10 +66,10 @@ new class extends Component
     }
 }; ?>
 
-<div class="mx-auto max-w-[512px]">
+<div class="mx-auto w-full max-w-[512px]">
     <flux:link href="/polls/{{ $poll->id }}" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
         <flux:icon.chevron-left variant="micro" />
-        Back to Poll
+        Back to poll
     </flux:link>
 
     <flux:spacer class="mt-4 lg:mt-8" />

@@ -28,6 +28,8 @@ new class extends Component
 
     public bool $hide_branding;
 
+    public string $layout;
+
     public function mount(Poll $poll): void
     {
         $this->authorize('update', $poll);
@@ -43,12 +45,14 @@ new class extends Component
         $this->redirect_url = $poll->redirect_url;
         $this->submission_action = $poll->submissionAction();
         $this->hide_branding = $poll->hide_branding ?? false;
+        $this->layout = $poll->layout ?? 'vertical';
     }
 
     public function rules(): array
     {
         $rules = [
             'submission_action' => 'required|in:message,redirect',
+            'layout' => 'required|string|in:vertical,horizontal',
         ];
 
         if ($this->submission_action === 'redirect') {
@@ -95,6 +99,7 @@ new class extends Component
             'thank_you_button_url' => $this->thank_you_button_url,
             'redirect_url' => $this->redirect_url,
             'hide_branding' => $this->hide_branding,
+            'layout' => $this->layout,
         ]);
 
         $this->redirect("/polls/{$this->poll->id}", navigate: true);
@@ -135,6 +140,14 @@ new class extends Component
                     <flux:description>Show a feedback field after response submission.</flux:description>
                 </flux:field>
             </div>
+        </flux:fieldset>
+
+        <flux:fieldset>
+            <flux:legend>Display Settings</flux:legend>
+            <flux:radio.group label="Layout" wire:model="layout" variant="cards" class="max-sm:flex-col">
+                <flux:radio value="vertical" label="Vertical" description="Answers stacked vertically" />
+                <flux:radio value="horizontal" label="Horizontal" description="Answers arranged horizontally" />
+            </flux:radio.group>
         </flux:fieldset>
 
         <flux:fieldset>

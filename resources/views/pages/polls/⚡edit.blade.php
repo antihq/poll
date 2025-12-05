@@ -15,12 +15,9 @@ new class extends Component
 
     public array $answers = [];
 
-    public string $layout = 'vertical';
-
     protected array $rules = [
         'name' => ['required', 'string', 'max:255'],
         'question' => ['required', 'string', 'max:1000'],
-        'layout' => ['required', 'string', 'in:vertical,horizontal'],
         'answers' => ['required', 'array', 'min:2'],
         'answers.*' => ['required', 'string', 'max:255'],
     ];
@@ -32,7 +29,6 @@ new class extends Component
 
         $this->name = $poll->name;
         $this->question = $poll->question;
-        $this->layout = $poll->layout ?? 'vertical';
         $this->answers = $poll->answers->map(fn ($answer) => $answer->text)->toArray();
     }
 
@@ -55,7 +51,6 @@ new class extends Component
         $this->poll->update([
             'name' => $this->name,
             'question' => $this->question,
-            'layout' => $this->layout,
         ]);
 
         $existingAnswers = $this->poll->answers;
@@ -115,11 +110,6 @@ new class extends Component
                 wire:model="question"
             />
 
-            <flux:radio.group label="Layout" wire:model="layout">
-                <flux:radio value="vertical" label="Vertical" />
-                <flux:radio value="horizontal" label="Horizontal" />
-            </flux:radio.group>
-
             <div>
                 <flux:field>
                     <flux:label>Answers</flux:label>
@@ -173,8 +163,6 @@ new class extends Component
 
         <flux:spacer class="mt-8" />
 
-        <div class="flex flex-col gap-4">
-            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save changes</flux:button>
-        </div>
+        <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save changes</flux:button>
     </form>
 </div>
