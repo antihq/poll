@@ -62,37 +62,53 @@ new class extends Component
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
             <flux:menu>
-                <flux:menu.item href="/polls/{{ $poll->id }}/share" icon="share" icon:variant="micro" wire:navigate>
-                    Share
-                </flux:menu.item>
-                <flux:menu.item
-                    href="/p/{{ $poll->ulid }}"
-                    icon="arrow-top-right-on-square"
-                    icon:variant="micro"
-                    target="_blank"
-                >
-                    View public link
-                </flux:menu.item>
-                <flux:menu.item href="/polls/{{ $poll->id }}/edit" icon="pencil" icon:variant="micro" wire:navigate>
-                    Edit
-                </flux:menu.item>
-                <flux:menu.item
-                    href="/polls/{{ $poll->id }}/settings"
-                    icon="cog-6-tooth"
-                    icon:variant="micro"
-                    wire:navigate
-                >
-                    Settings
-                </flux:menu.item>
-                <flux:menu.item
-                    wire:click="delete"
-                    wire:confirm="Are you sure you want to delete this poll? This action cannot be undone and will delete all answers and responses."
-                    icon="trash"
-                    icon:variant="micro"
-                    color="red"
-                >
-                    Delete
-                </flux:menu.item>
+                <flux:menu.group heading="Actions">
+                    <flux:menu.item
+                        href="/polls/{{ $poll->id }}/share"
+                        icon="share"
+                        icon:variant="micro"
+                        wire:navigate
+                    >
+                        Share
+                    </flux:menu.item>
+                    <flux:menu.item
+                        href="/p/{{ $poll->ulid }}"
+                        icon="arrow-top-right-on-square"
+                        icon:variant="micro"
+                        target="_blank"
+                    >
+                        View public link
+                    </flux:menu.item>
+                </flux:menu.group>
+                <flux:menu.group heading="Settings">
+                    <flux:menu.item
+                        href="/polls/{{ $poll->id }}/edit"
+                        icon="pencil"
+                        icon:variant="micro"
+                        wire:navigate
+                    >
+                        General
+                    </flux:menu.item>
+                    <flux:menu.item
+                        href="/polls/{{ $poll->id }}/settings"
+                        icon="cog-6-tooth"
+                        icon:variant="micro"
+                        wire:navigate
+                    >
+                        Advanced
+                    </flux:menu.item>
+                </flux:menu.group>
+                <flux:menu.group>
+                    <flux:menu.item
+                        wire:click="delete"
+                        wire:confirm="Are you sure you want to delete this poll? This action cannot be undone and will delete all answers and responses."
+                        icon="trash"
+                        icon:variant="micro"
+                        variant="danger"
+                    >
+                        Delete Poll
+                    </flux:menu.item>
+                </flux:menu.group>
             </flux:menu>
         </flux:dropdown>
     </header>
@@ -112,7 +128,7 @@ new class extends Component
             <flux:spacer />
 
             <flux:button href="/polls/{{ $poll->id }}/share" size="sm" icon="share" wire:navigate>
-                Share Poll
+                Share poll
             </flux:button>
         </header>
 
@@ -151,7 +167,7 @@ new class extends Component
                                 </div>
                                 <div class="h-2 w-36 rounded-full bg-zinc-200">
                                     <div
-                                        class="h-2 rounded-full bg-accent transition-all duration-300"
+                                        class="bg-accent h-2 rounded-full transition-all duration-300"
                                         style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%"
                                     ></div>
                                 </div>
