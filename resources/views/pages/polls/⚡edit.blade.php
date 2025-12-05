@@ -15,12 +15,9 @@ new class extends Component
 
     public array $answers = [];
 
-    public string $layout = 'vertical';
-
     protected array $rules = [
         'name' => ['required', 'string', 'max:255'],
         'question' => ['required', 'string', 'max:1000'],
-        'layout' => ['required', 'string', 'in:vertical,horizontal'],
         'answers' => ['required', 'array', 'min:2'],
         'answers.*' => ['required', 'string', 'max:255'],
     ];
@@ -32,7 +29,6 @@ new class extends Component
 
         $this->name = $poll->name;
         $this->question = $poll->question;
-        $this->layout = $poll->layout ?? 'vertical';
         $this->answers = $poll->answers->map(fn ($answer) => $answer->text)->toArray();
     }
 
@@ -48,6 +44,15 @@ new class extends Component
         }
     }
 
+    public function sortAnswer($item, $position): void
+    {
+        $movedItem = $this->answers[$item];
+
+        array_splice($this->answers, $item, 1);
+
+        array_splice($this->answers, $position, 0, [$movedItem]);
+    }
+
     public function update(): void
     {
         $this->validate();
@@ -55,7 +60,6 @@ new class extends Component
         $this->poll->update([
             'name' => $this->name,
             'question' => $this->question,
-            'layout' => $this->layout,
         ]);
 
         $existingAnswers = $this->poll->answers;
@@ -101,7 +105,11 @@ new class extends Component
     <flux:spacer class="mt-4 lg:mt-8" />
 
     <form wire:submit="update">
-        <flux:heading class="text-xl">Edit poll</flux:heading>
+        <header class="flex items-center gap-3">
+            <flux:heading class="text-xl">Edit poll</flux:heading>
+            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <flux:text class="text-xl">{{ $poll->name }}</flux:text>
+        </header>
         <flux:text class="mt-2">Update your poll details and answers.</flux:text>
 
         <flux:spacer class="mt-10" />
@@ -115,54 +123,56 @@ new class extends Component
                 wire:model="question"
             />
 
-            <flux:radio.group label="Layout" wire:model="layout">
-                <flux:radio value="vertical" label="Vertical" />
-                <flux:radio value="horizontal" label="Horizontal" />
-            </flux:radio.group>
-
             <div>
                 <flux:field>
                     <flux:label>Answers</flux:label>
-                    <flux:text class="text-sm text-gray-600">Add at least 2 answers for your poll</flux:text>
+                    <flux:text class="text-sm text-gray-600">
+                        Add at least 2 answers for your poll. Drag to reorder.
+                    </flux:text>
 
-                    @foreach ($answers as $index => $answer)
-                        <div class="mt-2 flex items-center gap-2">
-                            <flux:input
-                                wire:model="answers.{{ $index }}"
-                                placeholder="Answer {{ $index + 1 }}"
-                                class="flex-1"
-                            />
-                            <flux:dropdown position="bottom" align="end">
-                                <flux:button type="button" variant="subtle" size="sm" class="shrink-0" square>
-                                    <flux:icon name="ellipsis-horizontal" variant="micro" />
-                                </flux:button>
-                                <flux:menu>
-                                    @if ($poll->answers->has($index))
-                                        <flux:menu.item
-                                            href="/answers/{{ $poll->answers[$index]->id }}/settings"
-                                            icon="cog-6-tooth"
-                                            icon:variant="micro"
-                                            wire:navigate
-                                        >
-                                            Settings
-                                        </flux:menu.item>
-                                    @endif
+                    <ul wire:sort="sortAnswer">
+                        @foreach ($answers as $index => $answer)
+                            <li wire:sort:item="{{ $index }}" class="mt-2 flex items-center gap-2">
+                                <div wire:sort:handle class="cursor-grab p-1 active:cursor-grabbing">
+                                    <flux:icon name="bars-3" variant="micro" class="text-gray-400" />
+                                </div>
+                                <flux:input
+                                    wire:model="answers.{{ $index }}"
+                                    placeholder="Answer {{ $index + 1 }}"
+                                    class="flex-1"
+                                />
+                                <flux:dropdown position="bottom" align="end">
+                                    <flux:button type="button" variant="subtle" size="sm" class="shrink-0" square>
+                                        <flux:icon name="ellipsis-horizontal" variant="micro" />
+                                    </flux:button>
+                                    <flux:menu>
+                                        @if ($poll->answers->has($index))
+                                            <flux:menu.item
+                                                href="/answers/{{ $poll->answers[$index]->id }}/settings"
+                                                icon="cog-6-tooth"
+                                                icon:variant="micro"
+                                                wire:navigate
+                                            >
+                                                Settings
+                                            </flux:menu.item>
+                                        @endif
 
-                                    @if (count($answers) > 2)
-                                        <flux:menu.item
-                                            variant="danger"
-                                            icon="trash"
-                                            icon:variant="micro"
-                                            wire:click="removeAnswer({{ $index }})"
-                                            wire:confirm="Are you sure you want to delete this answer?"
-                                        >
-                                            Delete
-                                        </flux:menu.item>
-                                    @endif
-                                </flux:menu>
-                            </flux:dropdown>
-                        </div>
-                    @endforeach
+                                        @if (count($answers) > 2)
+                                            <flux:menu.item
+                                                variant="danger"
+                                                icon="trash"
+                                                icon:variant="micro"
+                                                wire:click="removeAnswer({{ $index }})"
+                                                wire:confirm="Are you sure you want to delete this answer?"
+                                            >
+                                                Delete
+                                            </flux:menu.item>
+                                        @endif
+                                    </flux:menu>
+                                </flux:dropdown>
+                            </li>
+                        @endforeach
+                    </ul>
 
                     <flux:button type="button" size="sm" wire:click="addAnswer" class="mt-3" icon="plus">
                         Add answer
@@ -173,8 +183,6 @@ new class extends Component
 
         <flux:spacer class="mt-8" />
 
-        <div class="flex flex-col gap-4">
-            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save changes</flux:button>
-        </div>
+        <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save changes</flux:button>
     </form>
 </div>

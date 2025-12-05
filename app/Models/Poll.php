@@ -45,4 +45,12 @@ class Poll extends Model
     {
         return $this->submissionAction() === 'redirect';
     }
+
+    public function delete()
+    {
+        $this->pollResponses()->delete();
+        $this->answers()->delete();
+
+        parent::delete();
+    }
 }

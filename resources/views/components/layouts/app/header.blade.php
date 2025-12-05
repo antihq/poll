@@ -18,7 +18,7 @@
             @endauth
 
             <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item href="/polls" :current="request()->routeIs('polls.*')" wire:navigate>
+                <flux:navbar.item href="/polls" :current="request()->routeIs('polls.*')" :accent="false" wire:navigate>
                     Polls
                 </flux:navbar.item>
             </flux:navbar>

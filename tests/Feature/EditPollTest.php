@@ -6,7 +6,7 @@ use App\Models\Team;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('it displays the poll edit page', function () {
+it('displays the poll edit page', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $user->current_team_id = $team->id;
@@ -26,7 +26,7 @@ test('it displays the poll edit page', function () {
     $component->assertSet('answers', ['Answer 1', 'Answer 2']);
 });
 
-test('it updates a poll with valid data', function () {
+it('updates a poll with valid data', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $user->current_team_id = $team->id;
@@ -62,7 +62,7 @@ test('it updates a poll with valid data', function () {
     ]);
 });
 
-test('it can add new answers when editing', function () {
+it('can add new answers when editing', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $user->current_team_id = $team->id;
@@ -86,7 +86,7 @@ test('it can add new answers when editing', function () {
     ]);
 });
 
-test('it can remove answers when editing', function () {
+it('can remove answers when editing', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $user->current_team_id = $team->id;
@@ -109,7 +109,7 @@ test('it can remove answers when editing', function () {
     ]);
 });
 
-test('it shows validation errors when less than two answers are provided', function () {
+it('shows validation errors when less than two answers are provided', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $user->current_team_id = $team->id;
@@ -128,7 +128,7 @@ test('it shows validation errors when less than two answers are provided', funct
         ->assertHasErrors(['answers']);
 });
 
-test('it redirects guests to login page', function () {
+it('redirects guests to login page', function () {
     $poll = Poll::factory()->create();
 
     $response = $this->get("/polls/{$poll->id}/edit");
@@ -136,7 +136,7 @@ test('it redirects guests to login page', function () {
     $response->assertRedirect('/login');
 });
 
-test('it shows 403 for polls that do not belong to user team', function () {
+it('shows 403 for polls that do not belong to user team', function () {
     $user = User::factory()->create();
     $team = Team::factory()->create(['user_id' => $user->id]);
     $user->current_team_id = $team->id;
@@ -148,4 +148,19 @@ test('it shows 403 for polls that do not belong to user team', function () {
     Livewire::actingAs($user)
         ->test('pages::polls.edit', ['poll' => $poll])
         ->assertStatus(403);
+});
+
+it('can sort answers by dragging and dropping', function () {
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
+    Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 3', 'sort_order' => 2]);
+
+    $component = Livewire::actingAs($user)
+        ->test('pages::polls.edit', ['poll' => $poll]);
+
+    $component->call('sortAnswer', 0, 2);
+
+    $component->assertSet('answers', ['Answer 2', 'Answer 3', 'Answer 1']);
 });

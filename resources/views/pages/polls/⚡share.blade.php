@@ -66,111 +66,118 @@ new class extends Component
     }
 }; ?>
 
-<div class="mx-auto max-w-3xl">
-    <header class="flex items-center">
-        <div class="flex items-center gap-3">
-            <flux:avatar :name="strtoupper($poll->name)" color="auto" initials:single :color:seed="'poll-'.$poll->id" />
-            <flux:heading class="text-xl">{{ $poll->name }}</flux:heading>
-        </div>
-        <flux:spacer />
-        <flux:button href="/polls/{{ $poll->id }}" icon:trailing="arrow-left" size="sm" variant="subtle" wire:navigate>
-            Back to Poll
-        </flux:button>
+<div class="mx-auto w-full max-w-[512px]">
+    <flux:link
+        href="/polls/{{ $poll->id }}"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
+        <flux:icon.chevron-left variant="micro" />
+        Back to poll
+    </flux:link>
+
+    <flux:spacer class="mt-4 lg:mt-8" />
+
+    <header class="flex items-center gap-3">
+        <flux:heading class="text-xl">Share poll</flux:heading>
+        <span class="size-1 rounded-full bg-zinc-400"></span>
+        <flux:text class="text-xl">{{ $poll->name }}</flux:text>
     </header>
-
-    <flux:spacer class="mt-8" />
-
-    <flux:heading size="lg">Share Poll</flux:heading>
-
     <flux:text class="mt-2">
         Select a platform and copy the HTML to share this poll via email or other platforms.
     </flux:text>
 
-    <flux:spacer class="mt-6" />
+    <flux:spacer class="mt-10" />
 
-    <flux:field>
-        <flux:label>Platform</flux:label>
-        <flux:radio.group wire:model.live="platform" variant="cards" class="grid grid-cols-2 max-sm:grid-cols-1">
-            <flux:radio
-                value="universal"
-                label="Universal"
-                description="Works universally with Apple Mail, Gmail, Substack and more, but it doesn't automatically link responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="beehiiv"
-                label="Beehiiv"
-                description="Automatically links responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="brevo"
-                label="Brevo"
-                description="Automatically links responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="emailoctopus"
-                label="EmailOctopus"
-                description="Automatically links responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="ghost"
-                label="Ghost"
-                description="For email posts, it links responses to Ghost members. The poll must be embedded as an email call-to-action content card. For regular blog posts, users must use the universal poll instead."
-            />
-            <flux:radio
-                value="hubspot"
-                label="HubSpot"
-                description="It requires the 'Marketing Hub Starter' plan or higher."
-            />
-            <flux:radio
-                value="kit"
-                label="Kit"
-                description="Automatically links responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="loops"
-                label="Loops"
-                description="Automatically links responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="mailerlite"
-                label="MailerLite"
-                description="Automatically links responses to subscribers or contacts."
-            />
-            <flux:radio
-                value="sendy"
-                label="Sendy"
-                description="Automatically links responses to subscribers or contacts."
-            />
-        </flux:radio.group>
-    </flux:field>
+    <div class="space-y-6">
+        <flux:field>
+            <flux:label>Platform</flux:label>
+            <flux:radio.group wire:model.live="platform" variant="cards" class="flex-col">
+                <flux:radio
+                    value="universal"
+                    label="Universal"
+                    description="Works universally with Apple Mail, Gmail, Substack and more, but it doesn't automatically link responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="beehiiv"
+                    label="Beehiiv"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="brevo"
+                    label="Brevo"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="emailoctopus"
+                    label="EmailOctopus"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="ghost"
+                    label="Ghost"
+                    description="For email posts, it links responses to Ghost members. The poll must be embedded as an email call-to-action content card. For regular blog posts, users must use the universal poll instead."
+                />
+                <flux:radio
+                    value="hubspot"
+                    label="HubSpot"
+                    description="It requires the 'Marketing Hub Starter' plan or higher."
+                />
+                <flux:radio
+                    value="kit"
+                    label="Kit"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="loops"
+                    label="Loops"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="mailerlite"
+                    label="MailerLite"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+                <flux:radio
+                    value="sendy"
+                    label="Sendy"
+                    description="Automatically links responses to subscribers or contacts."
+                />
+            </flux:radio.group>
+        </flux:field>
 
-    <flux:spacer class="mt-6" />
+        <div>
+            <flux:heading>Preview</flux:heading>
 
-    <flux:heading>Preview</flux:heading>
+            <flux:card class="mt-3 p-4">
+                <flux:text class="font-semibold" variant="strong">{{ $poll->question }}</flux:text>
 
-    <flux:card class="mt-3">
-        <flux:text class="mt-2 font-semibold" variant="strong">{{ $poll->question }}</flux:text>
+                <flux:spacer class="mt-3" />
 
-        @if ($poll->layout === 'horizontal')
-            <div class="mt-3 flex flex-wrap gap-2">
-                @foreach ($poll->answers as $answer)
-                    <flux:text inline>
-                        {{ $answer->text }}
-                    </flux:text>
-                @endforeach
-            </div>
-        @else
-            <ul class="mt-3 list-inside list-disc space-y-2">
-                @foreach ($poll->answers as $answer)
-                    <li>
-                        <flux:text inline variant="strong">{{ $answer->text }}</flux:text>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
-    </flux:card>
+                @if ($poll->layout === 'horizontal')
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($poll->answers as $answer)
+                            <flux:text inline>
+                                {{ $answer->text }}
+                            </flux:text>
+                        @endforeach
+                    </div>
+                @else
+                    <ul class="list-inside list-disc space-y-1">
+                        @foreach ($poll->answers as $answer)
+                            <li>
+                                <flux:text inline variant="strong">{{ $answer->text }}</flux:text>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </flux:card>
+        </div>
+    </div>
 
-    <flux:spacer class="mt-6" />
+    <flux:spacer class="mt-8" />
 
     <flux:button
         x-data="{
@@ -200,16 +207,16 @@ new class extends Component
                 const button = this.$el
                 const originalText = button.textContent
                 button.textContent = 'Copied!'
-                button.classList.add('bg-green-600', 'text-white')
 
                 setTimeout(() => {
                     button.textContent = originalText
-                    button.classList.remove('bg-green-600', 'text-white')
                 }, 2000)
             },
         }"
         x-on:click="copyToClipboard()"
-        icon:trailing="clipboard"
+        variant="primary"
+        color="zinc"
+        class="w-full"
     >
         Copy to Clipboard
     </flux:button>

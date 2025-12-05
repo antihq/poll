@@ -62,51 +62,49 @@ new class extends Component
     <flux:spacer class="mt-4 lg:mt-8" />
 
     <form wire:submit="update">
-        <flux:heading class="text-xl">Answer Settings</flux:heading>
-        <flux:text class="mt-2">Configure redirect and feedback options for "{{ $answer->text }}".</flux:text>
+        <header class="flex items-center gap-3">
+            <flux:heading class="text-xl">Answer settings</flux:heading>
+            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <flux:text class="text-xl">{{ $answer->text }}</flux:text>
+        </header>
+        <flux:text class="mt-2">Configure redirect and feedback options.</flux:text>
 
         <flux:spacer class="mt-10" />
 
         <div class="space-y-6">
-            <div class="space-y-3">
-                <flux:checkbox
-                    wire:model="enable_redirect_url"
-                    label="Enable redirect URL"
-                    description="Redirect users to a custom URL after selecting this answer"
-                />
+            <flux:checkbox
+                wire:model="enable_redirect_url"
+                label="Enable redirect URL"
+                description="Redirect users to a custom URL after selecting this answer"
+            />
 
-                <div x-cloak x-show="$wire.enable_redirect_url">
-                    <flux:input
-                        wire:model="redirect_url"
-                        placeholder="https://example.com/thank-you"
-                        label="Redirect URL"
-                        description="Users will be redirected to this URL after selecting this answer"
-                    />
-                </div>
+            <div x-cloak x-show="$wire.enable_redirect_url">
+                <flux:input
+                    wire:model="redirect_url"
+                    placeholder="https://example.com/thank-you"
+                    label="Redirect URL"
+                    description="Users will be redirected to this URL after selecting this answer"
+                />
             </div>
 
-            <div class="space-y-3">
-                <flux:checkbox
-                    wire:model="show_feedback_field"
-                    label="Show feedback field"
-                    description="Display a feedback field when this answer is selected"
-                />
+            <flux:checkbox
+                wire:model="show_feedback_field"
+                label="Show feedback field"
+                description="Display a feedback field when this answer is selected"
+            />
 
-                <div x-cloak x-show="$wire.show_feedback_field">
-                    <flux:input
-                        wire:model="feedback_field_label"
-                        placeholder="Feedback"
-                        label="Feedback field label"
-                        description="Custom label for the feedback field"
-                    />
-                </div>
+            <div x-cloak x-show="$wire.show_feedback_field">
+                <flux:input
+                    wire:model="feedback_field_label"
+                    placeholder="Feedback"
+                    label="Feedback field label"
+                    description="Custom label for the feedback field"
+                />
             </div>
         </div>
 
         <flux:spacer class="mt-8" />
 
-        <div class="flex flex-col gap-4">
-            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save Settings</flux:button>
-        </div>
+        <flux:button type="submit" variant="primary" color="zinc" class="w-full">Save Settings</flux:button>
     </form>
 </div>

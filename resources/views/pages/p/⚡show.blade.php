@@ -8,7 +8,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
-new #[Layout('layouts::simple')] class extends Component
+new #[Layout('layouts::public-poll')] class extends Component
 {
     public Poll $poll;
 
@@ -89,33 +89,36 @@ new #[Layout('layouts::simple')] class extends Component
 ?>
 
 <div
-    class="mx-auto flex h-full max-w-[512px] flex-col items-center justify-center"
+    class="mx-auto flex h-full w-full max-w-[512px] flex-col justify-center"
     @if ($poll->auto_submit)
         x-init="$wire.submit()"
     @endif
 >
+    <flux:spacer />
+
     @if ($submitted)
         <div class="text-center">
             @if ($poll->thank_you_message)
-                <flux:text class="mt-2">{{ $poll->thank_you_message }}</flux:text>
+                <flux:heading class="text-xl">{{ $poll->thank_you_message }}</flux:heading>
             @else
-                <flux:heading size="lg">Thank you for your response!</flux:heading>
-                <flux:text class="mt-2">Your answer has been recorded successfully.</flux:text>
+                <flux:heading class="text-xl">Thank you for your response!</flux:heading>
             @endif
 
             @if ($poll->thank_you_button_label && $poll->thank_you_button_url)
-                <div class="mt-6">
-                    <flux:button variant="primary" :href="$poll->thank_you_button_url">
-                        {{ $poll->thank_you_button_label }}
-                    </flux:button>
-                </div>
+                <flux:spacer class="mt-8" />
+
+                <flux:button variant="primary" :href="$poll->thank_you_button_url">
+                    {{ $poll->thank_you_button_label }}
+                </flux:button>
             @endif
         </div>
     @else
         <div>
-            <flux:heading size="lg">{{ $poll->question }}</flux:heading>
+            <flux:heading class="text-xl">{{ $poll->question }}</flux:heading>
 
-            <form wire:submit="submit" class="mt-8 space-y-6">
+            <flux:spacer class="mt-10" />
+
+            <form wire:submit="submit" class="space-y-6">
                 <flux:radio.group
                     wire:model.live="answer"
                     variant="cards"
@@ -150,17 +153,17 @@ new #[Layout('layouts::simple')] class extends Component
                     />
                 @endif
 
-                <flux:button type="submit" variant="primary" class="w-full">Submit Response</flux:button>
+                <flux:button type="submit" variant="primary" color="zinc" class="w-full">Submit Response</flux:button>
             </form>
         </div>
     @endif
 
+    <flux:spacer class="mt-4 lg:mt-8" />
+
     @if (! $poll->hide_branding)
-        <div class="mt-8 text-center">
-            <flux:text size="sm" class="text-gray-500">
-                Powered by
-                <flux:link href="https://antipoll.com" target="_blank">Antipoll</flux:link>
-            </flux:text>
-        </div>
+        <flux:text size="sm" class="text-center">
+            Powered by
+            <flux:link href="https://antipoll.com" target="_blank" :accent="false" wire:navigate>Antipoll</flux:link>
+        </flux:text>
     @endif
 </div>

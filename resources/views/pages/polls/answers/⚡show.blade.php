@@ -25,50 +25,36 @@ new class extends Component
 ?>
 
 <div class="mx-auto max-w-3xl">
-    <header class="flex items-center">
-        <div class="flex items-center gap-3">
-            <flux:avatar
-                :name="strtoupper($answer->poll->name)"
-                color="auto"
-                initials:single
-                :color:seed="'poll-'.$answer->poll->id"
-            />
-            <flux:heading class="text-xl">{{ $answer->poll->name }}</flux:heading>
-        </div>
-        <flux:spacer />
-        <flux:button
-            href="/polls/{{ $answer->poll->id }}"
-            icon:trailing="arrow-left"
-            size="sm"
-            variant="subtle"
-            wire:navigate
-        >
-            Back to Poll
-        </flux:button>
-    </header>
+    <flux:link
+        href="/polls/{{ $answer->poll->id }}"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
+        <flux:icon.chevron-left variant="micro" />
+        Back to poll
+    </flux:link>
 
-    <flux:spacer class="mt-8" />
-
-    <flux:heading size="lg">Answer Details</flux:heading>
-
-    <flux:card class="mt-4">
-        <flux:text class="font-semibold" variant="strong">{{ $answer->text }}</flux:text>
-        <flux:text class="mt-2 text-sm text-gray-500">
-            {{ $this->responses->count() }} {{ Str::plural('response', $this->responses->count()) }}
-        </flux:text>
-    </flux:card>
-
-    <flux:spacer class="mt-8" />
-
-    <header class="flex items-center">
-        <flux:heading size="lg">
-            {{ $this->responses->count() }} {{ Str::plural('Response', $this->responses->count()) }}
-        </flux:heading>
-    </header>
-
-    <flux:separator class="mt-3" />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
     @if ($this->responses->count() > 0)
+        <header class="flex items-center gap-3">
+            <flux:heading class="text-xl">Answer details</flux:heading>
+            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <flux:text class="text-xl">{{ $answer->text }}</flux:text>
+        </header>
+
+        <flux:spacer class="mt-8" />
+
+        <header class="flex items-center">
+            <flux:heading size="lg">
+                {{ $this->responses->count() }} {{ Str::plural('Response', $this->responses->count()) }}
+            </flux:heading>
+        </header>
+
+        <flux:separator class="mt-3" />
+
         <flux:table>
             <flux:table.rows>
                 @foreach ($this->responses as $response)
@@ -90,7 +76,7 @@ new class extends Component
 
                                 @if (!empty($response->feedback))
                                     <flux:tooltip toggleable position="right">
-                                        <flux:button icon="information-circle" size="xs" variant="ghost" />
+                                        <flux:button icon="chat-bubble-left-ellipsis" size="xs" variant="ghost" />
                                         <flux:tooltip.content class="max-w-md">
                                             <p>{{ $response->feedback }}</p>
                                         </flux:tooltip.content>
@@ -108,8 +94,11 @@ new class extends Component
             </flux:table.rows>
         </flux:table>
     @else
-        <div class="py-8 text-center text-gray-500">
-            <flux:text>No responses yet for this answer.</flux:text>
-        </div>
+        <flux:callout variant="secondary" icon="inbox">
+            <flux:callout.heading>No responses yet</flux:callout.heading>
+            <flux:callout.text>
+                This answer hasn't received any responses yet.
+            </flux:callout.text>
+        </flux:callout>
     @endif
 </div>

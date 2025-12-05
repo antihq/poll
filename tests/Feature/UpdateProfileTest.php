@@ -3,7 +3,7 @@
 use App\Models\User;
 use Livewire\Livewire;
 
-test('profile page is displayed', function () {
+it('displays the profile page', function () {
     $user = User::factory()->withPersonalTeam()->create();
     $this->actingAs($user);
 
@@ -29,7 +29,7 @@ it('updates the profile information', function () {
     expect($user->email_verified_at)->toBeNull();
 });
 
-test('email verification status is unchanged when email address is unchanged', function () {
+it('keeps email verification status unchanged when email address is unchanged', function () {
     $user = User::factory()->withPersonalTeam()->create();
 
     $this->actingAs($user);
