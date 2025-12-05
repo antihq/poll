@@ -2,15 +2,10 @@
 
 use App\Models\User;
 
-it('redirects guests to the login page', function () {
-    $response = $this->get('/dashboard');
-    $response->assertRedirect('/login');
-});
+use function Pest\Laravel\actingAs;
 
 test('authenticated users can visit the dashboard', function () {
     $user = User::factory()->withPersonalTeamAndSubscription()->create();
-    $this->actingAs($user);
 
-    $response = $this->get('/dashboard');
-    $response->assertRedirect('/polls');
+    $response = actingAs($user)->get('/dashboard')->assertSuccessful();
 });

@@ -17,6 +17,15 @@ new class extends Component
         }]);
     }
 
+    public function delete(): void
+    {
+        $this->authorize('delete', $this->poll);
+
+        $this->poll->delete();
+
+        $this->redirect('/polls', navigate: true);
+    }
+
     #[Computed]
     public function totalResponses(): int
     {
@@ -75,6 +84,15 @@ new class extends Component
                 >
                     Settings
                 </flux:menu.item>
+                <flux:menu.item
+                    wire:click="delete"
+                    wire:confirm="Are you sure you want to delete this poll? This action cannot be undone and will delete all answers and responses."
+                    icon="trash"
+                    icon:variant="micro"
+                    color="red"
+                >
+                    Delete
+                </flux:menu.item>
             </flux:menu>
         </flux:dropdown>
     </header>
@@ -90,6 +108,12 @@ new class extends Component
             <flux:heading size="lg">
                 {{ $this->totalResponses }} {{ Str::plural('response', $this->totalResponses) }}
             </flux:heading>
+
+            <flux:spacer />
+
+            <flux:button href="/polls/{{ $poll->id }}/share" size="sm" icon="share" wire:navigate>
+                Share Poll
+            </flux:button>
         </header>
 
         <flux:separator class="mt-3" />
@@ -107,7 +131,11 @@ new class extends Component
                                     initials:single
                                     :color:seed="'answer-'.$answer->id"
                                 />
-                                <flux:link href="/polls/{{ $poll->id }}/answers/{{ $answer->id }}" :accent="false" wire:navigate>
+                                <flux:link
+                                    href="/polls/{{ $poll->id }}/answers/{{ $answer->id }}"
+                                    :accent="false"
+                                    wire:navigate
+                                >
                                     {{ $answer->text }}
                                 </flux:link>
                                 <flux:badge color="zinc" size="sm" inset="top bottom" class="tabular-nums">
@@ -141,7 +169,13 @@ new class extends Component
                 newsletters.
             </flux:callout.text>
             <x-slot name="actions">
-                <flux:button href="/polls/{{ $poll->id }}/share" variant="primary" color="zinc" size="sm" icon="share" wire:navigate>
+                <flux:button
+                    href="/polls/{{ $poll->id }}/share"
+                    variant="primary"
+                    size="sm"
+                    icon="share"
+                    wire:navigate
+                >
                     Share Poll
                 </flux:button>
             </x-slot>

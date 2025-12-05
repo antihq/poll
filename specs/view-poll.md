@@ -7,3 +7,5 @@
 - `/polls/{poll}/answers/{answer}`
 - To see answer details
 - Display a list of responses with the date, contact email and feedback if available
+
+-  Users can delete the poll
