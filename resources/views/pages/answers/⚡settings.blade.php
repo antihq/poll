@@ -64,7 +64,7 @@ new class extends Component
     <form wire:submit="update">
         <header class="flex items-center gap-3">
             <flux:heading class="text-xl">Answer settings</flux:heading>
-            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <span class="size-1 rounded-full bg-zinc-500 dark:text-white/70"></span>
             <flux:text class="text-xl">{{ $answer->text }}</flux:text>
         </header>
         <flux:text class="mt-2">Configure redirect and feedback options.</flux:text>

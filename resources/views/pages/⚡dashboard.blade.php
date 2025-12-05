@@ -63,7 +63,7 @@ new class extends Component
                 </flux:menu.group>
                 @if ($this->team->subscribed())
                     <flux:menu.group heading="Billing">
-                        <flux:menu.item href="/billing-portal" icon="credit-card" icon:variant="micro" target="_blank">
+                        <flux:menu.item href="/billing-portal" icon="credit-card" icon:variant="micro">
                             Manage
                         </flux:menu.item>
                     </flux:menu.group>

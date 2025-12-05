@@ -123,7 +123,7 @@ new class extends Component
     <form wire:submit="save">
         <header class="flex items-center gap-3">
             <flux:heading class="text-xl">Poll settings</flux:heading>
-            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <span class="size-1 rounded-full bg-zinc-500 dark:text-white/70"></span>
             <flux:text class="text-xl">{{ $poll->name }}</flux:text>
         </header>
         <flux:text class="mt-2">Configure settings for this poll.</flux:text>

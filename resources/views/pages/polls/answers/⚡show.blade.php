@@ -41,7 +41,7 @@ new class extends Component
     @if ($this->responses->count() > 0)
         <header class="flex items-center gap-3">
             <flux:heading class="text-xl">Answer details</flux:heading>
-            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <span class="size-1 rounded-full bg-zinc-500 dark:text-white/70"></span>
             <flux:text class="text-xl">{{ $answer->text }}</flux:text>
         </header>
 
@@ -84,10 +84,8 @@ new class extends Component
                                 @endif
                             </div>
                         </flux:table.cell>
-                        <flux:table.cell align="end">
-                            <flux:text class="text-sm text-gray-500">
-                                {{ $response->created_at->format('M j, Y g:i A') }}
-                            </flux:text>
+                        <flux:table.cell align="end" class="text-xs">
+                            {{ $response->created_at->format('M j, Y g:i A') }}
                         </flux:table.cell>
                     </flux:table.row>
                 @endforeach

@@ -151,7 +151,7 @@ new class extends Component
                                 </div>
                                 <div class="h-2 w-36 rounded-full bg-zinc-200">
                                     <div
-                                        class="h-2 rounded-full bg-blue-600 transition-all duration-300"
+                                        class="h-2 rounded-full bg-accent transition-all duration-300"
                                         style="width: {{ $this->responseCounts[$answer->id]['percentage'] }}%"
                                     ></div>
                                 </div>
