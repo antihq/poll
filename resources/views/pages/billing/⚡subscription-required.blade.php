@@ -2,13 +2,14 @@
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Actions\Logout;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
 
-new #[Layout('layouts::simple')] class extends Component {
+new #[Layout('layouts::simple'), Title('Subscription required')] class extends Component {
     public Collection $teams;
     public ?int $selectedTeamId;
 

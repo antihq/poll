@@ -3,9 +3,10 @@
 use App\Models\Answer;
 use App\Models\Poll;
 use Flux\Flux;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component
+new #[Title('Edit poll')] class extends Component
 {
     public Poll $poll;
 

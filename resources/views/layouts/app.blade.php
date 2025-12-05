@@ -4,18 +4,16 @@
     class="dark antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950"
 >
     <head>
-        @include('partials.head')
+        @include('partials.head', ['title' => (isset($title) ? $title . ' - ' : '') . auth()->user()->currentTeam->name . ' - ' . config('app.name')])
     </head>
     <body class="min-h-screen bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
         <flux:header class="border-zinc-200 lg:border-b dark:border-zinc-700">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" size="sm" />
 
-            @auth
-                <div class="flex h-full items-center max-lg:hidden">
-                    <livewire:teams-dropdown />
-                    <flux:separator vertical class="mx-1 my-5" />
-                </div>
-            @endauth
+            <div class="flex h-full items-center max-lg:hidden">
+                <livewire:teams-dropdown />
+                <flux:separator vertical class="mx-1 my-5" />
+            </div>
 
             <flux:navbar class="-mb-px max-lg:hidden">
                 <flux:navbar.item href="/polls" :current="request()->routeIs('polls.*')" :accent="false" wire:navigate>
@@ -25,44 +23,40 @@
 
             <flux:spacer />
 
-            @auth
-                <flux:dropdown position="top" align="end">
-                    <flux:button size="sm" variant="ghost" square>
-                        <flux:avatar size="xs" :name="Auth::user()->name" color="auto" initials:single />
-                    </flux:button>
+            <flux:dropdown position="top" align="end">
+                <flux:button size="sm" variant="ghost" square>
+                    <flux:avatar size="xs" :name="Auth::user()->name" color="auto" initials:single />
+                </flux:button>
 
-                    <flux:menu>
-                        <flux:menu.group heading="Settings">
-                            <flux:menu.item href="/settings/profile" icon="user" icon:variant="micro" wire:navigate>
-                                Profile
-                            </flux:menu.item>
-                            <flux:menu.item
-                                href="/settings/appearance"
-                                icon="adjustments-horizontal"
-                                icon:variant="micro"
-                                wire:navigate
-                            >
-                                Appearance
-                            </flux:menu.item>
-                        </flux:menu.group>
+                <flux:menu>
+                    <flux:menu.group heading="Settings">
+                        <flux:menu.item href="/settings/profile" icon="user" icon:variant="micro" wire:navigate>
+                            Profile
+                        </flux:menu.item>
+                        <flux:menu.item
+                            href="/settings/appearance"
+                            icon="adjustments-horizontal"
+                            icon:variant="micro"
+                            wire:navigate
+                        >
+                            Appearance
+                        </flux:menu.item>
+                    </flux:menu.group>
 
-                        <form method="POST" action="/logout" class="w-full">
-                            @csrf
-                            <flux:menu.item
-                                as="button"
-                                type="submit"
-                                icon="arrow-right-start-on-rectangle"
-                                icon:variant="micro"
-                                class="w-full"
-                            >
-                                Log Out
-                            </flux:menu.item>
-                        </form>
-                    </flux:menu>
-                </flux:dropdown>
-            @else
-                <flux:button href="/dashboard" variant="subtle">Account</flux:button>
-            @endauth
+                    <form method="POST" action="/logout" class="w-full">
+                        @csrf
+                        <flux:menu.item
+                            as="button"
+                            type="submit"
+                            icon="arrow-right-start-on-rectangle"
+                            icon:variant="micro"
+                            class="w-full"
+                        >
+                            Log Out
+                        </flux:menu.item>
+                    </form>
+                </flux:menu>
+            </flux:dropdown>
         </flux:header>
 
         <!-- Mobile Menu -->
@@ -82,9 +76,7 @@
             <flux:separator variant="subtle" />
 
             <flux:sidebar.nav>
-                @auth
-                    <flux:sidebar.item href="/polls" :accent="false" wire:navigate>Polls</flux:sidebar.item>
-                @endauth
+                <flux:sidebar.item href="/polls" :accent="false" wire:navigate>Polls</flux:sidebar.item>
             </flux:sidebar.nav>
         </flux:sidebar>
 

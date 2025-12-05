@@ -5,9 +5,10 @@ use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\WithPagination;
 
-new class extends Component
+new #[Title('All polls')] class extends Component
 {
     use WithPagination;
 

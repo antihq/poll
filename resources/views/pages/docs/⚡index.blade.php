@@ -1,15 +1,16 @@
 <?php
 
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Layout('layouts::site')] class extends Component
+new #[Layout('layouts::site'), Title('Getting started')] class extends Component
 {
     //
 };
 ?>
 
-<div class="max-w-2xl mx-auto">
+<div class="mx-auto max-w-2xl">
     <flux:heading size="xl">Getting Started</flux:heading>
 
     <div class="mt-6 space-y-6">
@@ -30,7 +31,9 @@ new #[Layout('layouts::site')] class extends Component
         <section>
             <flux:heading size="lg" level="2">2. Share Your Poll</flux:heading>
             <flux:text class="mt-6 text-base">
-                After creating your poll, click the share button to copy and paste it into any email client. You can also embed your poll in Kit.com's newsletter platform, where email addresses will be captured automatically.
+                After creating your poll, click the share button to copy and paste it into any email client. You can
+                also embed your poll in Kit.com's newsletter platform, where email addresses will be captured
+                automatically.
             </flux:text>
         </section>
 

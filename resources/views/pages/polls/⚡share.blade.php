@@ -2,9 +2,10 @@
 
 use App\Models\Poll;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component
+new #[Title('Share poll')] class extends Component
 {
     public Poll $poll;
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full antialiased">
     <head>
-        @include('partials.head')
+        @include('partials.head', ['title' => (isset($title) ? $title . ' - ' : '') . config('app.name')])
     </head>
     <body class="flex min-h-full flex-col bg-white dark:bg-zinc-800">
         <div

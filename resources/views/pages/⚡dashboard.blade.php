@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\Poll;
-use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 
-new class extends Component
+new #[Title('Home')] class extends Component
 {
     #[Computed]
     public function team()

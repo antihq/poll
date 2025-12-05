@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\Answer;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component
+new #[Title('Answer settings')] class extends Component
 {
     public Answer $answer;
 

@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 
-new #[Layout('layouts::simple')] class extends Component {
+new #[Layout('layouts::simple'), Title('Sign up')] class extends Component {
     #[Validate('required|string|max:255')]
     public string $name = '';
 

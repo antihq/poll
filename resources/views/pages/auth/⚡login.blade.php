@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 
-new #[Layout('layouts::simple')] class extends Component {
+new #[Layout('layouts::simple'), Title('Login')] class extends Component {
     #[Validate('required|string|email')]
     public string $email = '';
 

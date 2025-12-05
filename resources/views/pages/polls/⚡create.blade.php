@@ -1,12 +1,13 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
 use App\Models\Answer;
 use Illuminate\Support\Str;
 
-new class extends Component {
+new #[Title('Add poll')] class extends Component {
     public string $name = '';
     public string $question = '';
     public array $answers = ['', ''];

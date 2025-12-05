@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased dark:bg-zinc-900">
     <head>
-        @include('partials.head')
+        @include('partials.head', ['title' => (isset($title) ? $title . ' - ' : '') . config('app.name')])
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900">
         <flux:header container>

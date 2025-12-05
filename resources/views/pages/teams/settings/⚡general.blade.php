@@ -1,11 +1,12 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
 use App\Models\Team;
 use Flux\Flux;
 
-new class extends Component {
+new #[Title('Team settings')] class extends Component {
     public Team $team;
 
     public string $name;
@@ -36,13 +37,7 @@ new class extends Component {
 }; ?>
 
 <div class="mx-auto max-w-[512px]">
-    <flux:link
-        href="/dashboard"
-        class="inline-flex items-center gap-2 text-sm"
-        variant="subtle"
-        inline
-        wire:navigate
-    >
+    <flux:link href="/dashboard" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
         <flux:icon.chevron-left variant="micro" />
         Back to home
     </flux:link>

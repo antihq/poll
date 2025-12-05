@@ -1,10 +1,11 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Team;
 
-new class extends Component {
+new #[Title('Create team')] class extends Component {
     public string $name = '';
 
     public function create()

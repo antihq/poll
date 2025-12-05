@@ -2,9 +2,10 @@
 
 use App\Models\Answer;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component
+new #[Title('Answer details')] class extends Component
 {
     public Answer $answer;
 
@@ -94,9 +95,7 @@ new class extends Component
     @else
         <flux:callout variant="secondary" icon="inbox">
             <flux:callout.heading>No responses yet</flux:callout.heading>
-            <flux:callout.text>
-                This answer hasn't received any responses yet.
-            </flux:callout.text>
+            <flux:callout.text>This answer hasn't received any responses yet.</flux:callout.text>
         </flux:callout>
     @endif
 </div>

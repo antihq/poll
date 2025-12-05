@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new class extends Component {
+new #[Title('Billing portal')] class extends Component {
     public function mount()
     {
         $team = Auth::user()->currentTeam;
