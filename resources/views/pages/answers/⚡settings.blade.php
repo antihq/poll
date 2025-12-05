@@ -23,15 +23,14 @@ new #[Title('Answer settings')] class extends Component
         'feedback_field_label' => ['required_if:show_feedback_field,true', 'string', 'max:255'],
     ];
 
-    public function mount(Answer $answer): void
+    public function mount(): void
     {
-        $this->answer = $answer;
-        $this->authorize('update', $answer->poll);
+        $this->authorize('update', $this->answer->poll);
 
-        $this->enable_redirect_url = ! empty($this->answer->redirect_url);
-        $this->redirect_url = $this->answer->redirect_url ?? '';
-        $this->show_feedback_field = ! empty($this->answer->feedback_field_label);
-        $this->feedback_field_label = $this->answer->feedback_field_label ?? '';
+        $this->enable_redirect_url = ! empty($this->this->answer->redirect_url);
+        $this->redirect_url = $this->this->answer->redirect_url ?? '';
+        $this->show_feedback_field = ! empty($this->this->answer->feedback_field_label);
+        $this->feedback_field_label = $this->this->answer->feedback_field_label ?? '';
     }
 
     public function update(): void

@@ -31,22 +31,23 @@ new #[Title('Poll settings')] class extends Component
 
     public string $layout;
 
-    public function mount(Poll $poll): void
+    public function mount(): void
     {
-        $this->authorize('update', $poll);
-        $this->poll = $poll;
+        $this->authorize('update', $this->poll);
 
-        $this->accepts_responses = $poll->accepts_responses ?? true;
-        $this->require_email = $poll->require_email ?? false;
-        $this->auto_submit = $poll->auto_submit ?? false;
-        $this->collect_feedback = $poll->collect_feedback ?? false;
-        $this->thank_you_message = $poll->thank_you_message;
-        $this->thank_you_button_label = $poll->thank_you_button_label;
-        $this->thank_you_button_url = $poll->thank_you_button_url;
-        $this->redirect_url = $poll->redirect_url;
-        $this->submission_action = $poll->submissionAction();
-        $this->hide_branding = $poll->hide_branding ?? false;
-        $this->layout = $poll->layout ?? 'vertical';
+        $this->fill([
+            'accepts_responses' => $this->poll->accepts_responses ?? true,
+            'require_email' => $this->poll->require_email ?? false,
+            'auto_submit' => $this->poll->auto_submit ?? false,
+            'collect_feedback' => $this->poll->collect_feedback ?? false,
+            'thank_you_message' => $this->poll->thank_you_message,
+            'thank_you_button_label' => $this->poll->thank_you_button_label,
+            'thank_you_button_url' => $this->poll->thank_you_button_url,
+            'redirect_url' => $this->poll->redirect_url,
+            'submission_action' => $this->poll->submissionAction(),
+            'hide_branding' => $this->poll->hide_branding ?? false,
+            'layout' => $this->poll->layout ?? 'vertical',
+        ]);
     }
 
     public function rules(): array

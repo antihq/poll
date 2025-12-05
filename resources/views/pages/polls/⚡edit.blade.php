@@ -23,14 +23,13 @@ new #[Title('Edit poll')] class extends Component
         'answers.*' => ['required', 'string', 'max:255'],
     ];
 
-    public function mount(Poll $poll): void
+    public function mount(): void
     {
-        $this->poll = $poll;
-        $this->authorize('update', $poll);
+        $this->authorize('update', $this->poll);
 
-        $this->name = $poll->name;
-        $this->question = $poll->question;
-        $this->answers = $poll->answers->map(fn ($answer) => $answer->text)->toArray();
+        $this->name = $this->poll->name;
+        $this->question = $this->poll->question;
+        $this->answers = $this->poll->answers->map(fn ($answer) => $answer->text)->toArray();
     }
 
     public function addAnswer(): void
