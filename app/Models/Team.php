@@ -8,16 +8,26 @@ use Laravel\Cashier\Billable;
 
 class Team extends Model
 {
-    use Billable;
-
     /** @use HasFactory<\Database\Factories\TeamFactory> */
-    use HasFactory;
+    use HasFactory, Billable;
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'personal' => 'boolean',
+        ];
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function polls()
+    {
+        return $this->hasMany(Poll::class);
     }
 
     public function invitations()
@@ -57,15 +67,8 @@ class Team extends Model
         ]);
     }
 
-    public function polls()
+    public function stripeEmail()
     {
-        return $this->hasMany(Poll::class);
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'personal' => 'boolean',
-        ];
+        return $this->user->email ?? null;
     }
 }
