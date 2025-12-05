@@ -106,7 +106,7 @@ new class extends Component
                         icon:variant="micro"
                         variant="danger"
                     >
-                        Delete Poll
+                        Delete
                     </flux:menu.item>
                 </flux:menu.group>
             </flux:menu>
