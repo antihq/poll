@@ -99,10 +99,9 @@ new #[Layout('layouts::public-poll')] class extends Component
     @if ($submitted)
         <div class="text-center">
             @if ($poll->thank_you_message)
-                <flux:text>{{ $poll->thank_you_message }}</flux:text>
+                <flux:heading class="text-xl">{{ $poll->thank_you_message }}</flux:heading>
             @else
                 <flux:heading class="text-xl">Thank you for your response!</flux:heading>
-                <flux:text class="mt-2">Your answer has been recorded successfully.</flux:text>
             @endif
 
             @if ($poll->thank_you_button_label && $poll->thank_you_button_url)
