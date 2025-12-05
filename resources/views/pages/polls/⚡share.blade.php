@@ -67,14 +67,24 @@ new class extends Component
 }; ?>
 
 <div class="mx-auto w-full max-w-[512px]">
-    <flux:link href="/polls/{{ $poll->id }}" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+    <flux:link
+        href="/polls/{{ $poll->id }}"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
         <flux:icon.chevron-left variant="micro" />
         Back to poll
     </flux:link>
 
     <flux:spacer class="mt-4 lg:mt-8" />
 
-    <flux:heading class="text-xl">Share Poll</flux:heading>
+    <header class="flex items-center gap-3">
+        <flux:heading class="text-xl">Share poll</flux:heading>
+        <span class="size-1 rounded-full bg-zinc-400"></span>
+        <flux:text class="text-xl">{{ $poll->name }}</flux:text>
+    </header>
     <flux:text class="mt-2">
         Select a platform and copy the HTML to share this poll via email or other platforms.
     </flux:text>

@@ -96,7 +96,11 @@ new class extends Component
     <flux:spacer class="mt-4 lg:mt-8" />
 
     <form wire:submit="update">
-        <flux:heading class="text-xl">Edit poll</flux:heading>
+        <header class="flex items-center gap-3">
+            <flux:heading class="text-xl">Edit poll</flux:heading>
+            <span class="size-1 rounded-full bg-zinc-400"></span>
+            <flux:text class="text-xl">{{ $poll->name }}</flux:text>
+        </header>
         <flux:text class="mt-2">Update your poll details and answers.</flux:text>
 
         <flux:spacer class="mt-10" />
