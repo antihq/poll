@@ -6,9 +6,9 @@ use Livewire\Component;
 new class extends Component {
     public function mount()
     {
-        $user = Auth::user();
+        $team = Auth::user()->currentTeam;
 
-        return $this->redirect($user->billingPortalUrl('/dashboard'), navigate: false);
+        return $this->redirect($team->billingPortalUrl('/dashboard'), navigate: false);
     }
 }; ?>
 

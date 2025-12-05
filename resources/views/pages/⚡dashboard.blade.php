@@ -30,8 +30,13 @@ new class extends Component
 <div class="mx-auto max-w-3xl">
     <header class="flex items-center">
         <div class="flex items-center gap-3">
-            <flux:avatar :name="$this->team->name" color="auto" initials:single :color:seed="'team-' . $this->team->name" />
-            <flux:heading class="text-xl">{{ $this->team->name}}</flux:heading>
+            <flux:avatar
+                :name="$this->team->name"
+                color="auto"
+                initials:single
+                :color:seed="'team-' . $this->team->name"
+            />
+            <flux:heading class="text-xl">{{ $this->team->name }}</flux:heading>
         </div>
         <flux:spacer />
         <flux:dropdown align="end">
@@ -39,13 +44,30 @@ new class extends Component
 
             <flux:menu>
                 <flux:menu.group heading="Settings">
-                    <flux:menu.item href="/teams/{{ $this->team->id }}/settings/general" icon="cog-8-tooth" icon:variant="micro" wire:navigate>
+                    <flux:menu.item
+                        href="/teams/{{ $this->team->id }}/settings/general"
+                        icon="cog-8-tooth"
+                        icon:variant="micro"
+                        wire:navigate
+                    >
                         General
                     </flux:menu.item>
-                    <flux:menu.item href="/teams/{{ $this->team->id }}/settings/members" icon="user-group" icon:variant="micro" wire:navigate>
+                    <flux:menu.item
+                        href="/teams/{{ $this->team->id }}/settings/members"
+                        icon="user-group"
+                        icon:variant="micro"
+                        wire:navigate
+                    >
                         Members
                     </flux:menu.item>
                 </flux:menu.group>
+                @if ($this->team->subscribed())
+                    <flux:menu.group heading="Billing">
+                        <flux:menu.item href="/billing-portal" icon="credit-card" icon:variant="micro" target="_blank">
+                            Manage
+                        </flux:menu.item>
+                    </flux:menu.group>
+                @endif
             </flux:menu>
         </flux:dropdown>
     </header>
@@ -56,7 +78,17 @@ new class extends Component
         <header class="flex items-center">
             <flux:heading size="lg">Recent polls</flux:heading>
             <flux:spacer />
-            <flux:button href="/polls/create" variant="primary" color="zinc" size="sm" icon="plus" class="-my-1" wire:navigate>New poll</flux:button>
+            <flux:button
+                href="/polls/create"
+                variant="primary"
+                color="zinc"
+                size="sm"
+                icon="plus"
+                class="-my-1"
+                wire:navigate
+            >
+                New poll
+            </flux:button>
         </header>
 
         <flux:separator class="mt-3" />
