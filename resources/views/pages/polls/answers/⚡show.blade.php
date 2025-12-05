@@ -40,7 +40,7 @@ new class extends Component
 
     @if ($this->responses->count() > 0)
         <header class="flex items-center gap-3">
-            <flux:heading class="text-xl">Answer Details</flux:heading>
+            <flux:heading class="text-xl">Answer details</flux:heading>
             <span class="size-1 rounded-full bg-zinc-400"></span>
             <flux:text class="text-xl">{{ $answer->text }}</flux:text>
         </header>

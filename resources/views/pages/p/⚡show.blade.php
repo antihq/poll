@@ -158,9 +158,9 @@ new #[Layout('layouts::public-poll')] class extends Component
         </div>
     @endif
 
-    @if (! $poll->hide_branding)
-        <flux:spacer class="mt-4 lg:mt-8" />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
+    @if (! $poll->hide_branding)
         <flux:text size="sm" class="text-center">
             Powered by
             <flux:link href="https://antipoll.com" target="_blank" :accent="false" wire:navigate>Antipoll</flux:link>
