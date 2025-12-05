@@ -15,7 +15,7 @@ it('displays the poll share page', function () {
 });
 
 it('generates correct share links for platforms', function (string $platform, string $emailPlaceholder) {
-    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $user = User::factory()->withPersonalTeam()->create();
     $poll = Poll::factory()
         ->for($user->currentTeam)
         ->has(Answer::factory()->count(2)->sequence(['text' => 'Option A'], ['text' => 'Option B']))

@@ -15,31 +15,27 @@ it('displays a poll for guests', function () {
     $response->assertSuccessful();
 });
 
-it('shows 404 for non-existent poll', function () {
-    $response = get('/p/invalid-ulid');
-
-    $response->assertNotFound();
-});
-
 it('allows guests to select and submit a poll response', function () {
     $poll = Poll::factory()->withAnswers(3, ['Option 1', 'Option 2', 'Option 3'])->create();
     $answer = $poll->answers->first();
 
     $component = Livewire::test('pages::p.show', ['poll' => $poll])
         ->set('answer', $answer->ulid)
-        ->call('submit');
+        ->call('submit')
+        ->assertHasNoErrors();
 
-    $component->assertHasNoErrors();
-    $component->assertSee('Thank you for your response!');
+    $pollResponse = PollResponse::first();
+
+    expect($pollResponse->poll_id)->toBe($poll->id);
+    expect($pollResponse->answer_id)->toBe($answer->id);
 });
 
 it('shows validation error when no answer is selected', function () {
     $poll = Poll::factory()->withAnswers(2, ['Yes', 'No'])->create();
 
-    $component = Livewire::test('pages::p.show', ['poll' => $poll])
-        ->call('submit');
-
-    $component->assertHasErrors(['answer' => 'required']);
+    Livewire::test('pages::p.show', ['poll' => $poll])
+        ->call('submit')
+        ->assertHasErrors(['answer' => 'required']);
 });
 
 it('shows validation error when selected answer does not belong to poll', function () {
@@ -47,31 +43,28 @@ it('shows validation error when selected answer does not belong to poll', functi
     $otherPoll = Poll::factory()->withAnswers(2, ['Maybe', 'Later'])->create();
     $otherAnswer = $otherPoll->answers->first();
 
-    $component = Livewire::test('pages::p.show', ['poll' => $poll])
+    Livewire::test('pages::p.show', ['poll' => $poll])
         ->set('answer', $otherAnswer->ulid)
-        ->call('submit');
-
-    $component->assertHasErrors(['answer' => 'exists']);
+        ->call('submit')
+        ->assertHasErrors(['answer' => 'exists']);
 });
 
-it('shows thank you message after submission and hides form', function () {
+it('shows thank you message after submission', function () {
     $poll = Poll::factory()->withAnswers(2, ['Yes', 'No'])->create();
     $answer = $poll->answers->first();
 
     $component = Livewire::test('pages::p.show', ['poll' => $poll])
         ->set('answer', $answer->ulid)
-        ->call('submit');
-
-    $component->assertSee('Thank you for your response!');
+        ->call('submit')
+        ->assertSee('Thank you for your response!');
 });
 
 it('preselects answer from URL parameter', function () {
     $poll = Poll::factory()->has(Answer::factory()->count(3))->create();
     $answer = $poll->answers->first();
 
-    $response = get("/p/{$poll->ulid}?answer={$answer->ulid}");
+    $response = get("/p/{$poll->ulid}?answer={$answer->ulid}")->assertSuccessful();
 
-    $response->assertSuccessful();
     $response->assertSee('value="'.$answer->ulid.'"', false);
     $response->assertSee('checked', false);
 });

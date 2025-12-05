@@ -20,7 +20,7 @@ it('displays a poll', function () {
 
 it('can delete a poll', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $user = User::factory()->withPersonalTeam()->create();
     $poll = Poll::factory()->for($user->currentTeam)->create();
     $answer = Answer::factory()->for($poll)->create();
     $response = PollResponse::factory()->for($poll)->for($answer)->create();

@@ -3,24 +3,23 @@
 use App\Models\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+
 it('displays the profile page', function () {
     $user = User::factory()->withPersonalTeam()->create();
-    $this->actingAs($user);
 
-    $this->get('/settings/profile')->assertOk();
+    actingAs($user)->get('/settings/profile')->assertOk();
 });
 
 it('updates the profile information', function () {
     $user = User::factory()->withPersonalTeam()->create();
 
-    $this->actingAs($user);
-
-    $response = Livewire::test('pages::settings.profile')
+    $component = Livewire::actingAs($user)->test('pages::settings.profile')
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
         ->call('updateProfileInformation');
 
-    $response->assertHasNoErrors();
+    $component->assertHasNoErrors();
 
     $user->refresh();
 
@@ -32,14 +31,12 @@ it('updates the profile information', function () {
 it('keeps email verification status unchanged when email address is unchanged', function () {
     $user = User::factory()->withPersonalTeam()->create();
 
-    $this->actingAs($user);
-
-    $response = Livewire::test('pages::settings.profile')
+    $component = Livewire::actingAs($user)->test('pages::settings.profile')
         ->set('name', 'Test User')
         ->set('email', $user->email)
         ->call('updateProfileInformation');
 
-    $response->assertHasNoErrors();
+    $component->assertHasNoErrors();
 
     expect($user->refresh()->email_verified_at)->not->toBeNull();
 });

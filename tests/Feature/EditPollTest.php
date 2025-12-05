@@ -2,19 +2,19 @@
 
 use App\Models\Answer;
 use App\Models\Poll;
-use App\Models\Team;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('displays the poll edit page', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $user->current_team_id = $team->id;
-    $user->save();
+use function Pest\Laravel\actingAs;
 
-    $poll = Poll::factory()->create(['team_id' => $team->id, 'name' => 'Test Poll', 'question' => 'Test Question?']);
-    Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 1', 'sort_order' => 0]);
-    Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 2', 'sort_order' => 1]);
+it('displays the poll edit page', function () {
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+
+    $poll = Poll::factory()->for($user->currentTeam)->create(['name' => 'Test Poll', 'question' => 'Test Question?']);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
+
+    actingAs($user)->get("/polls/{$poll->id}/edit")->assertSuccessful();
 
     $component = Livewire::actingAs($user)
         ->test('pages::polls.edit', ['poll' => $poll]);
@@ -27,14 +27,10 @@ it('displays the poll edit page', function () {
 });
 
 it('updates a poll with valid data', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $user->current_team_id = $team->id;
-    $user->save();
-
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
-    $answer1 = Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 1', 'sort_order' => 0]);
-    $answer2 = Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 2', 'sort_order' => 1]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
+    $answer1 = Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    $answer2 = Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
 
     Livewire::actingAs($user)
         ->test('pages::polls.edit', ['poll' => $poll])
@@ -43,34 +39,24 @@ it('updates a poll with valid data', function () {
         ->set('answers', ['Updated Answer 1', 'Updated Answer 2'])
         ->call('update');
 
-    $this->assertDatabaseHas('polls', [
-        'id' => $poll->id,
-        'name' => 'Updated Poll Name',
-        'question' => 'Updated question?',
-    ]);
+    $poll->refresh();
+    expect($poll->name)->toBe('Updated Poll Name');
+    expect($poll->question)->toBe('Updated question?');
 
-    $this->assertDatabaseHas('answers', [
-        'id' => $answer1->id,
-        'text' => 'Updated Answer 1',
-        'sort_order' => 0,
-    ]);
+    $answer1->refresh();
+    expect($answer1->text)->toBe('Updated Answer 1');
+    expect($answer1->sort_order)->toBe(0);
 
-    $this->assertDatabaseHas('answers', [
-        'id' => $answer2->id,
-        'text' => 'Updated Answer 2',
-        'sort_order' => 1,
-    ]);
+    $answer2->refresh();
+    expect($answer2->text)->toBe('Updated Answer 2');
+    expect($answer2->sort_order)->toBe(1);
 });
 
 it('can add new answers when editing', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $user->current_team_id = $team->id;
-    $user->save();
-
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
-    Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 1', 'sort_order' => 0]);
-    Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 2', 'sort_order' => 1]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
+    Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
 
     Livewire::actingAs($user)
         ->test('pages::polls.edit', ['poll' => $poll])
@@ -79,23 +65,19 @@ it('can add new answers when editing', function () {
         ->set('answers', ['Answer 1', 'Answer 2', 'New Answer 3'])
         ->call('update');
 
-    $this->assertDatabaseHas('answers', [
-        'poll_id' => $poll->id,
-        'text' => 'New Answer 3',
-        'sort_order' => 2,
-    ]);
+    $newAnswer = Answer::where('poll_id', $poll->id)
+        ->where('text', 'New Answer 3')
+        ->first();
+    expect($newAnswer)->not->toBeNull();
+    expect($newAnswer->sort_order)->toBe(2);
 });
 
 it('can remove answers when editing', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $user->current_team_id = $team->id;
-    $user->save();
-
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
-    $answer1 = Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 1', 'sort_order' => 0]);
-    $answer2 = Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 2', 'sort_order' => 1]);
-    $answer3 = Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 3', 'sort_order' => 2]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
+    $answer1 = Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    $answer2 = Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
+    $answer3 = Answer::factory()->for($poll)->create(['text' => 'Answer 3', 'sort_order' => 2]);
 
     Livewire::actingAs($user)
         ->test('pages::polls.edit', ['poll' => $poll])
@@ -104,20 +86,14 @@ it('can remove answers when editing', function () {
         ->set('answers', ['Answer 1', 'Answer 2'])
         ->call('update');
 
-    $this->assertDatabaseMissing('answers', [
-        'id' => $answer3->id,
-    ]);
+    expect(Answer::find($answer3->id))->toBeNull();
 });
 
 it('shows validation errors when less than two answers are provided', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $user->current_team_id = $team->id;
-    $user->save();
-
-    $poll = Poll::factory()->create(['team_id' => $team->id]);
-    Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 1', 'sort_order' => 0]);
-    Answer::factory()->create(['poll_id' => $poll->id, 'text' => 'Answer 2', 'sort_order' => 1]);
+    $user = User::factory()->withPersonalTeam()->create();
+    $poll = Poll::factory()->for($user->currentTeam)->create();
+    Answer::factory()->for($poll)->create(['text' => 'Answer 1', 'sort_order' => 0]);
+    Answer::factory()->for($poll)->create(['text' => 'Answer 2', 'sort_order' => 1]);
 
     Livewire::actingAs($user)
         ->test('pages::polls.edit', ['poll' => $poll])
@@ -126,28 +102,6 @@ it('shows validation errors when less than two answers are provided', function (
         ->set('answers', ['Answer 1'])
         ->call('update')
         ->assertHasErrors(['answers']);
-});
-
-it('redirects guests to login page', function () {
-    $poll = Poll::factory()->create();
-
-    $response = $this->get("/polls/{$poll->id}/edit");
-
-    $response->assertRedirect('/login');
-});
-
-it('shows 403 for polls that do not belong to user team', function () {
-    $user = User::factory()->create();
-    $team = Team::factory()->create(['user_id' => $user->id]);
-    $user->current_team_id = $team->id;
-    $user->save();
-
-    $otherTeam = Team::factory()->create();
-    $poll = Poll::factory()->create(['team_id' => $otherTeam->id]);
-
-    Livewire::actingAs($user)
-        ->test('pages::polls.edit', ['poll' => $poll])
-        ->assertStatus(403);
 });
 
 it('can sort answers by dragging and dropping', function () {

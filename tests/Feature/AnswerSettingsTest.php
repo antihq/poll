@@ -23,6 +23,7 @@ it('saves settings successfully with livewire component', function () {
         ->call('update');
 
     $answer->refresh();
+
     expect($answer->redirect_url)->toBe('https://example.com/thank-you');
     expect($answer->feedback_field_label)->toBeNull();
 
@@ -36,6 +37,7 @@ it('saves settings successfully with livewire component', function () {
         ->call('update');
 
     $answer->refresh();
+
     expect($answer->redirect_url)->toBeNull();
     expect($answer->feedback_field_label)->toBe('What did you think?');
 });

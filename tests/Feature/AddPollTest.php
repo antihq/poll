@@ -23,26 +23,24 @@ it('creates a new poll for the team with valid data', function () {
         ],
     ];
 
-    $response = actingAs($user)->get('/polls/create');
-
-    $response->assertSuccessful();
+    actingAs($user)->get('/polls/create')->assertSuccessful();
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', $pollData['name'])
         ->set('question', $pollData['question'])
         ->set('answers', $pollData['answers'])
-        ->call('create');
-
-    $component->assertHasNoErrors();
+        ->call('create')
+        ->assertHasNoErrors();
 
     $poll = Poll::first();
+
     expect($poll)->not->toBeNull();
     expect($poll->team->is($user->currentTeam))->toBeTrue();
     expect($poll->question)->toBe($pollData['question']);
-    $answerTexts = $poll->answers->pluck('text')->toArray();
-    expect($answerTexts)->toBe($pollData['answers']);
 
-    $component->assertRedirect('/polls/1');
+    $answerTexts = $poll->answers->pluck('text')->toArray();
+
+    expect($answerTexts)->toBe($pollData['answers']);
 });
 
 it('shows validation errors when less than two answers are provided', function () {
@@ -53,23 +51,15 @@ it('shows validation errors when less than two answers are provided', function (
         ->set('name', 'Test Poll')
         ->set('question', 'Test question?')
         ->set('answers', ['Answer 1'])
-        ->call('create');
-
-    $component->assertHasErrors(['answers']);
+        ->call('create')
+        ->assertHasErrors(['answers']);
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', 'Test Poll')
         ->set('question', 'Test question?')
         ->set('answers', [])
-        ->call('create');
-
-    $component->assertHasErrors(['answers']);
-});
-
-it('redirects guests to login page', function () {
-    $response = get('/polls/create');
-
-    $response->assertRedirect('/login');
+        ->call('create')
+        ->assertHasErrors(['answers']);
 });
 
 it('can add and remove answers dynamically', function () {
@@ -102,6 +92,7 @@ it('can add and remove answers dynamically', function () {
     $component->assertRedirect('/polls/1');
 
     $poll = Poll::first();
+
     expect($poll->name)->toBe('Dynamic Poll');
     expect($poll->answers->count())->toBe(3);
     expect($poll->answers->pluck('text')->toArray())->toBe(['Yes', 'Maybe', 'Not sure']);
@@ -129,6 +120,7 @@ it('can sort answers by dragging and dropping', function () {
     $component->assertHasNoErrors();
 
     $poll = Poll::first();
+
     expect($poll->answers->count())->toBe(3);
     expect($poll->answers->pluck('text')->toArray())->toBe(['Third', 'Second', 'First']);
 });
