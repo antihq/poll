@@ -9,7 +9,7 @@ new #[Title('Billing portal')] class extends Component {
     {
         $team = Auth::user()->currentTeam;
 
-        return $this->redirect($team->billingPortalUrl('/dashboard'), navigate: false);
+        return $this->redirect($team->billingPortalUrl(url('/dashboard')), navigate: false);
     }
 }; ?>
 
