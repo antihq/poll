@@ -5,3 +5,4 @@
 - At least two answers are required.
 - Users can add new answers or delete them.
 - After creation, the user is redirected to the edit page `/polls/1/edit`.
+- Each answer can be drag and dropped to change order
