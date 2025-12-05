@@ -15,7 +15,7 @@ Route::livewire('changelog/', 'pages::changelog');
 Route::livewire('p/{poll:ulid}', 'pages::p.show');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
-    Route::redirect('dashboard', 'polls')->name('dashboard');
+    Route::livewire('dashboard/', 'pages::dashboard');
 
     Route::livewire('polls/', 'pages::polls.index');
     Route::livewire('polls/create', 'pages::polls.create');
