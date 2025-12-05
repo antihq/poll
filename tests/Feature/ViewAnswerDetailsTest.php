@@ -7,7 +7,7 @@ use App\Models\User;
 
 use function Pest\Laravel\actingAs;
 
-test('user can view answer details', function () {
+it('allows a user to view answer details', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeamAndSubscription()->create();
     $poll = Poll::factory()->for($user->currentTeam)->create();

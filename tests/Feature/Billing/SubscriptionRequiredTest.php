@@ -7,7 +7,7 @@ use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 
-test('switching to a subscribed team redirects to dashboard', function () {
+it('redirects to dashboard when switching to a subscribed team', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeam()->create();
 
@@ -21,7 +21,7 @@ test('switching to a subscribed team redirects to dashboard', function () {
         ->assertRedirect('/dashboard');
 });
 
-test('switching to a non-subscribed team stays on the page', function () {
+it('stays on the page when switching to a non-subscribed team', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeam()->create();
 
@@ -35,7 +35,7 @@ test('switching to a non-subscribed team stays on the page', function () {
         ->assertOk();
 });
 
-test('user can switch to a team they are a member of', function () {
+it('allows a user to switch to a team they are a member of', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeam()->create();
 
@@ -49,7 +49,7 @@ test('user can switch to a team they are a member of', function () {
         ->assertOk();
 });
 
-test('user cannot switch to a team they neither own nor are a member of', function () {
+it('prevents a user from switching to a team they neither own nor are a member of', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeam()->create();
 
