@@ -38,9 +38,14 @@ new class extends Component
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
             <flux:menu>
-                <flux:menu.item href="#" icon="cog-8-tooth" icon:variant="micro" wire:navigate>
-                    Settings
-                </flux:menu.item>
+                <flux:menu.group heading="Settings">
+                    <flux:menu.item href="/teams/{{ $this->team->id }}/settings/general" icon="cog-8-tooth" icon:variant="micro" wire:navigate>
+                        General
+                    </flux:menu.item>
+                    <flux:menu.item href="/teams/{{ $this->team->id }}/settings/members" icon="user-group" icon:variant="micro" wire:navigate>
+                        Members
+                    </flux:menu.item>
+                </flux:menu.group>
             </flux:menu>
         </flux:dropdown>
     </header>

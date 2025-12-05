@@ -32,11 +32,14 @@
                     </flux:button>
 
                     <flux:menu>
-                        <flux:menu.item href="/settings/profile" icon="cog-8-tooth" icon:variant="micro" wire:navigate>
-                            Settings
-                        </flux:menu.item>
-
-                        <flux:menu.separator />
+                        <flux:menu.group heading="Settings">
+                            <flux:menu.item href="/settings/profile" icon="user" icon:variant="micro" wire:navigate>
+                                Profile
+                            </flux:menu.item>
+                            <flux:menu.item href="/settings/appearance" icon="adjustments-horizontal" icon:variant="micro" wire:navigate>
+                                Appearance
+                            </flux:menu.item>
+                        </flux:menu.group>
 
                         <form method="POST" action="/logout" class="w-full">
                             @csrf
