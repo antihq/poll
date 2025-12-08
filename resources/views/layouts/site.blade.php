@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased dark:bg-zinc-900">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased dark:bg-zinc-900 text-zinc-950 dark:text-white">
     <head>
         @include('partials.head', ['title' => (isset($title) ? $title . ' - ' : '') . config('app.name')])
     </head>
