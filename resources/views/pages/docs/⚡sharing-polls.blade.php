@@ -18,8 +18,8 @@ new #[Layout('layouts::doc'), Title('Sharing Polls')] class extends Component
     <h2>Share Your Poll</h2>
 
     <p>
-        This is where Antipoll shines! Most email platforms either don't support polls or charge extra for them.
-        Antipoll lets you embed interactive polls in ANY email service.
+        This is where AntiPoll shines! Most email platforms either don't support polls or charge extra for them.
+        AntiPoll lets you embed interactive polls in ANY email service.
     </p>
 
     <p>From the share page, you can:</p>

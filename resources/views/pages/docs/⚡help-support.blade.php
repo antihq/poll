@@ -48,7 +48,7 @@ new #[Layout('layouts::doc'), Title('Help & Support')] class extends Component
 
     <p>
         <strong>A:</strong>
-        Unlimited! Antipoll includes unlimited poll creation with your subscription - no limits or restrictions.
+        Unlimited! AntiPoll includes unlimited poll creation with your subscription - no limits or restrictions.
     </p>
 
     <hr class="my-12" />
@@ -57,11 +57,11 @@ new #[Layout('layouts::doc'), Title('Help & Support')] class extends Component
 
     <p>
         <strong>A:</strong>
-        Yes! You can choose between vertical and horizontal layouts, and hide Antipoll branding for a white-label
+        Yes! You can choose between vertical and horizontal layouts, and hide AntiPoll branding for a white-label
         experience. All customization features are included with your subscription.
     </p>
 
     <h2>Contact Us</h2>
 
-    <p>For additional support or questions, please contact the Antipoll team.</p>
+    <p>For additional support or questions, please contact the AntiPoll team.</p>
 </div>

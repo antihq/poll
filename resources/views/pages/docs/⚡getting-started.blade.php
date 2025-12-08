@@ -32,7 +32,7 @@ new #[Layout('layouts::doc'), Title('Getting Started')] class extends Component
 
     <h2>Navigation</h2>
 
-    <p>Getting around Antipoll is simple and intuitive. Use the main navigation to access different sections:</p>
+    <p>Getting around AntiPoll is simple and intuitive. Use the main navigation to access different sections:</p>
 
     <ul>
         <li>

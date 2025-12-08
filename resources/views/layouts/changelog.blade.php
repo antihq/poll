@@ -24,7 +24,7 @@
                                     <span
                                         class="text-2xl leading-none font-semibold tracking-tight text-zinc-800 dark:text-white mt-1"
                                     >
-                                        Antipoll
+                                        AntiPoll
                                     </span>
                                 </a>
                             </div>

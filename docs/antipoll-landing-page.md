@@ -1,14 +1,14 @@
-# Antipoll — Polls in emails. Not platform upgrades.
+# AntiPoll — Polls in emails. Not platform upgrades.
 
 The simple way to embed interactive polls in any email service.
 
 ## Pricing
 
-Create unlimited polls FREE with Antipoll. After that it's only $20/month.
+Create unlimited polls FREE with AntiPoll. After that it's only $20/month.
 
 [Sign in](https://antipoll.com/) | [Start for free](https://antipoll.com/)
 
-![Antipoll Dashboard](https://antipoll.com/assets/images/dashboard.png)
+![AntiPoll Dashboard](https://antipoll.com/assets/images/dashboard.png)
 
 ## Polls in emails. Not platform upgrades.
 
@@ -20,14 +20,14 @@ Name one that makes polls easy and affordable. Exactly.
 
 **It's time to break free.**
 
-**Introducing Antipoll — embed fully functional polls in ANY email service.** Newsletters, marketing campaigns, automated sequences, it works everywhere.
+**Introducing AntiPoll — embed fully functional polls in ANY email service.** Newsletters, marketing campaigns, automated sequences, it works everywhere.
 
 Fast, platform-agnostic, and dead simple, it's a breath of fresh air in a world of email platform lock-in.
 
 We invite you to create unlimited polls for free. I'm glad you're here, and I'd love to hear what you think.
 
 _Jason Fried, jason@37signals.com_  
-Co-founder of 37signals, makers of Antipoll
+Co-founder of 37signals, makers of AntiPoll
 
 ## Your email engagement multiplier.
 
@@ -62,21 +62,21 @@ If you'd like to keep using advanced features like custom branding and team coll
 - Full analytics included with free polls, advanced insights on paid plan.
 - Team management and white-label options available on paid plan.
 
-## One more thing... Antipoll works everywhere.
+## One more thing... AntiPoll works everywhere.
 
-Unlike platform-specific solutions that lock you into one ecosystem, Antipoll generates universal HTML that works in any email client. **Have a favorite email platform?** Antipoll probably works with it already. Our approach ensures you own your audience data, not your email platform.
+Unlike platform-specific solutions that lock you into one ecosystem, AntiPoll generates universal HTML that works in any email client. **Have a favorite email platform?** AntiPoll probably works with it already. Our approach ensures you own your audience data, not your email platform.
 
 [View all integrations](https://antipoll.com/)
 
 ## Common questions.
 
-### Does Antipoll require technical skills?
+### Does AntiPoll require technical skills?
 
-No! If you can copy and paste HTML, you can use Antipoll. We handle all the technical complexity - you just create polls and embed them.
+No! If you can copy and paste HTML, you can use AntiPoll. We handle all the technical complexity - you just create polls and embed them.
 
-### Can I really use Antipoll with any email platform?
+### Can I really use AntiPoll with any email platform?
 
-Yes! Antipoll generates universal HTML that works in any email service that supports basic HTML. We also provide platform-specific templates for popular services with the correct merge tags already included.
+Yes! AntiPoll generates universal HTML that works in any email service that supports basic HTML. We also provide platform-specific templates for popular services with the correct merge tags already included.
 
 ### What happens to my poll data?
 
@@ -92,13 +92,13 @@ We didn't add artificial intelligence, we just removed all the friction from ema
 
 ### Need help? Check out our documentation
 
-## Yeah, why not, I'll try Antipoll!
+## Yeah, why not, I'll try AntiPoll!
 
 [Sign up now](https://antipoll.com/)
 
 ---
 
-**Antipoll**™ is designed, built, and backed by **37signals**™, the people behind **Basecamp**™ and **HEY**™
+**AntiPoll**™ is designed, built, and backed by **37signals**™, the people behind **Basecamp**™ and **HEY**™
 
 - [Sign in](https://antipoll.com/)
 - [Documentation](https://docs.antipoll.com/)

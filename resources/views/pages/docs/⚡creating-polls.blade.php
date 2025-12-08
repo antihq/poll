@@ -116,8 +116,8 @@ new #[Layout('layouts::doc'), Title('Creating Polls')] class extends Component
 
     <ul>
         <li>
-            <strong>Hide Antipoll branding</strong>
-            - Remove Antipoll branding for a white-label experience
+            <strong>Hide AntiPoll branding</strong>
+            - Remove AntiPoll branding for a white-label experience
         </li>
     </ul>
 </div>

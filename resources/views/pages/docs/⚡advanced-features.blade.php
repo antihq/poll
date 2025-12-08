@@ -37,7 +37,7 @@ new #[Layout('layouts::doc'), Title('Advanced Features')] class extends Componen
 
     <h2>Custom Branding</h2>
 
-    <p>Remove Antipoll branding to:</p>
+    <p>Remove AntiPoll branding to:</p>
 
     <ul>
         <li>Maintain brand consistency</li>

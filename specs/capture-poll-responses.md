@@ -14,5 +14,5 @@
 - If the poll is configured to call for feedback, a text field should be shown after submitting the response to capture the feedback
 - If the poll is configured with a custom thank you message after submission, display it instead of the hardcoded one
 - If the poll is configured to show a button on the thank-you screen, display it, using the configured button label and button URL
-- If the poll is configured to hide branding, do not show the Antipoll branding on the poll
+- If the poll is configured to hide branding, do not show the AntiPoll branding on the poll
 - Poll layout is configurable; it can be vertical or horizontal

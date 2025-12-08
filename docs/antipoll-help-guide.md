@@ -1,10 +1,10 @@
-# Antipoll Help Guide
+# AntiPoll Help Guide
 
-## Welcome to Antipoll
+## Welcome to AntiPoll
 
-Antipoll is the ultimate solution for embedding polls in newsletters and emails. Many email platforms don't support interactive polls, or they require expensive plan upgrades to access polling features. Antipoll solves this by letting you embed fully functional polls in any email service - no upgrades required.
+AntiPoll is the ultimate solution for embedding polls in newsletters and emails. Many email platforms don't support interactive polls, or they require expensive plan upgrades to access polling features. AntiPoll solves this by letting you embed fully functional polls in any email service - no upgrades required.
 
-Whether you're using Beehiiv, Ghost, HubSpot, or any other platform, Antipoll makes it easy to collect feedback from your audience without platform limitations.
+Whether you're using Beehiiv, Ghost, HubSpot, or any other platform, AntiPoll makes it easy to collect feedback from your audience without platform limitations.
 
 Now, let's get started!
 
@@ -20,7 +20,7 @@ From the dashboard, you can quickly create new polls, view existing ones, and mo
 
 ### Navigation
 
-Getting around Antipoll is simple and intuitive. Use the main navigation to access different sections:
+Getting around AntiPoll is simple and intuitive. Use the main navigation to access different sections:
 
 - **Dashboard** - View all your polls
 - **Polls** - Create and manage your surveys
@@ -76,7 +76,7 @@ Configure what happens after someone responds:
 
 #### Branding
 
-- **Hide Antipoll branding** - Remove Antipoll branding for a white-label experience
+- **Hide AntiPoll branding** - Remove AntiPoll branding for a white-label experience
 
 ## Managing Polls
 
@@ -129,7 +129,7 @@ Each answer can have its own custom settings:
 
 ### Share Your Poll
 
-This is where Antipoll shines! Most email platforms either don't support polls or charge extra for them. Antipoll lets you embed interactive polls in ANY email service.
+This is where AntiPoll shines! Most email platforms either don't support polls or charge extra for them. AntiPoll lets you embed interactive polls in ANY email service.
 
 From the share page, you can:
 
@@ -195,7 +195,7 @@ Collect email addresses to:
 
 ### Custom Branding
 
-Remove Antipoll branding to:
+Remove AntiPoll branding to:
 
 - Maintain brand consistency
 - Create white-label experiences
@@ -251,7 +251,7 @@ Full control over your polls:
 
 ### Platform Integration
 
-Antipoll integrates seamlessly with major email platforms:
+AntiPoll integrates seamlessly with major email platforms:
 
 - **Beehiiv** - `{{email}}` merge tag
 - **Brevo** - `{{contact.EMAIL}}` merge tag
@@ -294,14 +294,14 @@ Enhance your polls with URL parameters:
 
 **Q: How many polls can I create?**
 
-**A:** Unlimited! Antipoll includes unlimited poll creation with your subscription - no limits or restrictions.
+**A:** Unlimited! AntiPoll includes unlimited poll creation with your subscription - no limits or restrictions.
 
 ---
 
 **Q: Can I customize the poll appearance?**
 
-**A:** Yes! You can choose between vertical and horizontal layouts, and hide Antipoll branding for a white-label experience. All customization features are included with your subscription.
+**A:** Yes! You can choose between vertical and horizontal layouts, and hide AntiPoll branding for a white-label experience. All customization features are included with your subscription.
 
 ### Contact Us
 
-For additional support or questions, please contact the Antipoll team.
+For additional support or questions, please contact the AntiPoll team.

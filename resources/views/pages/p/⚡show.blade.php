@@ -164,7 +164,7 @@ new #[Layout('layouts::public-poll'), Title('Poll')] class extends Component
     @if (! $poll->hide_branding)
         <flux:text size="sm" class="text-center">
             Powered by
-            <flux:link href="https://antipoll.com" target="_blank" :accent="false" wire:navigate>Antipoll</flux:link>
+            <flux:link href="https://antipoll.com" target="_blank" :accent="false" wire:navigate>AntiPoll</flux:link>
         </flux:text>
     @endif
 </div>

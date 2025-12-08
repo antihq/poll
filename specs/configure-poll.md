@@ -10,5 +10,5 @@
 	- Have a thank you button with a label and a URL
 	- Have a redirect URL instead of a thank you message
 		- Have a redirect URL
-	- Hide Antipoll branding
+	- Hide AntiPoll branding
 	- Change layout: vertical or horizontal

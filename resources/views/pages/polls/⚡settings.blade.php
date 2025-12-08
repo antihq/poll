@@ -240,8 +240,8 @@ new #[Title('Poll settings')] class extends Component
                 <flux:legend>Branding</flux:legend>
                 <flux:field variant="inline">
                     <flux:checkbox wire:model="hide_branding" />
-                    <flux:label>Hide Antipoll branding</flux:label>
-                    <flux:description>Remove Antipoll branding from the poll display.</flux:description>
+                    <flux:label>Hide AntiPoll branding</flux:label>
+                    <flux:description>Remove AntiPoll branding from the poll display.</flux:description>
                 </flux:field>
             </flux:fieldset>
         </div>

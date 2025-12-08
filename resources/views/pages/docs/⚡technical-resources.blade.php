@@ -17,7 +17,7 @@ new #[Layout('layouts::doc'), Title('Technical Resources')] class extends Compon
 
     <h2>Platform Integration</h2>
 
-    <p>Antipoll integrates seamlessly with major email platforms:</p>
+    <p>AntiPoll integrates seamlessly with major email platforms:</p>
 
     <ul>
         <li>
