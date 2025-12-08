@@ -5,11 +5,7 @@
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900">
         <flux:header container>
-            <flux:brand href="/" :name="config('app.name')" wire:navigate>
-                <x-slot name="logo">
-                    <x-logo class="h-6" />
-                </x-slot>
-            </flux:brand>
+            <flux:brand href="/" logo="/logo.png" :name="config('app.name')" wire:navigate />
 
             <flux:navbar>
                 <flux:navbar.item href="/docs" :accent="false" wire:navigate>Docs</flux:navbar.item>

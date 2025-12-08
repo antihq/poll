@@ -8,7 +8,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::livewire('docs/', 'pages::docs.index');
+Route::livewire('docs', 'pages::docs.welcome');
+Route::livewire('docs/getting-started', 'pages::docs.getting-started');
+Route::livewire('docs/creating-polls', 'pages::docs.creating-polls');
+Route::livewire('docs/managing-polls', 'pages::docs.managing-polls');
+Route::livewire('docs/sharing-polls', 'pages::docs.sharing-polls');
+Route::livewire('docs/viewing-responses', 'pages::docs.viewing-responses');
+Route::livewire('docs/advanced-features', 'pages::docs.advanced-features');
+Route::livewire('docs/settings-management', 'pages::docs.settings-management');
+Route::livewire('docs/best-practices', 'pages::docs.best-practices');
+Route::livewire('docs/technical-resources', 'pages::docs.technical-resources');
+Route::livewire('docs/help-support', 'pages::docs.help-support');
 
 Route::livewire('changelog/', 'pages::changelog');
 
