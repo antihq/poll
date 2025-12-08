@@ -4,9 +4,9 @@ The simple way to embed interactive polls in any email service.
 
 ## Pricing
 
-Create unlimited polls FREE with AntiPoll. After that it's only $20/month.
+Start your 15-day free trial. Only $5/month after that.
 
-[Sign in](https://antipoll.com/) | [Start for free](https://antipoll.com/)
+[Sign in](https://antipoll.com/) | [Start free trial](https://antipoll.com/)
 
 ![AntiPoll Dashboard](https://antipoll.com/assets/images/dashboard.png)
 
@@ -24,10 +24,10 @@ Name one that makes polls easy and affordable. Exactly.
 
 Fast, platform-agnostic, and dead simple, it's a breath of fresh air in a world of email platform lock-in.
 
-We invite you to create unlimited polls for free. I'm glad you're here, and I'd love to hear what you think.
+We invite you to try AntiPoll with a 15-day free trial. I'm glad you're here, and I'd love to hear what you think.
 
-_Jason Fried, jason@37signals.com_  
-Co-founder of 37signals, makers of AntiPoll
+_Oliver Servín, oliver@antihq.com_
+Co-founder of AntiHQ, makers of AntiPoll
 
 ## Your email engagement multiplier.
 
@@ -52,15 +52,15 @@ Create polls in **seconds** with our intuitive interface. Add questions, answers
 ![Feature 5](https://antipoll.com/assets/images/mobile.png)
 ![Feature 6](https://antipoll.com/assets/images/integrations.png)
 
-## Create unlimited polls for free. No platform restrictions.
+## 15-day free trial. No platform restrictions.
 
-If you'd like to keep using advanced features like custom branding and team collaboration, it's only $20/month for unlimited everything. Cancel anytime, no risk.
+After your trial, it's only $5/month for unlimited polls and all features. Cancel anytime, no risk.
 
-[Start me off with unlimited free polls!](https://antipoll.com/)
+[Start my 15-day free trial!](https://antipoll.com/)
 
-- No obligations, no credit card required, no platform limitations.
-- Full analytics included with free polls, advanced insights on paid plan.
-- Team management and white-label options available on paid plan.
+- Full analytics and all features included from day one.
+- Team management and white-label options included.
+- Cancel anytime easily from your account dashboard.
 
 ## One more thing... AntiPoll works everywhere.
 
@@ -98,10 +98,10 @@ We didn't add artificial intelligence, we just removed all the friction from ema
 
 ---
 
-**AntiPoll**™ is designed, built, and backed by **37signals**™, the people behind **Basecamp**™ and **HEY**™
+**AntiPoll**™ is designed, built, and backed by **AntiHQ**™
 
 - [Sign in](https://antipoll.com/)
 - [Documentation](https://docs.antipoll.com/)
 - [Status](https://status.antipoll.com/)
 - [Policies](https://antipoll.com/policies/)
-- © 37signals LLC
+- © AntiHQ LLC
