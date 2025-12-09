@@ -7,7 +7,6 @@
 - After creation, user is redirected to edit page `/polls/1/edit`.
 - Each answer can be drag and dropped to change order
 - Shows poll usage: "X/1000 polls used" for unsubscribed teams (based on cumulative count)
-- Team owners at 1000 polls are redirected to subscription page
-- Non-owners at 1000 polls see a callout explaining the limit
+- Teams at 1000 polls are redirected to upgrade page
 - Poll creation is blocked when team reaches 1000 polls (unsubscribed)
 - Poll count is cumulative - deleted polls still count against the 1000 poll limit

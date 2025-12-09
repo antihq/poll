@@ -12,4 +12,3 @@
         - Have a redirect URL
     - Hide AntiPoll branding
     - Change layout: vertical or horizontal
-- Poll configuration changes do not affect cumulative poll count (deleted polls still count against quota)
