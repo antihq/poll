@@ -1,12 +1,12 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Title;
-
 use App\Models\Team;
 use Flux\Flux;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
-new #[Title('Team settings')] class extends Component {
+new #[Title('Team settings')] class extends Component
+{
     public Team $team;
 
     public string $name;

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\TeamInvitationAcceptController;
-use App\Http\Middleware\EnsureUserIsSubscribed;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,16 +27,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('dashboard/', 'pages::dashboard');
 
     Route::livewire('polls/', 'pages::polls.index');
+    Route::livewire('polls/create', 'pages::polls.create');
     Route::livewire('polls/{poll}', 'pages::polls.show');
     Route::livewire('polls/{poll}/edit', 'pages::polls.edit');
     Route::livewire('polls/{poll}/settings', 'pages::polls.settings');
     Route::livewire('polls/{poll}/share', 'pages::polls.share');
     Route::livewire('polls/{poll}/answers/{answer}', 'pages::polls.answers.show');
     Route::livewire('answers/{answer}/settings', 'pages::answers.settings');
-});
-
-Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
-    Route::livewire('polls/create', 'pages::polls.create');
 });
 
 Route::middleware(['auth'])->group(function () {

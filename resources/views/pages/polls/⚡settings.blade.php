@@ -82,7 +82,6 @@ new #[Title('Poll settings')] class extends Component
             'thank_you_button_url',
         ]);
 
-        return;
     }
 
     public function save(): void

@@ -14,4 +14,3 @@ it('displays a list of polls', function () {
 
     actingAs($user)->get('/polls/')->assertSuccessful();
 });
-

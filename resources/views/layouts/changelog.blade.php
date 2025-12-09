@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full antialiased">
     <head>
-        @include('partials.head', ['title' => (isset($title) ? $title . ' - ' : '') . config('app.name')])
+        @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').config('app.name')])
     </head>
     <body class="flex min-h-full flex-col bg-white dark:bg-zinc-800">
         <div
@@ -20,9 +20,9 @@
                         <div class="relative">
                             <div>
                                 <a href="/" class="flex items-center gap-4" wire:navigate>
-                                    <x-logo class="h-8 w-auto inline-block" />
+                                    <x-logo class="inline-block h-8 w-auto" />
                                     <span
-                                        class="text-2xl leading-none font-semibold tracking-tight text-zinc-800 dark:text-white mt-1"
+                                        class="mt-1 text-2xl leading-none font-semibold tracking-tight text-zinc-800 dark:text-white"
                                     >
                                         AntiPoll
                                     </span>

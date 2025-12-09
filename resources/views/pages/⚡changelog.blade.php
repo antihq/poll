@@ -17,7 +17,9 @@ new #[Layout('layouts::changelog'), Title('Changelog')] class extends Component
         <x-changelog.img src="/assets/images/CleanShot 2025-12-03 at 20.15.15@2x.png" />
         <h2><a href="#changelog-2025-12-03">Poll Sharing and Email Capture</a></h2>
         <p>
-            You can now share your polls with others and capture email addresses from respondents. Copy polls to any email client using the universal platform format, or paste them directly into Kit.com. When using Kit.com, the respondent's email is automatically captured in the poll response.
+            You can now share your polls with others and capture email addresses from respondents. Copy polls to any
+            email client using the universal platform format, or paste them directly into Kit.com. When using Kit.com,
+            the respondent's email is automatically captured in the poll response.
         </p>
         <h3>
             <flux:icon.sparkles variant="solid" />

@@ -8,8 +8,10 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Profile settings')] class extends Component {
+new #[Title('Profile settings')] class extends Component
+{
     public string $name = '';
+
     public string $email = '';
 
     /**
@@ -37,7 +39,7 @@ new #[Title('Profile settings')] class extends Component {
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($user->id)
+                Rule::unique(User::class)->ignore($user->id),
             ],
         ]);
 

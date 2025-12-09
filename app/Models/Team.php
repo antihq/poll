@@ -17,6 +17,7 @@ class Team extends Model
     {
         return [
             'personal' => 'boolean',
+            'polls_created' => 'integer',
         ];
     }
 
@@ -72,24 +73,9 @@ class Team extends Model
         return $this->user->email ?? null;
     }
 
-    public function pollCount(): int
-    {
-        // If polls_created is set (existing teams), use it
-        // Otherwise, use current poll count (new teams)
-        if ($this->polls_created !== null) {
-            return $this->polls_created;
-        }
-
-        return $this->polls()->count();
-    }
-
     public function hasReachedFreePollLimit(): bool
     {
-        if ($this->subscribed()) {
-            return false;
-        }
-
-        return $this->pollCount() >= config('poll.free_poll_limit', 1000);
+        return $this->polls_created >= config('poll.free_poll_limit', 1000);
     }
 
     public function incrementPollCount(): void
