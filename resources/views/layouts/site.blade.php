@@ -50,7 +50,7 @@
         <flux:toast />
 
         <flux:footer container class="border-zinc-200 lg:border-t dark:border-zinc-700">
-            <flux:text class="text-sm/6">
+            <flux:text class="text-xs/6 lg:text-sm/6">
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by
                 <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>

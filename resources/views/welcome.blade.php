@@ -13,13 +13,15 @@
             <a href="#pricing" class="font-medium text-zinc-950 underline">only $20/month.</a>
         </p>
 
-        {{-- <img src="dashboard.webp" class="mt-10 rounded-lg" /> --}}
+{{--         <div class="rounded-4xl lg:rounded-4xl mx-auto overflow-hidden mt-10">
+            <img src="/assets/images/CleanShot 2025-12-09 at 14.15.05@2x.png" class="max-w-[744px]" />
+        </div> --}}
 
         <flux:spacer class="my-36 lg:my-44" />
 
         <div class="overflow-hidden rounded-4xl border border-zinc-200 shadow-xl">
-            <div class="grid grid-cols-2 text-left text-lg tracking-tight text-zinc-700">
-                <div class="bg-zinc-25 space-y-4 border-r border-zinc-100 px-14 py-16 xl:px-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 text-left text-lg tracking-tight text-zinc-700">
+                <div class="bg-zinc-25 space-y-4 border-r border-zinc-100 px-10 py-16 xl:px-16">
                     <p>
                         Let's face it: every email platform you loved either doesn't support polls or charges you a
                         fortune for them.
@@ -34,7 +36,7 @@
 
                     <p><strong class="font-medium text-zinc-900">It's time to break free.</strong></p>
                 </div>
-                <div class="space-y-4 bg-white px-14 py-16 xl:px-16">
+                <div class="space-y-4 bg-white px-10 py-16 xl:px-16">
                     <p>
                         <strong class="font-medium text-zinc-900">
                             Introducing AntiPoll — embed fully functional polls in ANY email service.
@@ -82,7 +84,7 @@
         <flux:spacer class="my-16" />
 
         <div>
-            <div class="grid grid-cols-2 gap-x-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8">
                 <p class="mt-4 text-sm text-zinc-600">
                     Create polls in
                     <strong class="font-medium text-zinc-900">seconds</strong>
@@ -143,7 +145,7 @@
                 variant="primary"
                 color="zinc"
                 icon:trailing="arrow-right-circle"
-                class="font-semibold"
+                class="font-semibold max-lg:w-full"
             >
                 Start with 1000 free polls!
             </flux:button>
@@ -196,7 +198,7 @@
                 variant="primary"
                 color="zinc"
                 icon:trailing="arrow-right-circle"
-                class="font-semibold"
+                class="font-semibold max-lg:w-full"
             >
                 View source
             </flux:button>
@@ -283,7 +285,7 @@
     <flux:spacer class="my-20 lg:my-32" />
 
     <section>
-        <header class="md:text-center">
+        <header class="text-center">
             <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">Ready to give AntiPoll a try?</h2>
         </header>
 
@@ -295,7 +297,7 @@
                 variant="primary"
                 color="zinc"
                 icon:trailing="arrow-right-circle"
-                class="font-semibold"
+                class="font-semibold max-lg:w-full"
             >
                 Get started now
             </flux:button>
