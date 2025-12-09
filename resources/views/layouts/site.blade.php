@@ -28,7 +28,7 @@
             </div>
         </flux:header>
 
-        <flux:main class="lg:bg-white lg:p-10 dark:lg:bg-zinc-900">
+        <flux:main container class="lg:bg-white dark:lg:bg-zinc-900">
             {{ $slot }}
         </flux:main>
 
