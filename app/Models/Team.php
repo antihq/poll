@@ -75,7 +75,7 @@ class Team extends Model
 
     public function hasReachedFreePollLimit(): bool
     {
-        return $this->polls_created >= config('poll.free_poll_limit', 1000);
+        return $this->polls_created >= config('antipoll.free_poll_limit', 1000);
     }
 
     public function incrementPollCount(): void

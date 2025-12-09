@@ -31,7 +31,7 @@ new #[Title('Add poll')] class extends Component
     #[Computed]
     public function freePollLimit(): int
     {
-        return config('poll.free_poll_limit', 1000);
+        return config('antipoll.free_poll_limit', 1000);
     }
 
     protected array $rules = [
