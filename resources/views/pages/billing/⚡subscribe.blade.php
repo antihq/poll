@@ -19,7 +19,7 @@ new #[Title('Subscribe')] class extends Component
 
         $stripePriceId = config('services.stripe.price_id');
 
-        $this->redirect($this->user->currentTeam->newSubscription('default', $stripePriceId)
+        $this->redirect($this->team->newSubscription('default', $stripePriceId)
             ->checkout([
                 'success_url' => '/settings/profile',
                 'cancel_url' => '/dashboard',

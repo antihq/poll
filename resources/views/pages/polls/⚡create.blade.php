@@ -44,7 +44,7 @@ new #[Title('Add poll')] class extends Component
     public function mount()
     {
         if (! $this->team->subscribed() && $this->team->hasReachedFreePollLimit()) {
-            return $this->redirect('/dashboard');
+            return $this->redirect('/subscribe');
         }
     }
 
