@@ -102,17 +102,15 @@ new #[Title('Add poll')] class extends Component
 
     <flux:spacer class="mt-4 lg:mt-8" />
 
-    @if (! $this->team->subscribed())
-        <div class="mb-6">
-            <flux:badge variant="subtle" color="zinc">
-                {{ $this->pollCount }}/{{ $this->freePollLimit }} polls used
-            </flux:badge>
-        </div>
-    @endif
-
     <form wire:submit="create">
         <flux:heading class="text-xl">Add a poll</flux:heading>
-        <flux:text class="mt-2">Create a new poll for your team.</flux:text>
+        <flux:text class="mt-2">
+            Create a new poll for your team.
+
+            @if (! $this->team->subscribed())
+                {{ $this->pollCount }}/{{ $this->freePollLimit }} polls used.
+            @endif
+        </flux:text>
 
         <flux:spacer class="mt-10" />
 
