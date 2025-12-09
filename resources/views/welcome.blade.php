@@ -10,7 +10,7 @@
 
         <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-zinc-700">
             Start your 15-day free trial.
-            <a href="#pricing" class="font-medium text-[var(--color-accent-content)] underline">Only $5/month after that.</a>
+            <a href="#pricing" class="font-medium text-zinc-950 underline">Only $5/month after that.</a>
         </p>
 
         {{-- <img src="dashboard.webp" class="mt-10 rounded-lg" /> --}}
@@ -49,17 +49,17 @@
 
                     <p>
                         We invite you to
-                        <strong class="font-medium text-zinc-900">
-                            <a href="/" class="underline">try AntiPoll with a 15-day free trial</a>
-                        </strong>
-                        . I'm glad you're here, and I'd love to hear what you think.
+                        <a href="/" class="font-medium text-zinc-950 underline">
+                            try AntiPoll with a 15-day free trial.
+                        </a>
+                        I'm glad you're here, and I'd love to hear what you think.
                     </p>
 
-                    <div>
+                    <div class="text-base">
                         <p>
                             <strong class="font-medium text-zinc-900">
                                 Oliver Servín,
-                                <a href="/" class="underline">oliver@antihq.com</a>
+                                <a href="mailto:oliver@antihq.com" class="text-zinc-950 underline">oliver@antihq.com</a>
                             </strong>
                         </p>
                         <p><i>Founder of AntiHQ, makers of AntiPoll</i></p>
@@ -137,7 +137,15 @@
         <flux:spacer class="my-10" />
 
         <div class="flex justify-center">
-            <flux:button href="/" variant="primary" class="font-semibold">Start my 15-day free trial!</flux:button>
+            <flux:button
+                href="/"
+                variant="primary"
+                color="zinc"
+                icon:trailing="arrow-right-circle"
+                class="font-semibold"
+            >
+                Start my 15-day free trial!
+            </flux:button>
         </div>
 
         <flux:spacer class="my-6" />
@@ -145,15 +153,15 @@
         <div class="flex justify-center">
             <ul class="flex flex-col gap-y-3 text-sm">
                 <li class="flex gap-4">
-                    <flux:icon.check variant="mini" color="green" />
+                    <flux:icon.check-circle variant="mini" color="green" />
                     Full analytics and all features included from day one.
                 </li>
                 <li class="flex gap-4">
-                    <flux:icon.check variant="mini" color="green" />
+                    <flux:icon.check-circle variant="mini" color="green" />
                     Team management and white-label options included.
                 </li>
                 <li class="flex gap-4">
-                    <flux:icon.check variant="mini" color="green" />
+                    <flux:icon.check-circle variant="mini" color="green" />
                     Cancel anytime easily from your account dashboard.
                 </li>
             </ul>
@@ -179,7 +187,15 @@
         <flux:spacer class="my-10" />
 
         <div class="flex justify-center">
-            <flux:button href="/" variant="primary" class="font-semibold">View all integrations</flux:button>
+            <flux:button
+                href="/"
+                variant="primary"
+                color="zinc"
+                icon:trailing="arrow-right-circle"
+                class="font-semibold"
+            >
+                View all integrations
+            </flux:button>
         </div>
     </section>
 
@@ -200,8 +216,8 @@
                     </flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm text-zinc-700">
-                            No! If you can copy and paste HTML, you can use AntiPoll. We handle all the technical complexity
-                            - you just create polls and embed them.
+                            No! If you can copy and paste HTML, you can use AntiPoll. We handle all the technical
+                            complexity - you just create polls and embed them.
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>
@@ -211,9 +227,9 @@
                     </flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm text-zinc-700">
-                            Yes! AntiPoll generates universal HTML that works in any email service that supports basic HTML.
-                            We also provide platform-specific templates for popular services with the correct merge tags
-                            already included.
+                            Yes! AntiPoll generates universal HTML that works in any email service that supports basic
+                            HTML. We also provide platform-specific templates for popular services with the correct
+                            merge tags already included.
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>
@@ -221,8 +237,8 @@
                     <flux:accordion.heading class="text-lg/7!">What happens to my poll data?</flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm text-zinc-700">
-                            You own all your poll data and responses. We don't lock you into our platform - you can export
-                            your data at any time and switch services freely.
+                            You own all your poll data and responses. We don't lock you into our platform - you can
+                            export your data at any time and switch services freely.
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>
@@ -232,8 +248,8 @@
                     </flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm text-zinc-700">
-                            No! Your subscribers can respond to polls directly in their email client without creating any
-                            accounts or visiting external websites (unless you enable redirects).
+                            No! Your subscribers can respond to polls directly in their email client without creating
+                            any accounts or visiting external websites (unless you enable redirects).
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>
@@ -241,9 +257,9 @@
                     <flux:accordion.heading class="text-lg/7!">Any AI features?</flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm text-zinc-700">
-                            We didn't add artificial intelligence, we just removed all the friction from email polling. No
-                            platform lock-in, no expensive upgrades, plenty of power, and dead-simple implementation. Try
-                            it.
+                            We didn't add artificial intelligence, we just removed all the friction from email polling.
+                            No platform lock-in, no expensive upgrades, plenty of power, and dead-simple implementation.
+                            Try it.
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>
@@ -253,7 +269,7 @@
 
             <h3 class="text-lg/7! font-medium md:text-center">
                 Need help? Check out our
-                <a href="/docs" class="underline font-medium">documentation</a>
+                <a href="/docs" class="font-medium text-zinc-950 underline">documentation</a>
             </h3>
         </div>
     </section>
@@ -270,7 +286,15 @@
         <flux:spacer class="my-10" />
 
         <div class="flex justify-center">
-            <flux:button href="/" variant="primary" class="font-semibold">Sign up now</flux:button>
+            <flux:button
+                href="/"
+                variant="primary"
+                color="zinc"
+                icon:trailing="arrow-right-circle"
+                class="font-semibold"
+            >
+                Sign up now
+            </flux:button>
         </div>
     </section>
 

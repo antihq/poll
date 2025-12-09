@@ -16,14 +16,11 @@
 
             <div class="flex items-center gap-x-5 md:gap-x-8">
                 @guest
-                    <flux:button href="/login" variant="subtle" size="sm" wire:navigate class="max-lg:hidden">
+                    <flux:button href="/register" variant="primary" color="zinc" icon:trailing="arrow-right-circle" size="sm" wire:navigate>
                         Sign in
                     </flux:button>
-                    <flux:button href="/register" variant="primary" size="sm" wire:navigate>
-                        Get started today
-                    </flux:button>
                 @else
-                    <flux:button href="/dashboard" size="sm" wire:navigate>Dashboard</flux:button>
+                    <flux:button href="/dashboard" size="sm" color="zinc" icon:trailing="arrow-right-circle" wire:navigate>Dashboard</flux:button>
                 @endguest
             </div>
         </flux:header>
