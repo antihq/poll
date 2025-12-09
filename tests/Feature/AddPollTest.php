@@ -136,7 +136,7 @@ it('prevents poll creation when team reaches free limit and redirects team owner
     expect($team->polls_created)->toBe(1000);
     expect($team->hasReachedFreePollLimit())->toBeTrue();
 
-    actingAs($user)->get('/polls/create')->assertRedirect('/dashboard');
+    actingAs($user)->get('/polls/create')->assertRedirect('/subscribe');
 });
 
 it('allows poll creation when team is under free limit', function () {
