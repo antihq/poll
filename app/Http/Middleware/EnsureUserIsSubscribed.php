@@ -15,7 +15,9 @@ class EnsureUserIsSubscribed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()->currentTeam->subscribed()) {
+        $team = $request->user()->currentTeam;
+
+        if (! $team->subscribed() && $team->hasReachedFreePollLimit()) {
             return redirect('/subscription-required');
         }
 

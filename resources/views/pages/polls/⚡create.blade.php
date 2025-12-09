@@ -1,16 +1,50 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Title;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Poll;
 use App\Models\Answer;
+use App\Models\Poll;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
-new #[Title('Add poll')] class extends Component {
+new #[Title('Add poll')] class extends Component
+{
     public string $name = '';
+
     public string $question = '';
+
     public array $answers = ['', ''];
+
+    #[Computed]
+    public function team()
+    {
+        return Auth::user()->currentTeam;
+    }
+
+    #[Computed]
+    public function pollCount(): int
+    {
+        return $this->team->pollCount();
+    }
+
+    #[Computed]
+    public function freePollLimit(): int
+    {
+        return config('poll.free_poll_limit', 1000);
+    }
+
+    #[Computed]
+    public function isAtLimit(): bool
+    {
+        return $this->team->hasReachedFreePollLimit();
+    }
+
+    #[Computed]
+    public function isTeamOwner(): bool
+    {
+        return Auth::user()->id === $this->team->user_id;
+    }
 
     protected array $rules = [
         'name' => ['required', 'string', 'max:255'],
@@ -42,6 +76,16 @@ new #[Title('Add poll')] class extends Component {
 
     public function create(): void
     {
+        if ($this->isAtLimit()) {
+            if ($this->isTeamOwner()) {
+                $this->redirect('/subscription-required', navigate: true);
+
+                return;
+            } else {
+                return;
+            }
+        }
+
         $this->validate();
 
         $user = Auth::user();
@@ -51,6 +95,9 @@ new #[Title('Add poll')] class extends Component {
             'question' => $this->question,
             'team_id' => $user->currentTeam->id,
         ]);
+
+        // Increment the team's poll count
+        $user->currentTeam->incrementPollCount();
 
         foreach (array_filter($this->answers, fn ($answer) => trim($answer) !== '') as $index => $answerText) {
             Answer::create([
@@ -71,6 +118,24 @@ new #[Title('Add poll')] class extends Component {
     </flux:link>
 
     <flux:spacer class="mt-4 lg:mt-8" />
+
+    @if (! $this->team->subscribed())
+        <div class="mb-6">
+            <flux:badge variant="subtle" color="zinc">
+                {{ $this->pollCount }}/{{ $this->freePollLimit }} polls used
+            </flux:badge>
+        </div>
+    @endif
+
+    @if ($this->isAtLimit() && ! $this->isTeamOwner())
+        <flux:callout icon="exclamation-triangle" class="mb-6">
+            <flux:callout.heading>Poll limit reached</flux:callout.heading>
+            <flux:callout.text>
+                Your team has reached the free tier limit of {{ $this->freePollLimit }} polls. Contact your team owner
+                to upgrade to a paid plan for unlimited polls.
+            </flux:callout.text>
+        </flux:callout>
+    @endif
 
     <form wire:submit="create">
         <flux:heading class="text-xl">Add a poll</flux:heading>
@@ -130,6 +195,14 @@ new #[Title('Add poll')] class extends Component {
 
         <flux:spacer class="mt-8" />
 
-        <flux:button type="submit" variant="primary" color="zinc" class="w-full">Create poll</flux:button>
+        <flux:button
+            type="submit"
+            variant="primary"
+            color="zinc"
+            class="w-full"
+            :disabled="$this->isAtLimit() && !$this->isTeamOwner()"
+        >
+            Create poll
+        </flux:button>
     </form>
 </div>

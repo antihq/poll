@@ -12,6 +12,6 @@
 
 - Works universally with Apple Mail, Gmail, Substack and more, but it doesn't automatically link responses to subscribers or contacts.
 - Ghost:
-	- For email posts, it links responses to Ghost members. The poll must be embedded as an email call-to-action content card.
-	- For regular blog posts, users must use the universal poll instead.
+    - For email posts, it links responses to Ghost members. The poll must be embedded as an email call-to-action content card.
+    - For regular blog posts, users must use the universal poll instead.
 - HubSpot: It requires the "Marketing Hub Starter" plan or higher.

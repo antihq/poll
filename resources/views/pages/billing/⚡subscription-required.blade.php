@@ -1,20 +1,23 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use App\Livewire\Actions\Logout;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
-new #[Layout('layouts::simple'), Title('Subscription required')] class extends Component {
+new #[Layout('layouts::simple'), Title('Subscription required')] class extends Component
+{
     public Collection $teams;
+
     public ?int $selectedTeamId;
 
     #[Computed]
-    public function user() {
+    public function user()
+    {
         return Auth::user();
     }
 
@@ -78,7 +81,7 @@ new #[Layout('layouts::simple'), Title('Subscription required')] class extends C
             </flux:menu>
         </flux:dropdown>
     </div>
-    <flux:text class="text-center">You need to subscribe to our service to continue.</flux:text>
+    <flux:text class="text-center">Your team has reached the free tier limit of 1000 polls.</flux:text>
     <div class="flex flex-col items-center justify-between space-y-3">
         <flux:button wire:click="goToCheckout" variant="primary" class="w-full">Proceed to Checkout</flux:button>
         <flux:link class="cursor-pointer text-sm" wire:click="logout">Log out</flux:link>
