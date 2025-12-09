@@ -12,11 +12,11 @@ Create 1000 polls FREE with AntiPoll. After that it's only $20/month.
 
 ## Polls in emails. Not platform lock-in.
 
-Let's be honest: every email platform you loved either doesn't support polls or charges you a fortune for them.
+Let's face it: every email platform you loved either doesn't support polls or charges you a fortune for them.
 
 Beehiiv wants you on their premium plan. HubSpot requires expensive upgrades. Ghost makes you jump through hoops. Substack? Good luck finding polling features.
 
-Name one that makes polls easy and affordable. Exactly.
+Name one that makes polls easy and affordable. Thought so.
 
 **It's time to break free.**
 
@@ -24,7 +24,7 @@ Name one that makes polls easy and affordable. Exactly.
 
 Fast, platform-agnostic, and dead simple, it's a breath of fresh air in a world of email platform lock-in.
 
-We invite you to try AntiPoll and create 1000 polls for free. I'm glad you're here, and I'd love to hear what you think.
+We invite you to try AntiPoll and create 1000 polls for free. I'm excited you're here, and I can't wait to hear what you think.
 
 _Oliver Servín, oliver@antihq.com_
 Co-founder of AntiHQ, makers of AntiPoll
@@ -63,9 +63,9 @@ When you're ready for more, it's only $20/month for unlimited polls + all featur
 - Team management and white-label options included.
 - Cancel anytime easily from your account dashboard.
 
-## One more thing... AntiPoll is open source and free to run yourself.
+## And there's more... AntiPoll is open source and self-hostable.
 
-If you'd rather not pay us, or you want to customize AntiPoll for your own use, you can run it yourself. **Have a great idea?** Submit a PR to contribute to the code base and improve the product for everyone. Our software license allows for flexible use with few restrictions.
+Prefer to host it yourself or want to customize the code? You can run AntiPoll on your own server. **Want to contribute?** Submit a PR to help improve the product for everyone. Our license permits flexible use with minimal restrictions.
 
 [View source](https://github.com/antihq/poll)
 

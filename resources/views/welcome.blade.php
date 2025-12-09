@@ -5,12 +5,12 @@
         <h1 class="mx-auto max-w-4xl text-5xl font-medium tracking-tight text-zinc-900 sm:text-7xl">
             Polls in emails.
             <br />
-            Not platform upgrades.
+            Not platform lock-in.
         </h1>
 
         <p class="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-zinc-700">
-            Start your 15-day free trial.
-            <a href="#pricing" class="font-medium text-zinc-950 underline">Only $5/month after that.</a>
+            Create 1000 polls FREE with AntiPoll. After that it's
+            <a href="#pricing" class="font-medium text-zinc-950 underline">only $20/month.</a>
         </p>
 
         {{-- <img src="dashboard.webp" class="mt-10 rounded-lg" /> --}}
@@ -21,7 +21,7 @@
             <div class="grid grid-cols-2 text-left text-lg tracking-tight text-zinc-700">
                 <div class="bg-zinc-25 space-y-4 border-r border-zinc-100 px-14 py-16 xl:px-16">
                     <p>
-                        Let's be honest: every email platform you loved either doesn't support polls or charges you a
+                        Let's face it: every email platform you loved either doesn't support polls or charges you a
                         fortune for them.
                     </p>
 
@@ -30,7 +30,7 @@
                         jump through hoops. Substack? Good luck finding polling features.
                     </p>
 
-                    <p>Name one that makes polls easy and affordable. Exactly.</p>
+                    <p>Name one that makes polls easy and affordable. Thought so.</p>
 
                     <p><strong class="font-medium text-zinc-900">It's time to break free.</strong></p>
                 </div>
@@ -50,9 +50,9 @@
                     <p>
                         We invite you to
                         <a href="/" class="font-medium text-zinc-950 underline">
-                            try AntiPoll with a 15-day free trial.
+                            try AntiPoll and create 1000 polls for free
                         </a>
-                        I'm glad you're here, and I'd love to hear what you think.
+                        I'm excited you're here, and I can't wait to hear what you think.
                     </p>
 
                     <div class="text-base">
@@ -73,11 +73,9 @@
 
     <section>
         <header class="mx-auto max-w-xl md:text-center">
-            <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">
-                Your email engagement multiplier.
-            </h2>
+            <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">Your email engagement engine.</h2>
             <p class="mt-4 text-lg tracking-tight text-zinc-700">
-                We put together everything you need to turn passive readers into active participants.
+                We built everything you need to turn passive readers into active participants.
             </p>
         </header>
 
@@ -104,7 +102,9 @@
 
     <section>
         <header class="md:text-center">
-            <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">Little features, big impact.</h2>
+            <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">
+                Smart features, serious results.
+            </h2>
             <p class="mx-auto mt-4 max-w-3xl text-lg tracking-tight text-zinc-700">
                 <strong class="text-zinc-900">Auto-submit</strong>
                 creates one-click polls.
@@ -127,10 +127,11 @@
     <section id="pricing">
         <header class="md:text-center">
             <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">
-                15-day free trial. No platform restrictions.
+                Create 1000 polls for free. No time limit, no user limit.
             </h2>
             <p class="mx-auto mt-4 max-w-xl text-lg tracking-tight text-zinc-700">
-                After your trial, it's only $5/month for unlimited polls and all features. Cancel anytime, no risk.
+                When you're ready for more, it's only $20/month for unlimited polls + all features. Cancel anytime, no
+                risk.
             </p>
         </header>
 
@@ -144,7 +145,7 @@
                 icon:trailing="arrow-right-circle"
                 class="font-semibold"
             >
-                Start my 15-day free trial!
+                Start with 1000 free polls!
             </flux:button>
         </div>
 
@@ -152,6 +153,10 @@
 
         <div class="flex justify-center">
             <ul class="flex flex-col gap-y-3 text-sm">
+                <li class="flex gap-4">
+                    <flux:icon.check-circle variant="mini" color="green" />
+                    No obligations, no credit card required, no time limit on the first 1000 polls.
+                </li>
                 <li class="flex gap-4">
                     <flux:icon.check-circle variant="mini" color="green" />
                     Full analytics and all features included from day one.
@@ -173,14 +178,13 @@
     <section>
         <header class="md:text-center">
             <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">
-                One more thing... AntiPoll works everywhere.
+                And there's more... AntiPoll is open source and self-hostable.
             </h2>
             <p class="mx-auto mt-4 max-w-4xl text-lg tracking-tight text-zinc-700">
-                Unlike platform-specific solutions that lock you into one ecosystem, AntiPoll generates universal HTML
-                that works in any email client.
-                <strong class="font-medium text-zinc-900">Have a favorite email platform?</strong>
-                AntiPoll probably works with it already. Our approach ensures you own your audience data, not your email
-                platform.
+                Prefer to host it yourself or want to customize the code? You can run AntiPoll on your own server.
+                <strong class="font-medium text-zinc-900">Want to contribute?</strong>
+                Submit a PR to help improve the product for everyone. Our license permits flexible use with minimal
+                restrictions.
             </p>
         </header>
 
@@ -188,13 +192,13 @@
 
         <div class="flex justify-center">
             <flux:button
-                href="/"
+                href="https://github.com/antihq/poll"
                 variant="primary"
                 color="zinc"
                 icon:trailing="arrow-right-circle"
                 class="font-semibold"
             >
-                View all integrations
+                View source
             </flux:button>
         </div>
     </section>
@@ -254,12 +258,14 @@
                     </flux:accordion.content>
                 </flux:accordion.item>
                 <flux:accordion.item>
-                    <flux:accordion.heading class="text-lg/7!">Any AI features?</flux:accordion.heading>
+                    <flux:accordion.heading class="text-lg/7!">
+                        If I delete a poll, does it count against the 1000 polls?
+                    </flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm text-zinc-700">
-                            We didn't add artificial intelligence, we just removed all the friction from email polling.
-                            No platform lock-in, no expensive upgrades, plenty of power, and dead-simple implementation.
-                            Try it.
+                            Yes, every poll you create is counted, even polls that are deleted later. AntiPoll tracks
+                            the total number of polls created, so deleted polls still count against your 1000 poll
+                            limit.
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>
@@ -278,9 +284,7 @@
 
     <section>
         <header class="md:text-center">
-            <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">
-                Yeah, why not, I'll try AntiPoll!
-            </h2>
+            <h2 class="text-3xl font-medium tracking-tight text-zinc-900 sm:text-4xl">Ready to give AntiPoll a try?</h2>
         </header>
 
         <flux:spacer class="my-10" />
@@ -293,7 +297,7 @@
                 icon:trailing="arrow-right-circle"
                 class="font-semibold"
             >
-                Sign up now
+                Get started now
             </flux:button>
         </div>
     </section>
