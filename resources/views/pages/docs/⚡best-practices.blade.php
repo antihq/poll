@@ -11,7 +11,7 @@ new #[Layout('layouts::doc'), Title('Best Practices')] class extends Component
 ?>
 
 <div>
-    <flux:text class="mb-2 mt-0! font-medium">Advanced</flux:text>
+    <flux:text class="mt-0! mb-2 font-medium">Advanced</flux:text>
 
     <h1>Best Practices</h1>
 

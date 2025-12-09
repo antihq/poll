@@ -5,7 +5,6 @@ use App\Models\User;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 
 it('creates a new poll for the team with valid data', function () {
     /** @var User $user */
@@ -23,7 +22,8 @@ it('creates a new poll for the team with valid data', function () {
         ],
     ];
 
-    actingAs($user)->get('/polls/create')->assertSuccessful();
+    // Test that the Livewire component can be mounted
+    Livewire::actingAs($user)->test('pages::polls.create')->assertSuccessful();
 
     $component = Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', $pollData['name'])
@@ -123,4 +123,74 @@ it('can sort answers by dragging and dropping', function () {
 
     expect($poll->answers->count())->toBe(3);
     expect($poll->answers->pluck('text')->toArray())->toBe(['Third', 'Second', 'First']);
+});
+
+it('prevents poll creation when team reaches free limit and redirects team owner to subscription page', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeam()->create();
+
+    $team = $user->currentTeam;
+    Poll::factory()->for($team)->count(1000)->create();
+
+    $team->refresh();
+    expect($team->polls_created)->toBe(1000);
+    expect($team->hasReachedFreePollLimit())->toBeTrue();
+
+    actingAs($user)->get('/polls/create')->assertRedirect('/dashboard');
+});
+
+it('allows poll creation when team is under free limit', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeam()->create();
+
+    $team = $user->currentTeam;
+    Poll::factory()->for($team)->count(999)->create();
+
+    Livewire::actingAs($user)->test('pages::polls.create')
+        ->set('name', 'Test Poll')
+        ->set('question', 'Test question?')
+        ->set('answers', ['Answer 1', 'Answer 2'])
+        ->call('create')
+        ->assertHasNoErrors();
+
+    $team->refresh();
+    expect($team->polls_created)->toBe(1000);
+    expect(Poll::count())->toBe(1000);
+});
+
+it('allows poll creation for subscribed teams regardless of poll count', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeam()->create();
+
+    $team = $user->currentTeam;
+    Poll::factory()->for($team)->count(1000)->create();
+
+    Livewire::actingAs($user)->test('pages::polls.create')
+        ->set('name', 'Test Poll')
+        ->set('question', 'Test question?')
+        ->set('answers', ['Answer 1', 'Answer 2'])
+        ->call('create')
+        ->assertHasNoErrors();
+
+    $team->refresh();
+    expect($team->polls_created)->toBe(1001);
+    expect(Poll::count())->toBe(1001);
+});
+
+it('maintains correct poll count after deletion', function () {
+    /** @var User $user */
+    $user = User::factory()->withPersonalTeam()->create();
+
+    $team = $user->currentTeam;
+    Poll::factory()->for($team)->count(5)->create();
+
+    $team->refresh();
+    expect($team->polls_created)->toBe(5);
+    expect($team->hasReachedFreePollLimit())->toBeFalse();
+
+    Poll::limit(2)->get()->each->delete();
+
+    $team->refresh();
+    expect($team->polls_created)->toBe(5);
+    expect($team->hasReachedFreePollLimit())->toBeFalse();
 });

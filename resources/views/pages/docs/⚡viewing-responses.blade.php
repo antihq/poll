@@ -11,7 +11,7 @@ new #[Layout('layouts::doc'), Title('Viewing Responses')] class extends Componen
 ?>
 
 <div>
-    <flux:text class="mb-2 mt-0! font-medium">Documentation</flux:text>
+    <flux:text class="mt-0! mb-2 font-medium">Documentation</flux:text>
 
     <h1>Viewing Responses</h1>
 

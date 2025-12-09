@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\TeamInvitationAcceptController;
-use App\Http\Middleware\EnsureUserIsSubscribed;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,7 +23,7 @@ Route::livewire('changelog/', 'pages::changelog');
 
 Route::livewire('p/{poll:ulid}', 'pages::p.show');
 
-Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('dashboard/', 'pages::dashboard');
 
     Route::livewire('polls/', 'pages::polls.index');

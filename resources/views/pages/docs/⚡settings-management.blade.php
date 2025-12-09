@@ -11,7 +11,7 @@ new #[Layout('layouts::doc'), Title('Settings & Management')] class extends Comp
 ?>
 
 <div>
-    <flux:text class="mb-2 mt-0! font-medium">Advanced</flux:text>
+    <flux:text class="mt-0! mb-2 font-medium">Advanced</flux:text>
 
     <h1>Settings & Management</h1>
 

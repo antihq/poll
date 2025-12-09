@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased dark:bg-zinc-900 text-zinc-950 dark:text-white">
+<html
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="dark text-zinc-950 antialiased dark:bg-zinc-900 dark:text-white"
+>
     <head>
-        @include('partials.head', ['title' => (isset($title) ? $title . ' - ' : '') . config('app.name')])
+        @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').config('app.name')])
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900">
         <flux:header container>
@@ -16,11 +19,26 @@
 
             <div class="flex items-center gap-x-5 md:gap-x-8">
                 @guest
-                    <flux:button href="/register" variant="primary" color="zinc" icon:trailing="arrow-right-circle" size="sm" wire:navigate>
+                    <flux:button
+                        href="/register"
+                        variant="primary"
+                        color="zinc"
+                        icon:trailing="arrow-right-circle"
+                        size="sm"
+                        wire:navigate
+                    >
                         Sign in
                     </flux:button>
                 @else
-                    <flux:button href="/dashboard" size="sm" color="zinc" icon:trailing="arrow-right-circle" wire:navigate>Dashboard</flux:button>
+                    <flux:button
+                        href="/dashboard"
+                        size="sm"
+                        color="zinc"
+                        icon:trailing="arrow-right-circle"
+                        wire:navigate
+                    >
+                        Dashboard
+                    </flux:button>
                 @endguest
             </div>
         </flux:header>

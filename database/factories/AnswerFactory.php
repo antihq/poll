@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Answer;
 use App\Models\Poll;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

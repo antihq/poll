@@ -4,16 +4,19 @@ use App\Models\Team;
 use App\Models\TeamInvitation;
 use App\Models\User;
 use App\Notifications\TeamInvitation as TeamInvitationNotification;
+use Flux\Flux;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Notification;
-use Livewire\Component;
-use Livewire\Attributes\Title;
-use Flux\Flux;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
-new #[Title('Team members')] class extends Component {
+new #[Title('Team members')] class extends Component
+{
     public Team $team;
+
     public Collection $invitations;
+
     public Collection $members;
 
     public string $email = '';
@@ -50,7 +53,7 @@ new #[Title('Team members')] class extends Component {
 
         Flux::toast(
             heading: 'Invitation sent',
-            text: 'The invitation was sent to ' . $this->email . '.',
+            text: 'The invitation was sent to '.$this->email.'.',
             variant: 'success'
         );
 
@@ -72,7 +75,7 @@ new #[Title('Team members')] class extends Component {
 
         Flux::toast(
             heading: 'Member removed',
-            text: 'The member ' . $member->name . ' was removed from team.',
+            text: 'The member '.$member->name.' was removed from team.',
             variant: 'success'
         );
 
@@ -92,7 +95,7 @@ new #[Title('Team members')] class extends Component {
 
         Flux::toast(
             heading: 'Invitation revoked',
-            text: 'The invitation for ' . $invitation->email . ' was revoked.',
+            text: 'The invitation for '.$invitation->email.' was revoked.',
             variant: 'success'
         );
 

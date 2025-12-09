@@ -1,18 +1,22 @@
 <?php
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public ?Team $currentTeam;
+
     public Collection $teams;
+
     public ?int $selectedTeamId;
 
     #[Computed]
-    public function user() {
+    public function user()
+    {
         return Auth::user();
     }
 

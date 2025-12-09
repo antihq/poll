@@ -13,6 +13,15 @@ class Poll extends Model
 
     protected $guarded = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($poll) {
+            $poll->team->incrementPollCount();
+        });
+    }
+
     protected $casts = [
         'accepts_responses' => 'boolean',
         'require_email' => 'boolean',

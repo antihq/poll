@@ -9,9 +9,9 @@ uses(RefreshDatabase::class);
 
 it('redirects unsubscribed users to the dashboard when accessing the billing portal', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalTeamAndSubscription()->create();
+    $user = User::factory()->withPersonalTeam()->create();
 
-    $response = actingAs($user)->get('/subscribe');
+    $response = actingAs($user)->get('/billing-portal');
 
     $response->assertForbidden();
 });

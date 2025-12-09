@@ -3,9 +3,9 @@
 use App\Models\Poll;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 new #[Title('All polls')] class extends Component

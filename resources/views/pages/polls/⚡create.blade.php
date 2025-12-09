@@ -1,16 +1,38 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\Title;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Poll;
 use App\Models\Answer;
+use App\Models\Poll;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
+use Livewire\Component;
 
-new #[Title('Add poll')] class extends Component {
+new #[Title('Add poll')] class extends Component
+{
     public string $name = '';
+
     public string $question = '';
+
     public array $answers = ['', ''];
+
+    #[Computed]
+    public function team()
+    {
+        return Auth::user()->currentTeam;
+    }
+
+    #[Computed]
+    public function pollCount(): int
+    {
+        return $this->team->polls_created;
+    }
+
+    #[Computed]
+    public function freePollLimit(): int
+    {
+        return config('poll.free_poll_limit', 1000);
+    }
 
     protected array $rules = [
         'name' => ['required', 'string', 'max:255'],
@@ -18,6 +40,13 @@ new #[Title('Add poll')] class extends Component {
         'answers' => ['required', 'array', 'min:2'],
         'answers.*' => ['required', 'string', 'max:255'],
     ];
+
+    public function mount()
+    {
+        if (! $this->team->subscribed() && $this->team->hasReachedFreePollLimit()) {
+            return $this->redirect('/subscribe');
+        }
+    }
 
     public function addAnswer(): void
     {
@@ -42,14 +71,15 @@ new #[Title('Add poll')] class extends Component {
 
     public function create(): void
     {
+        $this->authorize('create', Poll::class);
+
         $this->validate();
 
-        $user = Auth::user();
         $poll = Poll::create([
             'ulid' => Str::ulid(),
             'name' => $this->name,
             'question' => $this->question,
-            'team_id' => $user->currentTeam->id,
+            'team_id' => $this->team->id,
         ]);
 
         foreach (array_filter($this->answers, fn ($answer) => trim($answer) !== '') as $index => $answerText) {
@@ -74,7 +104,13 @@ new #[Title('Add poll')] class extends Component {
 
     <form wire:submit="create">
         <flux:heading class="text-xl">Add a poll</flux:heading>
-        <flux:text class="mt-2">Create a new poll for your team.</flux:text>
+        <flux:text class="mt-2">
+            Create a new poll for your team.
+
+            @if (! $this->team->subscribed())
+                {{ $this->pollCount }}/{{ $this->freePollLimit }} polls used.
+            @endif
+        </flux:text>
 
         <flux:spacer class="mt-10" />
 

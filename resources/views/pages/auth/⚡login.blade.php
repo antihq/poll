@@ -2,8 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
@@ -11,8 +11,8 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-
-new #[Layout('layouts::simple'), Title('Login')] class extends Component {
+new #[Layout('layouts::simple'), Title('Login')] class extends Component
+{
     #[Validate('required|string|email')]
     public string $email = '';
 
@@ -34,7 +34,7 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component {
 
         $user = User::where('email', $this->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             // Don't reveal if user exists or not for security
             $this->showOtpForm = true;
 
@@ -59,7 +59,7 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component {
 
         $user = User::where('email', $this->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             throw ValidationException::withMessages([
                 'email' => 'These credentials do not match our records.',
             ]);
@@ -74,6 +74,7 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component {
             Auth::login($user);
 
             $this->redirectIntended(default: '/dashboard', navigate: true);
+
             return;
         }
 
@@ -96,7 +97,7 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component {
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => 'Too many login attempts. Please try again in ' . ceil($seconds / 60) . ' minutes.',
+            'email' => 'Too many login attempts. Please try again in '.ceil($seconds / 60).' minutes.',
         ]);
     }
 
@@ -110,7 +111,7 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component {
 }; ?>
 
 <div class="mx-auto flex h-full max-w-sm flex-col justify-center gap-6">
-    @if (!$showOtpForm)
+    @if (! $showOtpForm)
         <div class="text-center">
             <flux:heading class="text-xl">Log in to your account</flux:heading>
             <flux:text class="mt-2">Enter your email to receive a one-time password</flux:text>

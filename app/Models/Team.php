@@ -9,7 +9,7 @@ use Laravel\Cashier\Billable;
 class Team extends Model
 {
     /** @use HasFactory<\Database\Factories\TeamFactory> */
-    use HasFactory, Billable;
+    use Billable, HasFactory;
 
     protected $guarded = [];
 
@@ -17,6 +17,7 @@ class Team extends Model
     {
         return [
             'personal' => 'boolean',
+            'polls_created' => 'integer',
         ];
     }
 
@@ -70,5 +71,15 @@ class Team extends Model
     public function stripeEmail()
     {
         return $this->user->email ?? null;
+    }
+
+    public function hasReachedFreePollLimit(): bool
+    {
+        return $this->polls_created >= config('poll.free_poll_limit', 1000);
+    }
+
+    public function incrementPollCount(): void
+    {
+        $this->increment('polls_created');
     }
 }

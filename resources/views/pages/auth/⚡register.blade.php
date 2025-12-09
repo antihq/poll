@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\User;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
@@ -13,8 +13,8 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-
-new #[Layout('layouts::simple'), Title('Sign up')] class extends Component {
+new #[Layout('layouts::simple'), Title('Sign up')] class extends Component
+{
     #[Validate('required|string|max:255')]
     public string $name = '';
 
@@ -59,7 +59,7 @@ new #[Layout('layouts::simple'), Title('Sign up')] class extends Component {
 
         $user = User::where('email', $this->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             throw ValidationException::withMessages([
                 'email' => 'Registration failed. Please try again.',
             ]);
@@ -107,7 +107,7 @@ new #[Layout('layouts::simple'), Title('Sign up')] class extends Component {
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => 'Too many login attempts. Please try again in ' . ceil($seconds / 60) . ' minutes.',
+            'email' => 'Too many login attempts. Please try again in '.ceil($seconds / 60).' minutes.',
         ]);
     }
 
@@ -131,7 +131,7 @@ new #[Layout('layouts::simple'), Title('Sign up')] class extends Component {
 }; ?>
 
 <div class="mx-auto flex h-full max-w-sm flex-col justify-center gap-6">
-    @if (!$showOtpForm)
+    @if (! $showOtpForm)
         <div class="text-center">
             <flux:heading class="text-xl">Create an account</flux:heading>
             <flux:text class="mt-2">Enter your details to create your account and verify your email</flux:text>

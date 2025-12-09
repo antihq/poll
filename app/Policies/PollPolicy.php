@@ -28,6 +28,14 @@ class PollPolicy
      */
     public function create(User $user): bool
     {
+        if ($user->currentTeam->subscribed()) {
+            return true;
+        }
+
+        if ($user->currentTeam->hasReachedFreePollLimit()) {
+            return false;
+        }
+
         return true;
     }
 

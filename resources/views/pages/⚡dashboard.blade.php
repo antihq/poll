@@ -2,9 +2,9 @@
 
 use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
+use Livewire\Component;
 
 new #[Title('Home')] class extends Component
 {
