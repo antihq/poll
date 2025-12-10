@@ -1,4 +1,4 @@
-<x-layouts::site title="AntiPoll — Polls in emails. Not platform lock-in.">
+<x-layouts::site title="AntiPoll — Polls in emails. Not platform lock-in." :dark="false">
     <flux:spacer class="my-32" />
 
     <div>
@@ -118,7 +118,7 @@
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
                 <div class="relative p-10">
-                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950 group-data-dark:text-white">
+                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950">
                         Create polls in seconds
                     </p>
                     <p class="mt-2 max-w-[600px] text-sm/6 text-zinc-600">
@@ -136,7 +136,7 @@
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
                 <div class="relative p-10">
-                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950 group-data-dark:text-white">
+                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950">
                         Works with every email platform
                     </p>
                     <p class="mt-2 max-w-[600px] text-sm/6 text-zinc-600">

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    class="dark text-zinc-950 antialiased dark:bg-zinc-900 dark:text-white"
+    class="text-zinc-950 antialiased"
 >
     <head>
         @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').config('app.name')])
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-900">
+    <body class="min-h-screen bg-white">
         <flux:header container>
             <flux:brand href="/" logo="/logo.png" :name="config('app.name')" wire:navigate />
 
@@ -41,13 +41,13 @@
             </div>
         </flux:header>
 
-        <flux:main container class="lg:bg-white dark:lg:bg-zinc-900 overflow-hidden">
+        <flux:main container class="overflow-hidden">
             {{ $slot }}
         </flux:main>
 
         <flux:toast />
 
-        <flux:footer container class="border-zinc-200 lg:border-t dark:border-zinc-700">
+        <flux:footer container class="border-zinc-200 lg:border-t">
             <flux:text class="text-xs/6 lg:text-sm/6">
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by
