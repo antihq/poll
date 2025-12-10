@@ -3,14 +3,14 @@
 
     <div>
         <h1
-            class="font-display md:text-center text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
+            class="font-display text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
         >
             Polls in emails.
             <br />
             Not platform lock-in.
         </h1>
 
-        <p class="mt-8 md:text-center text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
+        <p class="mt-8 text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
             Create
             <strong class="text-zinc-950">1000 polls FREE</strong>
             with AntiPoll. After that it's
