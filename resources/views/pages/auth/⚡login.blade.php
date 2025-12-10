@@ -65,7 +65,7 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component
             ]);
         }
 
-        $result = $user->attemptLoginUsingOneTimePassword($this->one_time_password);
+        $result = $user->attemptLoginUsingOneTimePassword($this->one_time_password, remember: true);
 
         if ($result->isOk()) {
             RateLimiter::clear($this->throttleKey());

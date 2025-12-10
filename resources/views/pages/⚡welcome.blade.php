@@ -1,4 +1,16 @@
-<x-layouts::site title="Polls in emails. Not platform lock-in" :dark="false">
+<?php
+
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\Component;
+
+new #[Layout('layouts::site', ['dark' => false]), Title('Polls in emails. Not platform lock-in')] class extends Component
+{
+    //
+};
+?>
+
+<div>
     <flux:spacer class="my-10 sm:my-18 md:my-26 lg:my-24" />
 
     <div>
@@ -118,9 +130,7 @@
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
                 <div class="relative p-10">
-                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950">
-                        Create polls in seconds
-                    </p>
+                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950">Create polls in seconds</p>
                     <p class="mt-2 max-w-[600px] text-sm/6 text-zinc-600">
                         Add questions, answers, and customize settings without any technical knowledge.
                     </p>
@@ -136,9 +146,7 @@
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
                 <div class="relative p-10">
-                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950">
-                        Works with every email platform
-                    </p>
+                    <p class="text-2xl/8 font-medium tracking-tight text-zinc-950">Works with every email platform</p>
                     <p class="mt-2 max-w-[600px] text-sm/6 text-zinc-600">
                         Beehiiv, Ghost, HubSpot, Kit, Loops, MailerLite, Sendy, or even plain HTML emails. No platform
                         limitations, no expensive upgrades.
@@ -242,11 +250,11 @@
     <section id="pricing">
         <header>
             <h2
-                class="mx-auto max-w-3xl md:text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl"
+                class="mx-auto max-w-3xl text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl md:text-center"
             >
                 Create 1000 polls for free. No time limit, no user limit.
             </h2>
-            <p class="mx-auto mt-6 max-w-3xl md:text-center text-2xl font-medium text-zinc-500">
+            <p class="mx-auto mt-6 max-w-3xl text-2xl font-medium text-zinc-500 md:text-center">
                 When you're ready for more, it's only $20/month for unlimited polls + all features. Cancel anytime, no
                 risk.
             </p>
@@ -272,16 +280,28 @@
     <section>
         <header>
             <h2
-                class="mx-auto max-w-3xl md:text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl"
+                class="mx-auto max-w-3xl text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl md:text-center"
             >
                 And there's more... AntiPoll is open source and self-hostable.
             </h2>
-            <p class="mx-auto mt-6 max-w-3xl md:text-center text-2xl font-medium text-zinc-500">
+            <p class="mx-auto mt-6 max-w-3xl text-2xl font-medium text-zinc-500 md:text-center">
                 Prefer to host it yourself or want to customize the code? You can run AntiPoll on your own server.
                 <strong class="text-zinc-950">Want to contribute?</strong>
-                <a href="https://github.com/antihq/poll/pulls" class="font-semibold text-zinc-950 underline" target="_blank">Submit a PR</a>
+                <a
+                    href="https://github.com/antihq/poll/pulls"
+                    class="font-semibold text-zinc-950 underline"
+                    target="_blank"
+                >
+                    Submit a PR
+                </a>
                 to help improve the product for everyone.
-                <a href="https://github.com/antihq/poll/blob/develop/LICENSE.md" class="font-semibold text-zinc-950 underline" target="_blank">Our license</a>
+                <a
+                    href="https://github.com/antihq/poll/blob/develop/LICENSE.md"
+                    class="font-semibold text-zinc-950 underline"
+                    target="_blank"
+                >
+                    Our license
+                </a>
                 permits flexible use with minimal restrictions.
             </p>
         </header>
@@ -305,7 +325,7 @@
 
     <section>
         <header>
-            <h2 class="md:text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl">
+            <h2 class="text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl md:text-center">
                 Common questions.
             </h2>
         </header>
@@ -367,7 +387,7 @@
 
             <flux:spacer class="my-10" />
 
-            <h3 class="md:text-center text-2xl/8 font-medium tracking-tight text-zinc-950">
+            <h3 class="text-2xl/8 font-medium tracking-tight text-zinc-950 md:text-center">
                 Need help? Check out our
                 <a href="/docs" class="font-semibol text-zinc-950 underline" wire:navigate>documentation</a>
             </h3>
@@ -391,4 +411,4 @@
     </section>
 
     <flux:spacer class="my-32" />
-</x-layouts::site>
+</div>

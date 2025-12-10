@@ -3,9 +3,7 @@
 use App\Http\Controllers\TeamInvitationAcceptController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::livewire('/', 'pages::welcome');
 
 Route::livewire('docs', 'pages::docs.welcome');
 Route::livewire('docs/getting-started', 'pages::docs.getting-started');
