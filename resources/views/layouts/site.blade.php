@@ -12,7 +12,6 @@
 
             <flux:navbar>
                 <flux:navbar.item href="/docs" :accent="false" wire:navigate>Docs</flux:navbar.item>
-                <flux:navbar.item href="/changelog" :accent="false" wire:navigate>Changelog</flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
@@ -23,7 +22,6 @@
                         href="/register"
                         variant="primary"
                         color="zinc"
-                        icon:trailing="arrow-right-circle"
                         size="sm"
                         wire:navigate
                     >
@@ -43,7 +41,7 @@
             </div>
         </flux:header>
 
-        <flux:main container class="lg:bg-white dark:lg:bg-zinc-900">
+        <flux:main container class="lg:bg-white dark:lg:bg-zinc-900 overflow-hidden">
             {{ $slot }}
         </flux:main>
 
