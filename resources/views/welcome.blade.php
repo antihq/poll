@@ -369,7 +369,7 @@
 
             <h3 class="text-center text-2xl/8 font-medium tracking-tight text-zinc-950">
                 Need help? Check out our
-                <a href="/docs" class="font-semibol text-zinc-950 underline">documentation</a>
+                <a href="/docs" class="font-semibol text-zinc-950 underline" wire:navigate>documentation</a>
             </h3>
         </div>
     </section>
