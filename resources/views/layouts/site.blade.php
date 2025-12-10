@@ -22,7 +22,6 @@
                         href="/register"
                         variant="primary"
                         color="zinc"
-                        icon:trailing="arrow-right-circle"
                         size="sm"
                         wire:navigate
                     >
@@ -42,7 +41,7 @@
             </div>
         </flux:header>
 
-        <flux:main container class="lg:bg-white dark:lg:bg-zinc-900">
+        <flux:main container class="lg:bg-white dark:lg:bg-zinc-900 overflow-hidden">
             {{ $slot }}
         </flux:main>
 

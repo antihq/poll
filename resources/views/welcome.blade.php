@@ -1,16 +1,16 @@
-<x-layouts::site>
+<x-layouts::site title="AntiPoll — Polls in emails. Not platform lock-in.">
     <flux:spacer class="my-32" />
 
     <div>
         <h1
-            class="font-display text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
+            class="font-display text-center text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
         >
             Polls in emails.
             <br />
             Not platform lock-in.
         </h1>
 
-        <p class="mt-8 text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
+        <p class="mt-8 text-center text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
             Create
             <strong class="text-zinc-950">1000 polls FREE</strong>
             with AntiPoll. After that it's
@@ -18,15 +18,15 @@
         </p>
 
         <div
-            style="--width: 1216; --height: 768"
-            class="relative mt-16 aspect-[var(--width)/var(--height)] h-144 [--radius:var(--radius-xl)] sm:h-auto sm:w-304"
+            style="--width: 824; --height: 519"
+            class="relative mt-16 aspect-[var(--width)/var(--height)] h-[519px] [--radius:var(--radius-xl)] sm:mx-auto sm:h-auto sm:w-[824px]"
         >
             <div
                 class="absolute -inset-(--padding) rounded-[calc(var(--radius)+var(--padding))] shadow-xs ring-1 ring-black/5 [--padding:--spacing(2)]"
             ></div>
             <img
-                alt=""
-                src="https://radiant.tailwindui.com/screenshots/app.png"
+                alt="AntiPoll - Polls in emails. Not platform lock-in."
+                src="{{ Vite::asset('resources/screenshots/app.webp') }}"
                 class="h-full rounded-(--radius) shadow-2xl ring-1 ring-black/10"
             />
         </div>
@@ -37,7 +37,7 @@
             class="overflow-hidden rounded-lg bg-white shadow-xs ring-1 ring-black/5 max-lg:rounded-4xl lg:col-span-3 lg:rounded-4xl"
         >
             <div class="grid grid-cols-1 text-lg font-medium text-zinc-600 lg:grid-cols-2 lg:text-2xl">
-                <div class="space-y-6 border-black/5 bg-zinc-25 p-10 max-lg:border-b lg:border-r">
+                <div class="bg-zinc-25 space-y-6 border-black/5 p-10 max-lg:border-b lg:border-r">
                     <p>
                         Let's face it: every email platform you loved either doesn't support polls or charges you a
                         fortune for them.
@@ -67,7 +67,7 @@
 
                     <p>
                         We invite you to
-                        <a href="/" class="font-semibold text-zinc-950 underline">
+                        <a href="/register" class="font-semibold text-zinc-950 underline" wire:navigate>
                             try AntiPoll and create 1000 polls for free
                         </a>
                         I'm excited you're here, and I can't wait to hear what you think.
@@ -113,7 +113,7 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="h-80 bg-[url(https://radiant.tailwindui.com/screenshots/profile.png)] bg-size-[1000px_560px] bg-position-[left_-109px_top_-112px] bg-no-repeat"
+                        class="h-80 bg-[url(../screenshots/create-poll.webp)] bg-size-[576px_527px] bg-position-[left_8px_top_-84px] bg-no-repeat"
                     ></div>
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
@@ -122,8 +122,7 @@
                         Create polls in seconds
                     </p>
                     <p class="mt-2 max-w-[600px] text-sm/6 text-zinc-600">
-                        Add questions, answers, and customize settings without any
-                        technical knowledge.
+                        Add questions, answers, and customize settings without any technical knowledge.
                     </p>
                 </div>
             </div>
@@ -132,7 +131,7 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="absolute inset-0 bg-[url(https://radiant.tailwindui.com/screenshots/competitors.png)] bg-size-[1100px_650px] bg-position-[left_-38px_top_-73px] bg-no-repeat"
+                        class="absolute inset-0 bg-[url(../screenshots/share-poll.webp)] bg-size-[576px_527px] bg-position-[left_8px_top_-20px] bg-no-repeat"
                     ></div>
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
@@ -180,9 +179,9 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="h-80 bg-[url(https://radiant.tailwindui.com/screenshots/profile.png)] bg-size-[1000px_560px] bg-position-[left_-109px_top_-112px] bg-no-repeat"
+                        class="h-80 bg-[url(../screenshots/analytics.webp)] bg-size-[576px_527px] bg-position-[left_-200px_top_-180px] bg-no-repeat"
                     ></div>
-                    <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
+                    <div class="absolute inset-0 bg-linear-to-b from-white to-50%"></div>
                 </div>
             </div>
             <div
@@ -190,7 +189,7 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="absolute inset-0 bg-[url(https://radiant.tailwindui.com/screenshots/competitors.png)] bg-size-[1100px_650px] bg-position-[left_-38px_top_-73px] bg-no-repeat"
+                        class="absolute inset-0 bg-[url(../screenshots/embed.webp)] bg-size-[576px_527px] bg-position-[left_0px_top_-140px] bg-no-repeat"
                     ></div>
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
@@ -200,7 +199,7 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="absolute inset-0 bg-[url(https://radiant.tailwindui.com/screenshots/competitors.png)] bg-size-[1100px_650px] bg-position-[left_-38px_top_-73px] bg-no-repeat"
+                        class="absolute inset-0 bg-[url(../screenshots/responses.webp)] bg-size-[576px_270px] bg-position-[left_16px_top_20px] bg-no-repeat"
                     ></div>
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
@@ -210,9 +209,9 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="absolute inset-0 bg-[url(https://radiant.tailwindui.com/screenshots/competitors.png)] bg-size-[1100px_650px] bg-position-[left_-38px_top_-73px] bg-no-repeat"
+                        class="absolute inset-0 bg-[url(../screenshots/branding.webp)] bg-size-[576px_527px] bg-position-[left_0px_top_-130px] bg-no-repeat"
                     ></div>
-                    <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
+                    <div class="absolute inset-0 bg-linear-to-b from-white to-50%"></div>
                 </div>
             </div>
             <div
@@ -220,7 +219,7 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="absolute inset-0 bg-[url(https://radiant.tailwindui.com/screenshots/competitors.png)] bg-size-[1100px_650px] bg-position-[left_-38px_top_-73px] bg-no-repeat"
+                        class="absolute inset-0 bg-[url(../screenshots/mobile.webp)] bg-size-[576px_527px] bg-position-[left_0px_top_-73px] bg-no-repeat"
                     ></div>
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
@@ -230,7 +229,7 @@
             >
                 <div class="relative h-80 shrink-0">
                     <div
-                        class="absolute inset-0 bg-[url(https://radiant.tailwindui.com/screenshots/competitors.png)] bg-size-[1100px_650px] bg-position-[left_-38px_top_-73px] bg-no-repeat"
+                        class="absolute inset-0 bg-[url(../screenshots/integrations.webp)] bg-size-[576px_527px] bg-position-[left_0px_top_-163px] bg-no-repeat"
                     ></div>
                     <div class="absolute inset-0 bg-linear-to-t from-white to-50%"></div>
                 </div>
@@ -256,19 +255,14 @@
         <flux:spacer class="my-10" />
 
         <div class="flex justify-center">
-            <flux:button
-                href="/"
-                variant="primary"
-                color="zinc"
-                class="rounded-full! text-base!"
-            >
+            <flux:button href="/register" variant="primary" color="zinc" class="rounded-full! text-base!" wire:navigate>
                 Start with 1000 free polls!
             </flux:button>
         </div>
 
         <flux:spacer class="my-6" />
 
-        <p class="max-w-xs text-sm/6 text-zinc-500 text-center mx-auto">
+        <p class="mx-auto max-w-xs text-center text-sm/6 text-zinc-500">
             No obligations, no credit card required, no time limit on the first 1000 polls.
         </p>
     </section>
@@ -285,9 +279,9 @@
             <p class="mx-auto mt-6 max-w-3xl text-center text-2xl font-medium text-zinc-500">
                 Prefer to host it yourself or want to customize the code? You can run AntiPoll on your own server.
                 <strong class="text-zinc-950">Want to contribute?</strong>
-                <a href="/" class="font-semibold text-zinc-950 underline">Submit a PR</a>
+                <a href="https://github.com/antihq/poll/pulls" class="font-semibold text-zinc-950 underline" target="_blank">Submit a PR</a>
                 to help improve the product for everyone.
-                <a href="/" class="font-semibold text-zinc-950 underline">Our license</a>
+                <a href="https://github.com/antihq/poll/blob/develop/LICENSE.md" class="font-semibold text-zinc-950 underline" target="_blank">Our license</a>
                 permits flexible use with minimal restrictions.
             </p>
         </header>
@@ -300,6 +294,7 @@
                 variant="primary"
                 color="zinc"
                 class="rounded-full! text-base!"
+                target="_blank"
             >
                 View source
             </flux:button>
@@ -372,7 +367,7 @@
 
             <flux:spacer class="my-10" />
 
-            <h3 class="text-2xl/8 font-medium tracking-tight text-zinc-950 text-center">
+            <h3 class="text-center text-2xl/8 font-medium tracking-tight text-zinc-950">
                 Need help? Check out our
                 <a href="/docs" class="font-semibol text-zinc-950 underline">documentation</a>
             </h3>
@@ -389,12 +384,7 @@
         <flux:spacer class="my-6" />
 
         <div class="flex justify-center">
-            <flux:button
-                href="/"
-                variant="primary"
-                color="zinc"
-                class="rounded-full! text-base!"
-            >
+            <flux:button href="/register" variant="primary" color="zinc" class="rounded-full! text-base!" wire:navigate>
                 Get started now
             </flux:button>
         </div>
