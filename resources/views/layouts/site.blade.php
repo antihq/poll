@@ -6,7 +6,7 @@
     <head>
         @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').config('app.name')])
     </head>
-    <body class="min-h-screen bg-white">
+    <body>
         <flux:header container>
             <flux:brand href="/" logo="/logo.png" :name="config('app.name')" class="tracking-tight" wire:navigate />
 
