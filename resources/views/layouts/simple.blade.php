@@ -3,7 +3,7 @@
     <head>
         @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').config('app.name')])
     </head>
-    <body class="bg-gray-50 dark:bg-zinc-900">
+    <body class="bg-zinc-50 dark:bg-zinc-900">
         <flux:main>
             {{ $slot }}
         </flux:main>
