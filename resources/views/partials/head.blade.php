@@ -13,7 +13,7 @@
 <meta property="og:type" content="website" />
 
 <meta name="twitter:title" content="{{ config('app.name') }}" />
-<meta name="twitter:description" content="Supercharge Your Team’s Productivity" />
+<meta name="twitter:description" content="Polls in emails. Not platform lock-in." />
 <meta name="twitter:image" content="{{ url('/opengraph.png') }}" />
 <meta name="twitter:image:alt" content="{{ config('app.name') }}" />
 <meta name="twitter:card" content="summary_large_image" />
