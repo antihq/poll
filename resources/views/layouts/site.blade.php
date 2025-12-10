@@ -23,6 +23,7 @@
                         variant="primary"
                         color="zinc"
                         size="sm"
+                        class="rounded-full!"
                         wire:navigate
                     >
                         Sign in
@@ -30,8 +31,10 @@
                 @else
                     <flux:button
                         href="/dashboard"
-                        size="sm"
+                        variant="primary"
                         color="zinc"
+                        size="sm"
+                        class="rounded-full!"
                         wire:navigate
                     >
                         Dashboard
