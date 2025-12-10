@@ -8,7 +8,7 @@
     </head>
     <body class="min-h-screen bg-white">
         <flux:header container>
-            <flux:brand href="/" logo="/logo.png" :name="config('app.name')" wire:navigate />
+            <flux:brand href="/" logo="/logo.png" :name="config('app.name')" class="tracking-tight" wire:navigate />
 
             <flux:navbar>
                 <flux:navbar.item href="/docs" :accent="false" wire:navigate>Docs</flux:navbar.item>
@@ -32,7 +32,6 @@
                         href="/dashboard"
                         size="sm"
                         color="zinc"
-                        icon:trailing="arrow-right-circle"
                         wire:navigate
                     >
                         Dashboard

@@ -3,7 +3,7 @@
 
     <div>
         <h1
-            class="font-display text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
+            class="text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
         >
             Polls in emails.
             <br />
