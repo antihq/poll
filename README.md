@@ -1,110 +1,103 @@
-# Terrific SaaS Starter Kit
+# AntiPoll
 
-A personal, opinionated Laravel starter kit for building SaaS applications quickly and securely. This kit includes:
+This is the source code of [AntiPoll](https://poll.antihq.com/), the ultimate solution for embedding polls in newsletters and emails.
 
-- **Laravel 12.x**
-- **Stripe billing** via [Laravel Cashier](https://laravel.com/docs/billing) (one plan, subscription required for dashboard access)
-- **Stripe Checkout** for new subscriptions
-- **Billing portal** for subscribers
-- **Flux UI Pro** components (paid license required)
-- **Honeybadger** for error tracking
+AntiPoll solves a common problem: many email platforms don't support interactive polls, or they require expensive plan upgrades to access polling features. AntiPoll lets you embed fully functional polls in any email service - no upgrades required.
 
-## Features
+Whether you're using Beehiiv, Ghost, HubSpot, or any other platform, AntiPoll makes it easy to collect feedback from your audience without platform limitations.
 
-- User authentication and registration
-- Enforced active subscription for dashboard access
-- Simple billing system (single plan, easy to extend)
-- Stripe Checkout integration for seamless payments
-- Access to Stripe's billing portal for managing subscriptions
-- Modern, beautiful UI with Flux UI Pro components
-- Error monitoring with Honeybadger
+## Development
 
-## Requirements
+### Setting up
 
-- PHP >= 8.2
-- Composer
-- Node.js & npm
-- [Flux UI Pro license](https://www.fluxui.com/pricing) (required for UI components)
-- [Stripe account](https://dashboard.stripe.com/register)
-- [Honeybadger account](https://www.honeybadger.io/)
+First, get everything installed and configured with:
 
-## Getting Started
+```sh
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+```
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/terrific-starter-kit.git
-   cd terrific-starter-kit
-   ```
+And then run the development server:
 
-2. **Install dependencies:**
-   ```bash
-   composer install
-   npm install && npm run build
-   ```
+```sh
+npm run dev
+```
 
-3. **Copy and configure environment:**
-   ```bash
-   cp .env.example .env
-   # Set your database, Stripe, Flux UI Pro, and Honeybadger credentials in .env
-   ```
+In another terminal, start the Laravel server:
 
-4. **Generate application key:**
-   ```bash
-   php artisan key:generate
-   ```
+```sh
+php artisan serve
+```
 
-5. **Run migrations:**
-   ```bash
-   php artisan migrate
-   ```
+You'll be able to access the app in development at http://localhost:8000.
 
-6. **Start the development server:**
-   ```bash
-   php artisan serve
-   ```
+### Running tests
 
-## Stripe Billing (Laravel Cashier)
+For fast feedback loops, tests can be run with:
 
-- Uses [Laravel Cashier](https://laravel.com/docs/billing) for Stripe subscription management.
-- Only one plan is configured by default (easy to extend).
-- Users must have an active subscription to access the dashboard.
-- Stripe Checkout is used for new subscriptions.
-- Subscribers can access the Stripe billing portal to manage their subscription.
+```sh
+composer test
+```
 
-**Configuration:**
-- Set your `STRIPE_KEY` and `STRIPE_SECRET` in `.env`.
-- Update the plan ID in your billing configuration as needed.
+Or using Pest directly:
 
-## Flux UI Pro
+```sh
+./vendor/bin/pest
+```
 
-- All UI components use [Flux UI Pro](https://www.fluxui.com/).
-- **A paid Flux UI Pro license is required.**
-- Set your Flux UI Pro credentials in `.env` as per the [Flux UI Pro documentation](https://www.fluxui.com/docs/pro/introduction).
+### Database configuration
 
-## Honeybadger Error Tracking
+AntiPoll works with SQLite by default and supports MySQL and PostgreSQL too. You can switch adapters by updating the `DB_CONNECTION` environment variable in your `.env` file.
 
-- Integrated with [Honeybadger](https://www.honeybadger.io/) for error monitoring.
-- Set your `HONEYBADGER_API_KEY` in `.env`.
-- See the [Honeybadger Laravel docs](https://docs.honeybadger.io/lib/php/integration/laravel.html) for advanced configuration.
+For example, to develop locally against MySQL:
 
-## Opinionated Structure
+```sh
+DB_CONNECTION=mysql
+# Then update DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD accordingly
+```
 
-This starter kit is intentionally opinionated:
-- Enforces subscription for all app access (except auth/billing)
-- Uses Stripe exclusively for billing
-- UI is built with Flux UI Pro (no fallback)
-- Honeybadger is the only error tracking provider
+### Code formatting
 
-Feel free to fork and adapt to your needs!
+AntiPoll uses Laravel Pint for PHP code formatting and Prettier for frontend code:
+
+```sh
+# Format PHP code
+./vendor/bin/pint
+
+# Format Blade templates
+npm run format-blade
+
+# Format all code
+composer format
+```
+
+## Tech Stack
+
+AntiPoll is built with:
+
+- **Backend**: Laravel 12, PHP 8.2+
+- **Frontend**: Livewire 4, Flux UI Pro, Tailwind CSS 4
+- **Database**: SQLite (development), MySQL/PostgreSQL (production)
+- **Testing**: Pest PHP
+- **Deployment**: Kamal with Docker
+
+**Note**: This project requires a Flux UI Pro license. You can purchase one at [fluxui.dev](https://fluxui.dev/).
+
+## Contributing
+
+We welcome contributions! Please ensure all code follows the project's coding standards and passes all tests before submitting.
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and ensure they pass
+5. Format your code
+6. Submit a pull request
 
 ## License
 
-This project is open source, but you must purchase your own Flux UI Pro and Honeybadger licenses to use those services.
-
----
-
-**Happy hacking!**
-
----
-
-> _Built by Oliver as a personal SaaS starter kit. PRs and suggestions welcome._
+AntiPoll is released under the [O'Saasy License](LICENSE.md).
