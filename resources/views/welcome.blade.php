@@ -1,4 +1,4 @@
-<x-layouts::site title="AntiPoll — Polls in emails. Not platform lock-in." :dark="false">
+<x-layouts::site title="Polls in emails. Not platform lock-in" :dark="false">
     <flux:spacer class="my-10 sm:my-18 md:my-26 lg:my-24" />
 
     <div>
