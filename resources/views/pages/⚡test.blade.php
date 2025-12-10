@@ -10,6 +10,6 @@ new #[Layout('layouts::simple'), Title('Login')] class extends Component
 };
 ?>
 
-<div>
-    <livewire:one-time-password />
+<div class="isolate flex min-h-dvh items-center justify-center">
+    <livewire:one-time-password email="test@example.com" />
 </div>
