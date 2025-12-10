@@ -1,16 +1,16 @@
 <x-layouts::site title="AntiPoll — Polls in emails. Not platform lock-in." :dark="false">
-    <flux:spacer class="my-32" />
+    <flux:spacer class="my-10 sm:my-18 md:my-26 lg:my-24" />
 
     <div>
         <h1
-            class="font-display text-center text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
+            class="font-display md:text-center text-6xl/[0.9] font-medium tracking-tight text-balance text-zinc-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]"
         >
             Polls in emails.
             <br />
             Not platform lock-in.
         </h1>
 
-        <p class="mt-8 text-center text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
+        <p class="mt-8 md:text-center text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
             Create
             <strong class="text-zinc-950">1000 polls FREE</strong>
             with AntiPoll. After that it's
@@ -242,11 +242,11 @@
     <section id="pricing">
         <header>
             <h2
-                class="mx-auto max-w-3xl text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl"
+                class="mx-auto max-w-3xl md:text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl"
             >
                 Create 1000 polls for free. No time limit, no user limit.
             </h2>
-            <p class="mx-auto mt-6 max-w-3xl text-center text-2xl font-medium text-zinc-500">
+            <p class="mx-auto mt-6 max-w-3xl md:text-center text-2xl font-medium text-zinc-500">
                 When you're ready for more, it's only $20/month for unlimited polls + all features. Cancel anytime, no
                 risk.
             </p>
@@ -272,11 +272,11 @@
     <section>
         <header>
             <h2
-                class="mx-auto max-w-3xl text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl"
+                class="mx-auto max-w-3xl md:text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl"
             >
                 And there's more... AntiPoll is open source and self-hostable.
             </h2>
-            <p class="mx-auto mt-6 max-w-3xl text-center text-2xl font-medium text-zinc-500">
+            <p class="mx-auto mt-6 max-w-3xl md:text-center text-2xl font-medium text-zinc-500">
                 Prefer to host it yourself or want to customize the code? You can run AntiPoll on your own server.
                 <strong class="text-zinc-950">Want to contribute?</strong>
                 <a href="https://github.com/antihq/poll/pulls" class="font-semibold text-zinc-950 underline" target="_blank">Submit a PR</a>
@@ -305,7 +305,7 @@
 
     <section>
         <header>
-            <h2 class="text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl">
+            <h2 class="md:text-center text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl">
                 Common questions.
             </h2>
         </header>
@@ -367,7 +367,7 @@
 
             <flux:spacer class="my-10" />
 
-            <h3 class="text-center text-2xl/8 font-medium tracking-tight text-zinc-950">
+            <h3 class="md:text-center text-2xl/8 font-medium tracking-tight text-zinc-950">
                 Need help? Check out our
                 <a href="/docs" class="font-semibol text-zinc-950 underline" wire:navigate>documentation</a>
             </h3>
@@ -377,7 +377,7 @@
     <flux:spacer class="my-32" />
 
     <section>
-        <header class="text-center">
+        <header class="md:text-center">
             <h2 class="text-3xl font-medium tracking-tight text-zinc-950 sm:text-5xl">Ready to give AntiPoll a try?</h2>
         </header>
 
