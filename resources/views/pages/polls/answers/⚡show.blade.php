@@ -25,7 +25,7 @@ new #[Title('Answer details')] class extends Component
 };
 ?>
 
-<div class="mx-auto max-w-3xl">
+<div>
     <flux:link
         href="/polls/{{ $answer->poll->id }}"
         class="inline-flex items-center gap-2 text-sm"

@@ -27,7 +27,7 @@ new #[Title('Home')] class extends Component
 };
 ?>
 
-<div class="mx-auto max-w-3xl">
+<div>
     <header class="flex items-center">
         <div class="flex items-center gap-3">
             <flux:avatar

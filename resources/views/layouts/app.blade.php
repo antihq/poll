@@ -7,7 +7,7 @@
         @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').auth()->user()->currentTeam->name.' - '.config('app.name')])
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900 dark:lg:bg-zinc-950">
-        <flux:header class="border-zinc-200 lg:border-b dark:border-zinc-700">
+        <flux:header class="border-zinc-200 lg:border-b dark:border-zinc-700" container>
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" size="sm" />
 
             <div class="flex h-full items-center max-lg:hidden">
@@ -80,14 +80,14 @@
             </flux:sidebar.nav>
         </flux:sidebar>
 
-        <flux:main class="lg:bg-white lg:p-10 dark:lg:bg-zinc-900">
+        <flux:main class="lg:bg-white dark:lg:bg-zinc-900" container>
             {{ $slot }}
         </flux:main>
 
         <flux:toast />
 
-        <flux:footer class="border-zinc-200 lg:border-t dark:border-zinc-700">
-            <flux:text class="text-sm/6">
+        <flux:footer class="border-zinc-200 lg:border-t dark:border-zinc-700" container>
+            <flux:text class="text-xs/6 lg:text-sm/6">
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by
                 <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>

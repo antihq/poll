@@ -18,8 +18,8 @@
         </p>
 
         <div
-            style="--width: 824; --height: 519"
-            class="relative mt-16 aspect-[var(--width)/var(--height)] h-[519px] [--radius:var(--radius-xl)] sm:mx-auto sm:h-auto sm:w-[824px]"
+            style="--width: 1257; --height: 705"
+            class="relative mt-16 aspect-[var(--width)/var(--height)] h-144 [--radius:var(--radius-xl)] sm:mx-auto sm:h-auto sm:w-304"
         >
             <div
                 class="absolute -inset-(--padding) rounded-[calc(var(--radius)+var(--padding))] shadow-xs ring-1 ring-black/5 [--padding:--spacing(2)]"

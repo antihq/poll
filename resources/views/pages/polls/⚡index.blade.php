@@ -29,7 +29,7 @@ new #[Title('All polls')] class extends Component
 };
 ?>
 
-<div class="mx-auto max-w-3xl">
+<div>
     @if ($this->polls->count() > 0)
         <header class="flex items-center">
             <flux:heading class="text-xl">All polls</flux:heading>
