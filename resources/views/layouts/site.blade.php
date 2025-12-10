@@ -43,13 +43,15 @@
             </div>
         </flux:header>
 
-        <flux:main container class="overflow-hidden">
-            {{ $slot }}
-        </flux:main>
+        <div class="bg-linear-to-b from-white from-50% to-zinc-50">
+            <flux:main container class="overflow-hidden">
+                {{ $slot }}
+            </flux:main>
+        </div>
 
         <flux:toast />
 
-        <flux:footer container class="border-zinc-200 lg:border-t">
+        <flux:footer container class="border-black/5 lg:border-t bg-zinc-50">
             <flux:text class="text-xs/6 lg:text-sm/6">
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by
