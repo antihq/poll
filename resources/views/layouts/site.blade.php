@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html
-    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    class="text-zinc-950 antialiased"
->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="text-zinc-950 antialiased">
     <head>
         @include('partials.head', ['title' => (isset($title) ? $title.' - ' : '').config('app.name')])
     </head>
@@ -51,7 +48,7 @@
 
         <flux:toast />
 
-        <flux:footer container class="border-black/5 lg:border-t bg-zinc-50">
+        <flux:footer container class="border-black/5 bg-zinc-50 lg:border-t">
             <flux:text class="text-xs/6 lg:text-sm/6">
                 <flux:link href="/" :accent="false" wire:navigate>{{ config('app.name') }}</flux:link>
                 is designed, built, and backed by

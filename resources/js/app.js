@@ -1,3 +1,1 @@
-import.meta.glob([
-  '../screenshots/**',
-]);
+import.meta.glob(['../screenshots/**']);

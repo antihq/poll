@@ -130,63 +130,85 @@ new #[Layout('layouts::simple'), Title('Sign up')] class extends Component
     }
 }; ?>
 
-<div class="mx-auto flex h-full max-w-sm flex-col justify-center gap-6">
+<div class="isolate flex min-h-dvh items-center justify-center">
     @if (! $showOtpForm)
-        <div class="text-center">
-            <flux:heading class="text-xl">Create an account</flux:heading>
-            <flux:text class="mt-2">Enter your details to create your account and verify your email</flux:text>
+        <div class="w-full max-w-md rounded-xl bg-white shadow-md ring-1 ring-black/5">
+            <div class="p-7 sm:p-11">
+                <form wire:submit="sendOtp" class="space-y-8">
+                    <div class="flex items-start">
+                        <a href="/" wire:navigate>
+                            <img src="/logo@2x.png" alt="" class="h-9" />
+                        </a>
+                    </div>
+
+                    <div>
+                        <flux:heading level="1" class="text-base/6! font-medium">Create an account</flux:heading>
+                        <flux:text class="mt-1 text-sm/5">
+                            Enter your details to create your account and verify your email
+                        </flux:text>
+                    </div>
+
+                    <flux:input
+                        wire:model="name"
+                        label="Name"
+                        type="text"
+                        required
+                        autofocus
+                        autocomplete="name"
+                        placeholder="Full name"
+                    />
+
+                    <flux:input
+                        wire:model="email"
+                        label="Email address"
+                        type="email"
+                        required
+                        autocomplete="email"
+                        placeholder="email@example.com"
+                    />
+
+                    <flux:button variant="primary" color="zinc" type="submit" class="w-full rounded-full!">
+                        Create account
+                    </flux:button>
+                </form>
+            </div>
+            <div class="m-1.5 rounded-lg bg-zinc-50 py-4 text-center text-sm/5 ring-1 ring-black/5">
+                Already have an account?
+                <flux:link href="/login" :accent="false" wire:navigate>Log in</flux:link>
+            </div>
         </div>
-
-        <form wire:submit="sendOtp" class="space-y-6">
-            <flux:input
-                wire:model="name"
-                label="Name"
-                type="text"
-                required
-                autofocus
-                autocomplete="name"
-                placeholder="Full name"
-            />
-
-            <flux:input
-                wire:model="email"
-                label="Email address"
-                type="email"
-                required
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
-
-            <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full">Create account</flux:button>
-            </div>
-        </form>
-
-        <flux:text class="space-x-1 text-center rtl:space-x-reverse">
-            <span>Already have an account?</span>
-            <flux:link href="/login" wire:navigate>Log in</flux:link>
-        </flux:text>
     @else
-        <!-- OTP Verification Form -->
-        <form wire:submit="register" class="space-y-6">
-            <div class="text-center">
-                <flux:heading class="text-xl">Check your email</flux:heading>
-                <flux:text class="mt-2">Then enter the verification code included in the email below:</flux:text>
-            </div>
+        <div class="w-full max-w-md rounded-xl bg-white shadow-md ring-1 ring-black/5">
+            <div class="p-7 sm:p-11">
+                <!-- OTP Verification Form -->
+                <form wire:submit="register" class="space-y-8">
+                    <div class="flex items-start">
+                        <a href="/" wire:navigate>
+                            <img src="/logo@2x.png" alt="" class="h-9" />
+                        </a>
+                    </div>
 
-            <!-- One-Time Password -->
-            <div class="text-center">
-                <flux:otp
-                    wire:model="one_time_password"
-                    label="One-time password"
-                    description:trailing="The code you receive will work for 15 minutes."
-                    length="6"
-                    submit="auto"
-                    class="mx-auto"
-                />
+                    <div>
+                        <flux:heading level="1" class="text-base/6! font-medium">Check your email</flux:heading>
+                        <flux:text class="mt-2">
+                            Then enter the verification code included in the email below:
+                        </flux:text>
+                    </div>
 
-                <flux:error name="email" />
+                    <div class="text-center">
+                        <flux:otp
+                            wire:model="one_time_password"
+                            label="One-time password"
+                            description:trailing="The code you receive will work for 15 minutes."
+                            length="6"
+                            submit="auto"
+                            class="mx-auto"
+                        />
+
+                        <flux:error name="email" />
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     @endif
 </div>

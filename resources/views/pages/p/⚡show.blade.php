@@ -125,8 +125,8 @@ new #[Layout('layouts::public-poll'), Title('Poll')] class extends Component
                     variant="cards"
                     label="Select your answer"
                     @class([
-                        'max-sm:flex-col' => $poll->layout === 'horizontal',
-                        'flex-col' => $poll->layout === 'vertical',
+                    'max-sm:flex-col' => $poll->layout === 'horizontal',
+                    'flex-col' => $poll->layout === 'vertical',
                     ])
                     wire:change="$poll->auto_submit ? submit() : null"
                 >
