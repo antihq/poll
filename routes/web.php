@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::livewire('/', 'pages::welcome');
 
-Route::livewire('/test', 'pages::test');
-
 Route::livewire('docs', 'pages::docs.welcome');
 Route::livewire('docs/getting-started', 'pages::docs.getting-started');
 Route::livewire('docs/creating-polls', 'pages::docs.creating-polls');
