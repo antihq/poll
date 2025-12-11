@@ -32,7 +32,7 @@ class PollPolicy
             return true;
         }
 
-        if ($user->currentTeam->hasReachedFreePollLimit()) {
+        if ($user->currentTeam->hasReachedFreeResponseLimit()) {
             return false;
         }
 

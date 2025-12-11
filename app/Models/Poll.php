@@ -16,10 +16,6 @@ class Poll extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::created(function ($poll) {
-            $poll->team->incrementPollCount();
-        });
     }
 
     protected $casts = [

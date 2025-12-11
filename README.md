@@ -83,7 +83,6 @@ AntiPoll is built with:
 - **Frontend**: Livewire 4, Flux UI Pro, Tailwind CSS 4
 - **Database**: SQLite (development), MySQL/PostgreSQL (production)
 - **Testing**: Pest PHP
-- **Deployment**: Kamal with Docker
 
 **Note**: This project requires a Flux UI Pro license. You can purchase one at [fluxui.dev](https://fluxui.dev/).
 

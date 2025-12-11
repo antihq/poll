@@ -17,7 +17,7 @@ class Team extends Model
     {
         return [
             'personal' => 'boolean',
-            'polls_created' => 'integer',
+            'responses_collected' => 'integer',
         ];
     }
 
@@ -73,13 +73,13 @@ class Team extends Model
         return $this->user->email ?? null;
     }
 
-    public function hasReachedFreePollLimit(): bool
+    public function hasReachedFreeResponseLimit(): bool
     {
-        return $this->polls_created >= config('antipoll.free_poll_limit', 1000);
+        return $this->responses_collected >= config('antipoll.free_response_limit', 5000);
     }
 
-    public function incrementPollCount(): void
+    public function incrementResponseCount(): void
     {
-        $this->increment('polls_created');
+        $this->increment('responses_collected');
     }
 }

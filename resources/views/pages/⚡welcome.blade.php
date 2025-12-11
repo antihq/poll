@@ -24,9 +24,9 @@ new #[Layout('layouts::site', ['dark' => false]), Title('Polls in emails. Not pl
 
         <p class="mt-8 text-xl/7 font-medium text-zinc-950/75 sm:text-2xl/8">
             Create
-            <strong class="text-zinc-950">1000 polls FREE</strong>
+            <strong class="text-zinc-950">5000 responses FREE</strong>
             with AntiPoll. After that it's
-            <a href="#pricing" class="font-semibold text-zinc-950 underline">only $20/month.</a>
+            <a href="#pricing" class="font-semibold text-zinc-950 underline">only $5/month.</a>
         </p>
 
         <div
@@ -80,7 +80,7 @@ new #[Layout('layouts::site', ['dark' => false]), Title('Polls in emails. Not pl
                     <p>
                         We invite you to
                         <a href="/register" class="font-semibold text-zinc-950 underline" wire:navigate>
-                            try AntiPoll and create 1000 polls for free
+                            try AntiPoll and collect 5000 responses for free
                         </a>
                         I'm excited you're here, and I can't wait to hear what you think.
                     </p>
@@ -252,11 +252,11 @@ new #[Layout('layouts::site', ['dark' => false]), Title('Polls in emails. Not pl
             <h2
                 class="mx-auto max-w-3xl text-4xl font-medium tracking-tighter text-pretty text-zinc-950 sm:text-6xl md:text-center"
             >
-                Create 1000 polls for free. No time limit, no user limit.
+                Collect 5000 responses for free. No time limit, no user limit.
             </h2>
             <p class="mx-auto mt-6 max-w-3xl text-2xl font-medium text-zinc-500 md:text-center">
-                When you're ready for more, it's only $20/month for unlimited polls + all features. Cancel anytime, no
-                risk.
+                When you're ready for more, it's only $5/month for unlimited responses + all features. Cancel anytime,
+                no risk.
             </p>
         </header>
 
@@ -264,14 +264,14 @@ new #[Layout('layouts::site', ['dark' => false]), Title('Polls in emails. Not pl
 
         <div class="flex justify-center">
             <flux:button href="/register" variant="primary" color="zinc" class="rounded-full! text-base!" wire:navigate>
-                Start with 1000 free polls!
+                Start with 5000 free responses!
             </flux:button>
         </div>
 
         <flux:spacer class="my-6" />
 
         <p class="mx-auto max-w-xs text-center text-sm/6 text-zinc-500">
-            No obligations, no credit card required, no time limit on the first 1000 polls.
+            No obligations, no credit card required, no time limit on the first 5000 responses.
         </p>
     </section>
 
@@ -373,13 +373,14 @@ new #[Layout('layouts::site', ['dark' => false]), Title('Polls in emails. Not pl
                 </flux:accordion.item>
                 <flux:accordion.item>
                     <flux:accordion.heading>
-                        If I delete a poll, does it count against the 1000 polls?
+                        If I delete a poll, does it affect my response limit?
                     </flux:accordion.heading>
                     <flux:accordion.content>
                         <p class="text-sm/6 text-zinc-600">
-                            Yes, every poll you create is counted, even polls that are deleted later. AntiPoll tracks
-                            the total number of polls created, so deleted polls still count against your 1000 poll
-                            limit.
+                            No, deleting polls doesn't reduce your response count. AntiPoll tracks the total number of
+                            responses received across all polls, even if you delete the polls later. Responses from
+                            deleted polls still count toward your 5000 response limit - we only count responses
+                            received, not active polls.
                         </p>
                     </flux:accordion.content>
                 </flux:accordion.item>

@@ -4,7 +4,7 @@ The straightforward way to embed interactive polls in any email service.
 
 ## Pricing
 
-Create 1000 polls FREE with AntiPoll. After that it's only $20/month.
+Collect 5000 responses FREE with AntiPoll. After that it's only $5/month.
 
 [Sign in](https://antipoll.com/) | [Start for free](https://antipoll.com/)
 
@@ -24,7 +24,7 @@ Name one that makes polls easy and affordable. Thought so.
 
 Fast, platform-agnostic, and dead simple, it's a breath of fresh air in a world of email platform lock-in.
 
-We invite you to try AntiPoll and create 1000 polls for free. I'm excited you're here, and I can't wait to hear what you think.
+We invite you to try AntiPoll and collect 5000 responses for free. I'm excited you're here, and I can't wait to hear what you think.
 
 _Oliver Servín, oliver@antihq.com_
 Co-founder of AntiHQ, makers of AntiPoll
@@ -52,20 +52,20 @@ Create polls in **seconds** with our intuitive interface. Add questions, answers
 ![Feature 5](https://antipoll.com/assets/images/mobile.png)
 ![Feature 6](https://antipoll.com/assets/images/integrations.png)
 
-## Create 1000 polls for free. No time limit, no user limit.
+## Collect 5000 responses for free. No time limit, no user limit.
 
-When you're ready for more, it's only $20/month for unlimited polls + all features. Cancel anytime, no risk.
+When you're ready for more, it's only $5/month for unlimited responses + all features. Cancel anytime, no risk.
 
-[Start with 1000 free polls!](https://antipoll.com/)
+[Start with 5000 free responses!](https://antipoll.com/)
 
-- No obligations, no credit card required, no time limit on the first 1000 polls.
+- No obligations, no credit card required, no time limit on first 5000 responses.
 - Full analytics and all features included from day one.
 - Team management and white-label options included.
 - Cancel anytime easily from your account dashboard.
 
 ## And there's more... AntiPoll is open source and self-hostable.
 
-Prefer to host it yourself or want to customize the code? You can run AntiPoll on your own server. **Want to contribute?** Submit a PR to help improve the product for everyone. Our license permits flexible use with minimal restrictions.
+Prefer to host it yourself or want to customize code? You can run AntiPoll on your own server. **Want to contribute?** Submit a PR to help improve the product for everyone. Our license permits flexible use with minimal restrictions.
 
 [View source](https://github.com/antihq/poll)
 
@@ -91,9 +91,9 @@ No! Your subscribers can respond to polls directly in their email client without
 
 Yes, AntiPoll is Open Source and you can download the code from GitHub and run the product on your own server (or another hosted server you pay for). Be sure to review the AntiPoll software license if you'll be running or modifying it for your own use.
 
-### If I delete a poll, does it count against the 1000 polls?
+### If I delete a poll, does it affect my response limit?
 
-Yes, every poll you create is counted, even polls that are deleted later. AntiPoll tracks the total number of polls created, so deleted polls still count against your 1000 poll limit.
+No, deleting polls doesn't reduce your response count. AntiPoll tracks the total number of responses received across all polls, even if you delete polls later. Responses from deleted polls still count toward your 5000 response limit - we only count responses received, not active polls.
 
 ### Any AI features?
 

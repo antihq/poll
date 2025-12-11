@@ -22,7 +22,7 @@ class TeamFactory extends Factory
         return [
             'name' => $this->faker->company,
             'user_id' => User::factory(),
-            'polls_created' => 0,
+            'responses_collected' => 0,
         ];
     }
 

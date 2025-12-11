@@ -12,6 +12,15 @@ class PollResponse extends Model
 
     protected $guarded = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($pollResponse) {
+            $pollResponse->poll->team->incrementResponseCount();
+        });
+    }
+
     public function poll(): BelongsTo
     {
         return $this->belongsTo(Poll::class);

@@ -3,13 +3,13 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Free Poll Limit
+    | Free Response Limit
     |--------------------------------------------------------------------------
     |
-    | This is the maximum number of polls a team can create for free
-    | before requiring a subscription. Deleted polls still count
+    | This is the maximum number of poll responses a team can collect for free
+    | before requiring a subscription. Deleted responses still count
     | against this limit.
     |
     */
-    'free_poll_limit' => 1000,
+    'free_response_limit' => 5000,
 ];

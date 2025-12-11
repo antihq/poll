@@ -6,7 +6,7 @@
 - Users can add new answers or delete them.
 - After creation, user is redirected to edit page `/polls/1/edit`.
 - Each answer can be drag and dropped to change order
-- Shows poll usage: "X/1000 polls used" for unsubscribed teams (based on cumulative count)
-- Teams at 1000 polls are redirected to upgrade page
-- Poll creation is blocked when team reaches 1000 polls (unsubscribed)
-- Poll count is cumulative - deleted polls still count against the 1000 poll limit
+- Shows response usage: "X/5000 responses used" for unsubscribed teams (based on responses received)
+- Teams at 5000 responses are redirected to upgrade page
+- Poll creation is blocked when team reaches 5000 responses (unsubscribed)
+- Response count is cumulative - responses from deleted polls still count against 5000 response limit

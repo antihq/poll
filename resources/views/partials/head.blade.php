@@ -3,11 +3,11 @@
 
 <title>{{ $title ?? config('app.name') }}</title>
 
-<meta name="description" content="Supercharge Your Team’s Productivity" />
+<meta name="description" content="Polls in emails. Not platform lock-in." />
 
 <meta property="og:site_name" content="{{ config('app.name') }}" />
 <meta property="og:title" content="{{ config('app.name') }}" />
-<meta property="og:description" content="Supercharge Your Team’s Productivity" />
+<meta property="og:description" content="Polls in emails. Not platform lock-in." />
 <meta property="og:image" content="{{ url('/opengraph.png') }}" />
 <meta property="og:url" content="{{ url('/') }}" />
 <meta property="og:type" content="website" />
@@ -22,7 +22,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="AntiPoll" />
+<meta name="apple-mobile-web-app-title" content="{{ config('app.name') }}" />
 <link rel="manifest" href="/site.webmanifest" />
 
 <link rel="preconnect" href="https://fonts.bunny.net" />

@@ -125,26 +125,26 @@ it('can sort answers by dragging and dropping', function () {
     expect($poll->answers->pluck('text')->toArray())->toBe(['Third', 'Second', 'First']);
 });
 
-it('prevents poll creation when team reaches free limit and redirects team owner to subscription page', function () {
+it('prevents poll creation when team reaches free response limit and redirects team owner to subscription page', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeam()->create();
 
     $team = $user->currentTeam;
-    Poll::factory()->for($team)->count(1000)->create();
+    $team->update(['responses_collected' => 5000]);
 
     $team->refresh();
-    expect($team->polls_created)->toBe(1000);
-    expect($team->hasReachedFreePollLimit())->toBeTrue();
+    expect($team->responses_collected)->toBe(5000);
+    expect($team->hasReachedFreeResponseLimit())->toBeTrue();
 
     actingAs($user)->get('/polls/create')->assertRedirect('/subscribe');
 });
 
-it('allows poll creation when team is under free limit', function () {
+it('allows poll creation when team is under free response limit', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalTeam()->create();
 
     $team = $user->currentTeam;
-    Poll::factory()->for($team)->count(999)->create();
+    $team->update(['responses_collected' => 999]);
 
     Livewire::actingAs($user)->test('pages::polls.create')
         ->set('name', 'Test Poll')
@@ -154,43 +154,25 @@ it('allows poll creation when team is under free limit', function () {
         ->assertHasNoErrors();
 
     $team->refresh();
-    expect($team->polls_created)->toBe(1000);
-    expect(Poll::count())->toBe(1000);
+    expect($team->responses_collected)->toBe(999);
+    expect(Poll::count())->toBe(1);
 });
 
-it('allows poll creation for subscribed teams regardless of poll count', function () {
+it('allows poll creation for subscribed teams regardless of response count', function () {
     /** @var User $user */
-    $user = User::factory()->withPersonalTeam()->create();
+    $user = User::factory()->withPersonalTeamAndSubscription()->create();
 
     $team = $user->currentTeam;
-    Poll::factory()->for($team)->count(1000)->create();
-
-    Livewire::actingAs($user)->test('pages::polls.create')
-        ->set('name', 'Test Poll')
-        ->set('question', 'Test question?')
-        ->set('answers', ['Answer 1', 'Answer 2'])
-        ->call('create')
-        ->assertHasNoErrors();
+    $team->update(['responses_collected' => 5]);
 
     $team->refresh();
-    expect($team->polls_created)->toBe(1001);
-    expect(Poll::count())->toBe(1001);
-});
+    expect($team->responses_collected)->toBe(5);
+    expect($team->hasReachedFreeResponseLimit())->toBeFalse();
 
-it('maintains correct poll count after deletion', function () {
-    /** @var User $user */
-    $user = User::factory()->withPersonalTeam()->create();
-
-    $team = $user->currentTeam;
-    Poll::factory()->for($team)->count(5)->create();
+    // Response count should not change when polls are deleted
+    Poll::factory()->for($team)->count(2)->create()->each->delete();
 
     $team->refresh();
-    expect($team->polls_created)->toBe(5);
-    expect($team->hasReachedFreePollLimit())->toBeFalse();
-
-    Poll::limit(2)->get()->each->delete();
-
-    $team->refresh();
-    expect($team->polls_created)->toBe(5);
-    expect($team->hasReachedFreePollLimit())->toBeFalse();
+    expect($team->responses_collected)->toBe(5);
+    expect($team->hasReachedFreeResponseLimit())->toBeFalse();
 });

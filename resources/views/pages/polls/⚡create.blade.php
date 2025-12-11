@@ -23,15 +23,15 @@ new #[Title('Add poll')] class extends Component
     }
 
     #[Computed]
-    public function pollCount(): int
+    public function responseCount(): int
     {
-        return $this->team->polls_created;
+        return $this->team->responses_collected;
     }
 
     #[Computed]
-    public function freePollLimit(): int
+    public function freeResponseLimit(): int
     {
-        return config('antipoll.free_poll_limit', 1000);
+        return config('antipoll.free_response_limit', 5000);
     }
 
     protected array $rules = [
@@ -43,7 +43,7 @@ new #[Title('Add poll')] class extends Component
 
     public function mount()
     {
-        if (! $this->team->subscribed() && $this->team->hasReachedFreePollLimit()) {
+        if (! $this->team->subscribed() && $this->team->hasReachedFreeResponseLimit()) {
             return $this->redirect('/subscribe');
         }
     }
@@ -108,7 +108,7 @@ new #[Title('Add poll')] class extends Component
             Create a new poll for your team.
 
             @if (! $this->team->subscribed())
-                {{ $this->pollCount }}/{{ $this->freePollLimit }} polls used.
+                    {{ $this->responseCount }}/{{ $this->freeResponseLimit }} responses used.
             @endif
         </flux:text>
 
